@@ -16,9 +16,9 @@ classifiers = [
 ]
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "numpy==2.5.2",
+    "numpy==2.5.4",
     "onnxruntime-directml==1.24.4",
-    "tokenizers==0.23.1",
+    "tokenizers==0.23.3",
 ]
 
 [project.urls]
@@ -29,7 +29,7 @@ Issues = "https://github.com/andreshma/recall/issues"
 recall = "recall.cli:main"
 
 [dependency-groups]
-dev = ["pytest==9.1.1"]
+dev = ["pytest==9.2.0"]
 
 [build-system]
 requires = ["hatchling"]
