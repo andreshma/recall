@@ -1,7 +1,7 @@
 # Entrada del lock. Regenerar con (sin red, desde la cache de uv):
 #   uv pip compile --offline --python-version 3.12 --python-platform x86_64-pc-windows-msvc --generate-hashes --excludes requirements.excludes requirements.in -o requirements.lock
-numpy==2.5.2
+numpy==2.5.4
 onnxruntime-directml==1.24.4
-tokenizers==0.23.1
-pytest==9.1.1
+tokenizers==0.23.3
+pytest==9.2.0
 hatchling==1.32.4
