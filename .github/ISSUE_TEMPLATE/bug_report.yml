@@ -1,0 +1,44 @@
+name: Bug report
+description: Something isn't working as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! For **security vulnerabilities**, do not use this
+        form — report privately via the Security tab. Do not paste book text or
+        private prompts.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, what happened instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options: [index, search, service, hook, MCP server, page map, experiments, docs, other]
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      placeholder: "python -I -m recall search \"error budget burn rate\""
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: "recall 0.2.0, Windows 11, Python 3.12, GPU / DirectML adapter, model name"
+  - type: textarea
+    id: status
+    attributes:
+      label: Output of `recall status`
+      render: shell
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output / logs
+      render: shell

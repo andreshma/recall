@@ -1,0 +1,13 @@
+# Normalize line endings: LF in the repo, auto-converted in the working tree.
+* text=auto eol=lf
+
+# PowerShell and batch files stay CRLF for Windows tooling.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets (no diff/merge, no eol conversion).
+*.png binary
+*.jpg binary
+*.onnx binary
+*.sqlite3 binary

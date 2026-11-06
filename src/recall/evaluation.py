@@ -1,7 +1,7 @@
-"""Regresion de recuperacion con las consultas de libros de mpeval.
+"""Regresion de recuperacion con las consultas de libros etiquetadas a mano.
 
 Metricas por grupo (TOTAL, EN->EN, ES->EN cruce): R@5 (al menos un chunk
-relevante en el top 5) y MRR@10. La relevancia es la de ``mpeval/evalcommon``:
+relevante en el top 5) y MRR@10. La relevancia es por ruta:
 la ruta del chunk casa con alguna regex de ``rel.path``.
 
 Tambien calibra el umbral del hook: mejor coseno de consultas que SI deben

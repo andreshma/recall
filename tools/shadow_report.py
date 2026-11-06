@@ -17,7 +17,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-THRESHOLDS = (0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.62)
+# 0.50-0.62 cubre gemma-300m; 0.70-0.82 cubre embeddinggemma-2 (umbral 0.75).
+THRESHOLDS = (0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.62, 0.70, 0.72, 0.74, 0.75, 0.76, 0.78, 0.80, 0.82)
 
 
 def default_log() -> Path:

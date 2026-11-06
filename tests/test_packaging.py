@@ -1,4 +1,4 @@
-"""Lock de dependencias, postura offline, config e INSTALL.md coherentes."""
+"""Lock de dependencias, postura offline, config y docs/USAGE.md coherentes."""
 import json
 import re
 from importlib import metadata
@@ -65,8 +65,9 @@ def test_hook_defaults_match_package_defaults():
         assert config.DEFAULTS["hook"][k] == v, k
 
 
-# -- INSTALL.md -------------------------------------------------------------------
-INSTALL = (ROOT / "INSTALL.md").read_text(encoding="utf-8") if (ROOT / "INSTALL.md").exists() else ""
+# -- docs/USAGE.md ----------------------------------------------------------------
+USAGE = ROOT / "docs" / "USAGE.md"
+INSTALL = USAGE.read_text(encoding="utf-8") if USAGE.exists() else ""
 
 # Hooks de ~\.claude\settings.json tal como estaban el 2026-10-27 (solo la forma).
 CURRENT_HOOKS = {
@@ -78,12 +79,12 @@ CURRENT_HOOKS = {
 
 def _json_block(tag):
     m = re.search(r"<!-- %s -->\s*```json\s*(.+?)```" % re.escape(tag), INSTALL, re.S)
-    assert m, f"falta el bloque {tag} en INSTALL.md"
+    assert m, f"falta el bloque {tag} en docs/USAGE.md"
     return json.loads(m.group(1))
 
 
 def test_install_hook_blocks_are_valid_and_point_to_real_files():
-    # INSTALL.md usa C:\Users\<usuario>\...: se compara la cola de la ruta.
+    # docs/USAGE.md usa C:\Users\<usuario>\...: se compara la cola de la ruta.
     ups = _json_block("bloque-userpromptsubmit")
     ss = _json_block("bloque-sessionstart")
     (h,) = ups["hooks"]
@@ -108,6 +109,6 @@ def test_install_merge_appends_without_reordering():
 
 
 def test_install_mentions_backup_shadow_active_uninstall():
-    for must in ("Respaldo", "sombra", "activo", "Desinstalar", "claude mcp add", "alwaysLoad",
+    for must in ("Backup", "shadow", "active", "Uninstall", "claude mcp add", "alwaysLoad",
                  "claude_desktop_config.json", "HF_HUB_OFFLINE"):
         assert must in INSTALL, must

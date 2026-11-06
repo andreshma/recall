@@ -1,6 +1,6 @@
 """Embeddings con embeddinggemma-300m (ONNX q8) cargado de la cache local.
 
-Prefijos de recuperacion de embeddinggemma (medidos en mpeval: sin ellos el
+Prefijos de recuperacion de embeddinggemma (medidos en el prototipo: sin ellos el
 cruce ES->EN se degrada):
 
 * consulta: ``task: search result | query: <consulta>``

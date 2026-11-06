@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # requirements.lock is hash-pinned and regenerated offline with `uv pip compile`
+  # (see requirements.in); Dependabot only proposes the bump, a maintainer
+  # re-locks and re-runs the model regression suite before merging.
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      python-deps:
+        patterns: ["*"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

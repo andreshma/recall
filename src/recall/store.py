@@ -4,8 +4,8 @@ Un solo archivo SQLite en modo WAL guarda todo: archivos indexados (con hash),
 chunks con su procedencia, el vector de cada chunk como BLOB float32 y una
 tabla FTS5 de contenido externo sincronizada por triggers.
 
-Por que vectores como BLOB y no sqlite-vec ni un memmap aparte (evaluado en
-mpeval y aqui):
+Por que vectores como BLOB y no sqlite-vec ni un memmap aparte (evaluado en el
+prototipo y aqui):
 
 * sqlite-vec (0.1.x) no esta en la cache local de uv: instalarlo exigia red,
   y en su version estable tambien es busqueda exhaustiva, igual que numpy.

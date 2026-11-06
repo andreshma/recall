@@ -1,13 +1,29 @@
 [project]
 name = "recall"
-version = "0.1.0"
-description = "Indice hibrido local (FTS5 + embeddinggemma) de los libros tecnicos del usuario, con servicio, MCP stdio y hook UserPromptSubmit."
+version = "0.2.0"
+description = "Local, bilingual (ES/EN) semantic search over a technical book library for coding assistants: SQLite FTS5 + ONNX embeddings, a fail-open prompt hook and an MCP server."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "recall contributors" }]
+keywords = ["rag", "retrieval", "embeddings", "sqlite", "fts5", "onnx", "mcp", "claude-code"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing :: Indexing",
+]
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "numpy==2.5.2",
     "onnxruntime-directml==1.24.4",
     "tokenizers==0.23.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/andreshma/recall"
+Issues = "https://github.com/andreshma/recall/issues"
 
 [project.scripts]
 recall = "recall.cli:main"
@@ -24,6 +40,6 @@ packages = ["src/recall"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["model: necesita el modelo local y el indice real (lento)"]
+markers = ["model: needs the local model and the real index (slow)"]
 addopts = "-m 'not model' -p no:cacheprovider"
 

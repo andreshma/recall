@@ -1,0 +1,55 @@
+# Changelog
+
+All notable changes to this project are documented here. The format is based on
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
+follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Repository standards: Apache-2.0 license, contributing guide, security
+  policy, code of conduct, issue/PR templates, CI on Windows with the locked
+  environment, Dependabot, architecture docs, threat model and ADRs.
+
+### Changed
+- Documentation in English; installation moved from `INSTALL.md` to
+  [docs/USAGE.md](docs/USAGE.md).
+- Default paths derive from the user's home directory instead of fixed paths.
+- Experiment configs reference model snapshots under `~/.cache`.
+
+## [0.2.0] - 2026-11-05
+
+### Added
+- Chunking and model experiments (`experiments/`), the 80-query evaluation set
+  and the study in [docs/paper.md](docs/paper.md).
+- `tools/verify_index.py`: read-only integrity verifier (SQLite check, chunk
+  accounting, vector sanity, text–vector correspondence, FTS rows, library
+  coverage, re-embedded sample).
+- `tools/shadow_report.py`: summarizes the shadow log and shows how many real
+  prompts would be injected at each candidate threshold.
+- Passage trimming: the service returns the window of each chunk that shares
+  the most terms with the question (`snippet_chars`, `snippet_top`).
+
+### Changed
+- Production configuration E5: embeddinggemma-2 with ~3,500-character chunks
+  (34,721 chunks, R@5 0.988 on 80 queries); hook threshold 0.75.
+
+### Found
+- The quantized ONNX export of Qwen3-Embedding-0.6B is not padding-invariant
+  (cosine 0.92–0.96 against the unpadded vector); not used.
+
+## [0.1.1] - 2026-11-03
+
+### Added
+- Topic-domain and publication-year filters (`data/books_meta.json`).
+- Page citations for PDFs via `tools/build_pages.py` (96.1 % exact).
+- Configurable model and chunking, part of the index identity.
+
+## [0.1.0] - 2026-10-27
+
+### Added
+- Hybrid index (SQLite, float32 vectors + FTS5, RRF), incremental indexing with
+  atomic batch writes and model identity guard.
+- Local service (`recall serve`, 127.0.0.1 + Bearer token), fail-open
+  `UserPromptSubmit` hook with shadow mode, and a dependency-free MCP server
+  (`recall_books_search`).
