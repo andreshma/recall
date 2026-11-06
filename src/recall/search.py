@@ -13,6 +13,7 @@ consultas; el coseno si lo es, dentro de un mismo modelo).
 """
 from __future__ import annotations
 
+import math
 import sqlite3
 import threading
 import time
@@ -342,8 +343,8 @@ class Searcher:
                     "select path, collection, book_id, book, chapter, section, line_start, line_end, lang, text "
                     "from chunks where id=?", (rid,),
                 ).fetchone()
-                if row is None:
-                    continue
+                if row is None or not math.isfinite(float(best_cos[p])):
+                    continue  # sin fila, o vector corrupto (NaN/inf): nunca se devuelve
                 key = (row[0].lower(), row[5])
                 if key in seen:
                     continue

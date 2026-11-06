@@ -427,6 +427,24 @@ All are run as `.venv\Scripts\python.exe -I -m recall <command>`. Examples:
 and merged section by section over the code defaults, so you only write what
 changes. An unreadable file is ignored (the hook and service fail open).
 
+**Recommended configuration (E5).** The code defaults are the baseline
+(embeddinggemma-300m, ~900-character chunks, threshold 0.58), kept so existing
+indexes stay valid. The configuration measured as best in
+[the paper](paper.md) is in [`config.example.json`](../config.example.json):
+
+1. Download `onnx-community/embeddinggemma-2-ONNX` to a local folder.
+2. Copy `config.example.json` to `%LOCALAPPDATA%\recall\config.json`; set
+   `collections.books.roots` and `model.snapshot` to your paths.
+3. Run `recall index --rebuild` (the identity changes, so a rebuild is
+   required), then restart `recall serve`.
+4. Keep the hook in `shadow` and calibrate with `tools\shadow_report.py`
+   before switching to `active` (§9).
+
+`doc_max_tokens` is part of the index identity when it is not the default
+(320): changing it, or removing it from the config, makes the index refuse to
+mix vectors. Indexes built before this rule are accepted with the configured
+value and record it on the next `recall index`.
+
 | Section | Key | Default | Purpose |
 |---|---|---|---|
 | `collections` | `books.roots` | `[%USERPROFILE%\Downloads\Books TI\_md]` | Library roots, in precedence order (§4). |

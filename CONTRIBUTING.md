@@ -6,10 +6,12 @@ are non-negotiable — everything else is open to discussion.
 
 ## Ground rules
 
-1. **Nothing leaves the machine.** No network calls, no telemetry. The model is
+1. **Retrieval stays local.** No network calls, no telemetry. The model is
    loaded from a local snapshot, `HF_HUB_OFFLINE=1` is set on import, and
    `huggingface-hub` is excluded from the lockfile on purpose
-   (`requirements.excludes`). Don't add a dependency that phones home.
+   (`requirements.excludes`). Don't add a dependency that phones home. (What
+   the hook injects does reach the assistant's provider — that is the point —
+   so keep injected text short and paths library-relative.)
 2. **The hook never gets in the way.** `recall_hook.py` fails open: on any error
    or delay the prompt passes through unchanged, within a 1.5 s budget. It uses
    only the standard library. Keep it that way.
@@ -44,6 +46,14 @@ uv pip sync requirements.lock
 `requirements.in` is the source of truth for direct dependencies;
 `requirements.lock` pins the exact versions with hashes for win/amd64.
 Regenerate it with the command at the top of `requirements.in`.
+
+**Dependency updates.** Dependabot opens PRs that bump `requirements.in` and
+`pyproject.toml` but cannot regenerate the hash-pinned lock, so their CI fails
+on `test_lock_pins_every_input_with_hashes` — on purpose. To take an update:
+check out the PR branch, run the `uv pip compile` command from
+`requirements.in` (drop `--offline` if the new wheels are not cached),
+`uv pip sync requirements.lock`, run `pytest` **and** `pytest -m model`
+against your index, and push the new lock to the PR.
 
 ## Experiments
 

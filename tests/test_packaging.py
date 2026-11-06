@@ -112,3 +112,13 @@ def test_install_mentions_backup_shadow_active_uninstall():
     for must in ("Backup", "shadow", "active", "Uninstall", "claude mcp add", "alwaysLoad",
                  "claude_desktop_config.json", "HF_HUB_OFFLINE"):
         assert must in INSTALL, must
+
+
+def test_example_config_is_the_e5_experiment():
+    """config.example.json (lo que la doc recomienda) es exactamente E5 mas el hook calibrado."""
+    ex = json.loads((ROOT / "config.example.json").read_text(encoding="utf-8"))
+    e5 = json.loads((ROOT / "experiments" / "configs" / "e5-gemma2-chunk3500.json").read_text(encoding="utf-8"))
+    assert ex["chunking"] == e5["chunking"]
+    assert {k: v for k, v in ex["model"].items() if k != "snapshot"} == \
+        {k: v for k, v in e5["model"].items() if k != "snapshot"}
+    assert ex["hook"] == {"mode": "shadow", "threshold": 0.75}

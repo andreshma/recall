@@ -10,3 +10,6 @@ __pycache__/
 *.sqlite3-shm
 *.log
 service.json
+.coverage
+.coverage.*
+htmlcov/

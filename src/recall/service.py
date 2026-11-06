@@ -64,12 +64,89 @@ def pid_alive(pid: int) -> bool:
         return False
 
 
+def is_python_process(pid: int) -> bool:
+    """True si ``pid`` es un interprete de Python (o si no se puede saber).
+
+    Tras un reinicio, el pid de un ``service.json`` viejo puede estar reusado por
+    otro programa; sin esta comprobacion recall creeria que ya esta corriendo y
+    no arrancaria hasta que ese programa terminara.
+    """
+    if os.name != "nt":
+        return True
+    import ctypes
+    from ctypes import wintypes
+
+    k32 = ctypes.windll.kernel32
+    h = k32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return True
+    try:
+        buf = ctypes.create_unicode_buffer(1024)
+        size = wintypes.DWORD(len(buf))
+        if not k32.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(size)):
+            return True
+        return Path(buf.value).name.lower().startswith("python")
+    finally:
+        k32.CloseHandle(h)
+
+
+class _ServeLock:
+    """Candado de arranque: un solo ``recall serve`` carga el modelo a la vez.
+
+    La comprobacion de ``service.json`` ocurre antes de cargar el modelo (varios
+    segundos); dos arranques casi simultaneos la pasaban los dos y uno quedaba
+    huerfano con la GPU y el indice abiertos. El candado se toma antes de cargar
+    y el sistema lo libera solo si el proceso muere.
+    """
+
+    def __init__(self, path: Path):
+        self.path, self._f = path, None
+
+    def acquire(self) -> bool:
+        f = open(self.path, "a+b")
+        try:
+            if os.name == "nt":
+                import msvcrt
+
+                f.seek(0)
+                msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            f.close()
+            return False
+        self._f = f
+        return True
+
+    def release(self) -> None:
+        if self._f is None:
+            return
+        try:
+            if os.name == "nt":
+                import msvcrt
+
+                self._f.seek(0)
+                msvcrt.locking(self._f.fileno(), msvcrt.LK_UNLCK, 1)
+        except OSError:
+            pass
+        self._f.close()
+        self._f = None
+
+
+def _reject_constant(name: str):
+    raise ValueError(f"valor no permitido: {name}")
+
+
 def make_handler(searcher, token: str, port_ref: list, info: dict):
     """Clase manejadora ligada a un ``searcher`` y un ``token``."""
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "recall"
         sys_version = ""
+        # Una conexion ociosa no retiene su hilo para siempre (AR-10).
+        timeout = 10
 
         def log_message(self, *a):  # sin logs de acceso: llevarian consultas
             pass
@@ -132,7 +209,7 @@ def make_handler(searcher, token: str, port_ref: list, info: dict):
                 self._send(413, {"error": "cuerpo demasiado grande"})
                 return
             try:
-                req = json.loads(self.rfile.read(n) or b"{}")
+                req = json.loads(self.rfile.read(n) or b"{}", parse_constant=_reject_constant)
                 qs = req.get("queries") or [req.get("q", "")]
                 if not isinstance(qs, list) or not all(isinstance(q, str) for q in qs):
                     raise ValueError("queries debe ser lista de strings")
@@ -146,7 +223,7 @@ def make_handler(searcher, token: str, port_ref: list, info: dict):
                 from .metadata import validate
 
                 filters = validate(req.get("filters"))
-            except (ValueError, TypeError, AttributeError) as e:  # FilterError es ValueError
+            except (ValueError, TypeError, AttributeError, OverflowError) as e:  # FilterError es ValueError
                 self._send(400, {"error": f"peticion invalida: {e}"})
                 return
             t = time.perf_counter()
@@ -185,7 +262,8 @@ def running_service() -> dict | None:
             svc = json.load(f)
     except (OSError, ValueError):
         return None
-    return svc if pid_alive(int(svc.get("pid", 0))) else None
+    pid = int(svc.get("pid", 0))
+    return svc if pid_alive(pid) and is_python_process(pid) else None
 
 
 def serve(cfg: dict | None = None, searcher=None, ready: threading.Event | None = None,
@@ -201,7 +279,12 @@ def serve(cfg: dict | None = None, searcher=None, ready: threading.Event | None 
     if other and other.get("pid") != os.getpid():
         print(f"recall: ya hay un servicio (pid {other['pid']}).", file=sys.stderr)
         return 0
+    lock = None
     if searcher is None:
+        lock = _ServeLock(config.home() / "serve.lock")
+        if not lock.acquire():
+            print("recall: otro `recall serve` esta arrancando; no se lanza otro.", file=sys.stderr)
+            return 0
         from .search import make_searcher
 
         searcher = make_searcher(cfg)
@@ -227,6 +310,8 @@ def serve(cfg: dict | None = None, searcher=None, ready: threading.Event | None 
         pass
     finally:
         srv.server_close()
+        if lock is not None:
+            lock.release()
         try:
             cur = json.loads(config.service_file().read_text(encoding="utf-8"))
             if cur.get("pid") == os.getpid() and cur.get("token") == token:

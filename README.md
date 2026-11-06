@@ -15,10 +15,13 @@ It works in two ways: a **hook** that quietly adds the relevant passages to a
 prompt when — and only when — they clear a similarity threshold, and an **MCP
 tool** the assistant calls when it wants to search on its own.
 
-> 🔒 **Local first.** Nothing leaves your machine: the embedding model runs from
-> a local snapshot on your GPU, `HF_HUB_OFFLINE=1` is set on import, and
-> `huggingface-hub` is not even installed. The search service listens only on
-> `127.0.0.1` behind a random token.
+> 🔒 **Local retrieval.** Indexing and search never touch the network: the
+> embedding model runs from a local snapshot on your GPU, `HF_HUB_OFFLINE=1` is
+> set on import, and `huggingface-hub` is not even installed. The search
+> service listens only on `127.0.0.1` behind a random token. **The passages
+> recall injects do become part of your prompt**, so they reach whatever
+> provider runs your assistant — index only documents you are willing to
+> share with it.
 >
 > 📚 **Bring your own books.** The repository contains no book content — only
 > the code, bibliographic metadata and the evaluation queries. You index your
@@ -171,6 +174,12 @@ State lives in `%LOCALAPPDATA%\recall` (override with `RECALL_HOME`): the index,
 | `hook.mode` | `shadow` | `shadow` (log only) or `active` (inject). |
 | `hook.threshold` | per model | Minimum cosine to inject. Recalibrate whenever the model changes. |
 
+The code defaults are the **baseline** configuration, so existing indexes
+keep working. To use the configuration measured as best (E5), start from
+[`config.example.json`](config.example.json): copy it to
+`%LOCALAPPDATA%\recall\config.json`, point `snapshot` at your local
+embeddinggemma-2 download, and run `recall index --rebuild`.
+
 Changing `chunking` or `model` requires `recall index --rebuild`. Full
 reference: [User Manual](docs/USAGE.md).
 
@@ -179,8 +188,10 @@ reference: [User Manual](docs/USAGE.md).
 - **Local only**: `127.0.0.1`, ephemeral port, random Bearer token compared in
   constant time; no network calls anywhere.
 - **Read-only search**: the service and the MCP server open the index read-only.
-- **Passages are data**: the hook marks injected passages as reference data,
-  not instructions, and strips nested block tags.
+- **Passages are data**: injected passages are wrapped in a block that marks
+  them as reference data, not instructions; every field taken from the index
+  (text, headings, path) has its `<`/`>` neutralized so it cannot close that
+  block, and paths are cited relative to the library.
 - **Pinned supply chain**: every dependency hash-pinned in `requirements.lock`;
   `huggingface-hub` excluded on purpose.
 
@@ -193,7 +204,7 @@ vulnerability?** Report it privately — see [SECURITY.md](SECURITY.md).
 service, hook, MCP server, page citations and filters are in place; the hook
 runs in shadow mode while its threshold is calibrated on real prompts.
 
-The unit suite (132 tests, no model needed) runs in CI on Windows. The
+The unit suite (137 tests, no model needed) runs in CI on Windows. The
 regression suite (`pytest -m model`) needs the real model and a full index and
 runs locally, with floors set to the measured production numbers — see
 [docs/TESTING.md](docs/TESTING.md).
@@ -207,6 +218,8 @@ runs locally, with floors set to the measured production numbers — see
 - [Architecture Decision Records](docs/adr/README.md)
 - [Threat model](docs/THREAT_MODEL.md) — STRIDE analysis
 - [Testing](docs/TESTING.md) — unit suite, model regression, integrity checks
+- [Adversarial review](docs/ADVERSARIAL_REVIEW.md) — red-team pass
+- Audit reports: [`audits/`](audits/)
 - [Security policy](SECURITY.md) · [Contributing](CONTRIBUTING.md) ·
   [Code of Conduct](CODE_OF_CONDUCT.md) · [Changelog](CHANGELOG.md)
 

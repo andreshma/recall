@@ -10,6 +10,7 @@ report a vulnerability.
   requires a random Bearer token, stored with the port in
   `%LOCALAPPDATA%\recall\service.json`. No component makes network calls; the
   model loads from a local snapshot and `huggingface-hub` is not installed.
+  Injected passages do reach the assistant's provider as part of the prompt.
 - **Fail-open hook.** The hook can only *add* context; on any error, timeout or
   low score it adds nothing. It starts in shadow mode, logging a hash of each
   prompt (never its text).
@@ -20,10 +21,10 @@ report a vulnerability.
 
 **Known limitation:** injected passages come from the indexed books. Text in a
 book could, in principle, try to instruct the assistant (indirect prompt
-injection). The hook wraps passages in a `<recall_libros>` block that tells
-the assistant they are reference *data*, not instructions, strips any nested
-block tags from the passage text, and caps each passage's length. Still, only
-index content you trust. See
+injection). The hook and the MCP tool wrap passages in a block that tells
+the assistant they are reference *data*, not instructions; every field taken
+from the index has its `<`/`>` replaced so it cannot close that block, and each
+passage's length is capped. Still, only index content you trust. See
 [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) for the full analysis.
 
 ## Reporting a vulnerability

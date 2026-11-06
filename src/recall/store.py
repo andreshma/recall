@@ -132,11 +132,32 @@ def check_identity(con: sqlite3.Connection, identity: dict, *, writing: bool) ->
         return
     if stored != identity_key(identity):
         a, b = json.loads(stored), identity
+        if _legacy_upgrade(a, b):
+            # Indice anterior a que ``doc_max_tokens`` entrara en la identidad: se
+            # asume construido con el valor configurado (el que se uso para indexarlo)
+            # y la proxima escritura lo registra; desde entonces, cambiarlo falla.
+            if writing:
+                con.execute("insert or replace into meta values('model_identity', ?)", (identity_key(b),))
+                con.commit()
+            return
         diff = sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
         raise ModelMismatchError(
             f"El indice se construyo con otro modelo (difiere: {', '.join(diff)}). "
             "No se mezclan vectores de modelos distintos: usa `recall index --rebuild`."
         )
+
+
+#: Campos agregados a la identidad despues de construir indices en uso. Un indice
+#: que no los tiene se acepta (y se actualiza al escribir) si todo lo demas coincide.
+LEGACY_OPTIONAL = ("doc_max_tokens",)
+
+
+def _legacy_upgrade(stored: dict, current: dict) -> bool:
+    """True si ``stored`` solo difiere de ``current`` en campos nuevos que no tenia."""
+    missing = [k for k in LEGACY_OPTIONAL if k in current and k not in stored]
+    if not missing:
+        return False
+    return stored == {k: v for k, v in current.items() if k not in missing}
 
 
 def bump_generation(con: sqlite3.Connection) -> None:

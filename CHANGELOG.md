@@ -6,7 +6,34 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Security
+- Fixes from the [2026-11-06 audit](audits/report-recall-2026-11-06.md) and
+  the [adversarial review](docs/ADVERSARIAL_REVIEW.md):
+  - Every field taken from the index has `<`/`>` neutralized in the hook and
+    MCP output, so book content cannot close the data block (AR-01–03).
+  - The hook's 1.5 s budget is now a wall-clock deadline (AR-04).
+  - Non-finite scores are rejected in search, hook and MCP (AR-07).
+  - The shadow-log prompt hash is an HMAC with a per-install key (AR-12).
+  - MCP errors return only the exception type (AR-16); `pip-audit` pinned in CI.
+  - The service rejects `Infinity`/`NaN`/overflowing numbers with 400 and
+    closes idle connections after 10 s (AR-10, AR-11).
+
+### Fixed
+- `doc_max_tokens` is part of the index identity when not the default;
+  existing indexes are accepted and upgraded on the next write (AR-05).
+- A stale `service.json` whose PID was reused no longer keeps recall from
+  starting, and concurrent starts no longer leave an orphaned service
+  (AR-08, AR-09).
+- MCP score guidance follows the configured threshold (AR-13).
+- `tools/shadow_report.py` covers the embeddinggemma-2 threshold range.
+
+### Changed
+- Privacy wording: retrieval is local, but injected passages reach the
+  assistant's provider; the hook cites library-relative paths (AR-06).
+
 ### Added
+- `config.example.json` with the recommended E5 configuration.
+- `audits/` (360° report, summary, SBOM) and `docs/ADVERSARIAL_REVIEW.md`.
 - Repository standards: Apache-2.0 license, contributing guide, security
   policy, code of conduct, issue/PR templates, CI on Windows with the locked
   environment, Dependabot, architecture docs, threat model and ADRs.

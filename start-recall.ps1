@@ -43,7 +43,10 @@ function Test-RecallHealthy {
     if (-not (Test-Path $svcFile)) { return $false }
     try {
         $svc = Get-Content $svcFile -Raw | ConvertFrom-Json
-        if (-not (Get-Process -Id ([int]$svc.pid) -ErrorAction SilentlyContinue)) { return $false }
+        $proc = Get-Process -Id ([int]$svc.pid) -ErrorAction SilentlyContinue
+        if (-not $proc) { return $false }
+        # Pid reusado tras un reinicio por otro programa: el servicio no esta vivo.
+        if ($proc.ProcessName -notmatch '^python') { return $false }
         $r = Invoke-RestMethod -Uri ("http://127.0.0.1:{0}/health" -f $svc.port) `
             -Headers @{ Authorization = "Bearer $($svc.token)" } -TimeoutSec $HealthTimeoutSec -NoProxy
         return [bool]$r.ok

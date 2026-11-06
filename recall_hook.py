@@ -31,10 +31,14 @@ Comportamiento:
 from __future__ import annotations
 
 import hashlib
+import hmac
 import json
+import math
 import os
 import re
+import secrets
 import sys
+import threading
 import time
 import urllib.request
 
@@ -105,9 +109,59 @@ def is_mechanical(prompt: str) -> bool:
     return bool(MECHANICAL.search(prompt.strip()))
 
 
-def prompt_hash(prompt: str) -> str:
+def _log_key(state: str) -> bytes:
+    """Clave aleatoria por instalacion para el hash del log (se crea la primera vez).
+
+    Con un SHA-256 sin clave, quien lea ``shadow.log`` podria confirmar un prompt
+    adivinado; con HMAC necesita ademas esta clave. Si no se puede leer ni crear,
+    se usa una clave efimera (los hashes de esa ejecucion no se pueden cruzar).
+    """
+    path = os.path.join(state, "log.key")
+    try:
+        with open(path, "rb") as f:
+            key = f.read()
+        if len(key) >= 32:
+            return key
+    except OSError:
+        pass
+    key = secrets.token_bytes(32)
+    try:
+        os.makedirs(state, exist_ok=True)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(fd, "wb") as f:
+            f.write(key)
+    except FileExistsError:  # otro hook la creo a la vez
+        try:
+            with open(path, "rb") as f:
+                return f.read() or key
+        except OSError:
+            pass
+    except OSError:
+        pass
+    return key
+
+
+def prompt_hash(prompt: str, state: str | None = None) -> str:
     """Hash corto del prompt para el log (nunca se registra el texto)."""
-    return hashlib.sha256(prompt.encode("utf-8", "replace")).hexdigest()[:16]
+    key = _log_key(state if state is not None else home())
+    return hmac.new(key, prompt.encode("utf-8", "replace"), hashlib.sha256).hexdigest()[:16]
+
+
+def defang(value: object) -> str:
+    """Texto seguro dentro del bloque de datos: sin ``<`` ni ``>`` literales.
+
+    Sustituirlos por comillas angulares simples impide cerrar o abrir cualquier
+    etiqueta (``</recall_libros>``, variantes con espacios, solapadas...), sin
+    depender de reconocer cada variante. Se aplica a TODOS los campos que vienen
+    del indice: texto, libro, capitulo, seccion y ruta.
+    """
+    return str(value).replace("<", "‹").replace(">", "›")
+
+
+def short_path(path: object) -> str:
+    """Ruta relativa a la biblioteca (carpeta del libro y archivo), sin el perfil del usuario."""
+    parts = re.split(r"[\\/]+", str(path))
+    return "/".join(p for p in parts[-2:] if p)
 
 
 #: Rotacion de logs: al pasar de LOG_MAX_BYTES el log pasa a ``.1`` (y ``.1`` a
@@ -164,8 +218,26 @@ def query_service(state: str, prompt: str, collections: list, timeout: float,
         headers={"Content-Type": "application/json", "Authorization": f"Bearer {svc['token']}"},
     )
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))  # loopback sin proxy
-    with opener.open(req, timeout=max(0.05, timeout)) as r:
-        hits = json.load(r)["hits"]
+    timeout = max(0.05, timeout)
+    box: dict = {}
+
+    def fetch() -> None:
+        try:
+            with opener.open(req, timeout=timeout) as r:
+                box["hits"] = json.loads(r.read(4 * 1024 * 1024))["hits"]
+        except Exception as e:  # se re-lanza en el hilo principal
+            box["err"] = e
+
+    # El timeout de urllib es por operacion de socket, no total: un servicio que
+    # gotea bytes lo estira sin limite. El hilo daemon acota el tiempo de pared.
+    th = threading.Thread(target=fetch, daemon=True)
+    th.start()
+    th.join(timeout)
+    if th.is_alive():
+        raise TimeoutError("presupuesto agotado")
+    if "err" in box:
+        raise box["err"]
+    hits = box.get("hits")
     if not isinstance(hits, list):
         raise ValueError("respuesta invalida")
     return hits
@@ -180,7 +252,7 @@ def select(hits: list, threshold: float, max_snippets: int) -> list:
             path = str(h["path"])
         except (TypeError, ValueError, KeyError, AttributeError):
             continue
-        if cos < threshold or path.lower() in seen:
+        if not math.isfinite(cos) or cos < threshold or path.lower() in seen:
             continue
         seen.add(path.lower())
         good.append(h)
@@ -200,18 +272,27 @@ def render(good: list, max_chars: int) -> str:
         "buscar mas, usa la herramienta MCP recall_books_search (consulta en espanol e ingles).",
     ]
     for i, h in enumerate(good, 1):
-        where = " — ".join(str(h.get(k)) for k in ("book", "chapter", "section") if h.get(k))
+        where = " — ".join(defang(h.get(k)) for k in ("book", "chapter", "section") if h.get(k))
         extra = [str(h["year"])] if h.get("year") else []
         if h.get("page"):
-            extra.append(f"p. {'' if h.get('page_exact', True) else '~'}{h['page']}")
+            extra.append(f"p. {'' if h.get('page_exact', True) else '~'}{defang(h['page'])}")
         if extra:
             where += f" ({', '.join(extra)})"
-        text = re.sub(r"\s+", " ", str(h.get("snippet") or h.get("text", "")))
-        text = re.sub(r"</?recall_libros[^>]*>", "", text, flags=re.I)[:max_chars]
-        lines.append(f"[{i}] {where} | {h.get('path')}:{h.get('line_start')}-{h.get('line_end')} "
+        text = defang(re.sub(r"\s+", " ", str(h.get("snippet") or h.get("text", ""))))[:max_chars]
+        lines.append(f"[{i}] {where} | {defang(short_path(h.get('path')))}:"
+                     f"{defang(h.get('line_start'))}-{defang(h.get('line_end'))} "
                      f"| cos={float(h.get('cos', 0)):.2f}\n{text}")
     lines.append("</recall_libros>")
     return "\n".join(lines)
+
+
+def _score(hit: dict) -> float | None:
+    """Coseno redondeado para el log; None si no es un numero finito."""
+    try:
+        c = float(hit.get("cos", 0))
+    except (TypeError, ValueError, AttributeError):
+        return None
+    return round(c, 4) if math.isfinite(c) else None
 
 
 def emit(context: str, out=None) -> None:
@@ -237,7 +318,7 @@ def main(stdin=None, out=None) -> int:
     mode = str(cfg.get("mode", "shadow")).lower()
     if mode == "off":
         return 0
-    h = prompt_hash(prompt)
+    h = prompt_hash(prompt, state)
     if is_trivial(prompt, int(cfg.get("min_prompt_chars", 20))):
         log(state, "shadow.log", {"h": h, "mode": mode, "decision": "skip-trivial"})
         return 0
@@ -257,8 +338,8 @@ def main(stdin=None, out=None) -> int:
     ms = int((time.perf_counter() - t0) * 1000)
     entry = {
         "h": h, "mode": mode, "ms": ms,
-        "best": round(float(hits[0].get("cos", 0)), 4) if hits else None,
-        "scores": [round(float(x.get("cos", 0)), 4) for x in hits[:8]],
+        "best": _score(hits[0]) if hits else None,
+        "scores": [_score(x) for x in hits[:8]],
         "paths": [x.get("path") for x in good],
     }
     if not good:

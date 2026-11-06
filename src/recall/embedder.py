@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 from pathlib import Path
 from typing import Protocol, Sequence
 
@@ -225,6 +224,12 @@ class OnnxEmbedder:
             self.identity["padding_side"] = padding_side
         if append_eos:
             self.identity["append_eos"] = append_eos
+        # El limite de tokens del documento cambia los vectores guardados (con
+        # trozos de ~3500 caracteres, 320 frente a 1100 tokens da coseno 0.93):
+        # entra en la identidad si no es el de por defecto. El de la consulta no
+        # se guarda en el indice, asi que no entra.
+        if int(doc_max_tokens) != 320:
+            self.identity["doc_max_tokens"] = int(doc_max_tokens)
 
     def format_query(self, query: str) -> str:
         """Consulta con el prefijo de este modelo."""
