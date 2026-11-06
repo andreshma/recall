@@ -1,0 +1,5 @@
+# huggingface-hub (dependencia de tokenizers) se EXCLUYE a proposito: solo lo usa
+# Tokenizer.from_pretrained, que descarga de la red. recall carga tokenizer.json
+# desde la ruta local del snapshot, asi que sin este paquete el proceso ni
+# siquiera tiene con que llamar al Hub.
+huggingface-hub

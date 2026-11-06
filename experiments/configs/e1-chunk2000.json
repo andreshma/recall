@@ -1,0 +1,1 @@
+{"chunking": {"target": 1800, "max_chars": 2000, "min_chars": 900, "overlap": 250}, "model": {"doc_max_tokens": 640, "batch_size": 16}}

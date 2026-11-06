@@ -1,0 +1,1 @@
+{"chunking": {"target": 3200, "max_chars": 3500, "min_chars": 1500, "overlap": 400}, "model": {"snapshot": "~/.cache/recall-models/onnx-community--embeddinggemma-2-ONNX/daa72c51243991dfcaf9f9137d2c573d8f7790c0", "name": "onnx-community/embeddinggemma-2-ONNX", "doc_max_tokens": 1100, "batch_size": 8}}

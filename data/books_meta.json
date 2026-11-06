@@ -1,0 +1,1832 @@
+{
+  "97-things-programmer": {
+    "title": "97 Things Every Programmer Should Know",
+    "author": "Henney",
+    "source_file": "97_Things_Every_Programmer_Should_Know.pdf",
+    "format": "pdf",
+    "year": 2010,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2010 Kevlin Henney. All rights reserved. Printed in the United State",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "accelerate-forsgren": {
+    "title": "Accelerate",
+    "author": "Forsgren, Humble, Kim",
+    "source_file": "Nicole Forsgren_ Jez Humble_ Gene Kim - Accelerate_ The Science of Lean Software and DevOps_ Building and Scaling High Performing Technology Organizations (2018, It Revolution Press).epub",
+    "format": "epub",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 by Nicole Forsgren, Jez Humble, and Gene Kim.",
+    "edition": null,
+    "domains": [
+      "devops-cicd",
+      "liderazgo-organizacion"
+    ],
+    "lang": "en"
+  },
+  "agentic-design-patterns-gulli": {
+    "title": "Agentic Design Patterns",
+    "author": "Gulli",
+    "source_file": "dokumen.pub_agentic-design-patterns-a-hands-on-guide-to-building-intelligent-systems.epub",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "metadata",
+    "year_evidence": "OPF dc:date 2025-09-30 (Springer), coincide con (c) 2025 en el código",
+    "edition": null,
+    "domains": [
+      "ia-ml",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "agile-estimating-planning-cohn": {
+    "title": "Agile Estimating and Planning",
+    "author": "Cohn",
+    "source_file": "36-612_Agile Estimating and Planning by Mike Cohn.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": null,
+    "domains": [
+      "agile-gestion"
+    ],
+    "lang": "en"
+  },
+  "ai-agents-in-action-lanham": {
+    "title": "AI Agents in Action",
+    "author": "Lanham",
+    "source_file": "Micheal Lanham - AI Agents in Action (2025, Manning) - libgen.li.pdf",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "©2025 by Manning Publications Co. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-engineering-huyen": {
+    "title": "AI Engineering",
+    "author": "Huyen",
+    "source_file": "AI Engineering.pdf",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 Developer Experience Advisory LLC. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "algorithms-notes-goalkicker": {
+    "title": "Algorithms Notes for Professionals",
+    "author": "GoalKicker",
+    "source_file": "Algorithms_Notes.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "algorithms-unlocked-cormen": {
+    "title": "Algorithms Unlocked",
+    "author": "Cormen",
+    "source_file": "Algorithms Unlocked (2013, The MIT Press) - Thomas H. Cormen.pdf",
+    "format": "pdf",
+    "year": 2013,
+    "year_source": "metadata",
+    "year_evidence": "creationDate D:20130116105033-05'00'",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "architecting-for-scale-atchison": {
+    "title": "Architecting for Scale 2e",
+    "author": "Atchison",
+    "source_file": "Architecting for Scale How to Maintain High Availability and Manage Risk in the Cloud (Atchison, Lee) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Lee Atchison. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "arquitectura",
+      "sre-observabilidad",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "architecting-the-cloud-kavis": {
+    "title": "Architecting the Cloud",
+    "author": "Kavis",
+    "source_file": "Architecting the Cloud - Design Decisions for Cloud Computing Service Models.pdf",
+    "format": "pdf",
+    "year": 2014,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2014 by Michael Kavis. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "cloud",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "architectural-patterns-raj": {
+    "title": "Architectural Patterns",
+    "author": "Raj, Raman, Subramanian",
+    "source_file": "Pethuru Raj, Anupama Raman, Harihara Subramanian - Architectural Patterns_ Uncover essential patterns in the most indispensable realm of enterprise architecture (2017, Packt Publishing - ebooks Account).pdf",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2017 Packt Publishing",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "architecture-modernization-tune": {
+    "title": "Architecture Modernization",
+    "author": "Tune & Perrin",
+    "source_file": "Architecture Modernization Socio-Technical Alignment of Software, Strategy, and Structure (Nick Tune, Jean-Georges Perrin) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "©2024 by Manning Publications Co. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "liderazgo-organizacion"
+    ],
+    "lang": "en"
+  },
+  "architecture-patterns-python": {
+    "title": "Architecture Patterns with Python",
+    "author": "Percival & Gregory",
+    "source_file": "Architecture-Patterns-with-Python.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Harry Percival and Bob Gregory. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "art-of-agile-development-shore": {
+    "title": "The Art of Agile Development 2e",
+    "author": "Shore",
+    "source_file": "artofagiledevelopment2e_V2.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 James Shore and Big Blue Marble LLC. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "agile-gestion"
+    ],
+    "lang": "en"
+  },
+  "art-of-postgresql-fontaine": {
+    "title": "The Art of PostgreSQL 2e",
+    "author": "Fontaine",
+    "source_file": "dokumen.pub_the-art-of-postgresql-2nbsped.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": "2a",
+    "domains": [
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "azure-cloud-native-mapbook": {
+    "title": "The Azure Cloud Native Architecture Mapbook",
+    "author": "Packt",
+    "source_file": "The-Azure-Cloud-Native-Architecture-Mapbook.pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 Packt Publishing",
+    "edition": null,
+    "domains": [
+      "cloud",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "bedm-bellemare": {
+    "title": "Building Event-Driven Microservices",
+    "author": "Bellemare",
+    "source_file": "buildingevent-drivenmicroservices.epub",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Adam Bellemare. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "building-evolutionary-architectures": {
+    "title": "Building Evolutionary Architectures 2e",
+    "author": "Ford et al.",
+    "source_file": "buildingevolutionaryarchitectures2ndedition.epub",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 Neal Ford, Rebecca Parsons, Patrick Kua, and Pramod Sadalage. A",
+    "edition": "2a",
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "building-micro-frontends-mezzalira": {
+    "title": "Building Micro-Frontends",
+    "author": "Mezzalira",
+    "source_file": "buildingmicro-frontends.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Luca Mezzalira. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "building-microservices-newman": {
+    "title": "Building Microservices 2e",
+    "author": "Newman",
+    "source_file": "Building Microservices 2nd Edition - Sam Newman.pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 Sam Newman. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "building-secure-reliable-systems": {
+    "title": "Building Secure and Reliable Systems",
+    "author": "Google",
+    "source_file": "building_secure_and_reliable_systems.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Google LLC. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "sre-observabilidad"
+    ],
+    "lang": "en"
+  },
+  "c4-model-brown": {
+    "title": "The C4 Model for Visualising Software Architecture",
+    "author": "Brown",
+    "source_file": "The C4 model for visualising software architecture (Simon Brown) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "© 2015 - 2022 Simon Brown",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "chaos-engineering-rosenthal": {
+    "title": "Chaos Engineering",
+    "author": "Rosenthal, Jones",
+    "source_file": "dokumen.pub_chaos-engineering-system-resiliency-in-practice-1nbsped-1492043869-9781492043867-b-1275701.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Casey Rosenthal and Nora Jones. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "sre-observabilidad",
+      "testing"
+    ],
+    "lang": "en"
+  },
+  "clean-architecture-martin": {
+    "title": "Clean Architecture",
+    "author": "Martin",
+    "source_file": "Clean.Architecture.2017.9.epub",
+    "format": "epub",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 Pearson Education, Inc.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "clean-code-martin": {
+    "title": "Clean Code",
+    "author": "Martin",
+    "source_file": "Clean Code_ A Handbook of Agile Software Craftsmanship - Robert C. Martin.pdf",
+    "format": "pdf",
+    "year": 2009,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2009 Pearson Education, Inc.",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "cloud-finops-storment": {
+    "title": "Cloud FinOps",
+    "author": "Storment, Fuller",
+    "source_file": "dokumen.pub_cloud-finops-collaborative-real-time-cloud-financial-management-1nbsped-1492054623-9781492054627-r-8285114.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 J.R. Storment and Mike Fuller. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "cloud-native-devops-k8s": {
+    "title": "Cloud Native DevOps with Kubernetes 2e",
+    "author": "Domingus & Arundel",
+    "source_file": "Cloud Native DevOps with Kubernetes, 2nd Edition- Justin Domingus_ John Arundel - O'Reilly Media, Inc. (2022).pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 John Arundel and Justin Domingus. All rights reserved. Printed",
+    "edition": "2a",
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "cloud-native-security-cookbook": {
+    "title": "Cloud Native Security Cookbook",
+    "author": "Armitage",
+    "source_file": "cloudnativesecuritycookbook.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Joshua Hagen Armitage. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "concurrency-csharp-cookbook-cleary": {
+    "title": "Concurrency in C# Cookbook 2e",
+    "author": "Cleary",
+    "source_file": "dokumen.pub_concurrency-in-c-cookbook-asynchronous-parallel-and-multithreaded-programming-2nbsped-149205450x-9781492054504.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "Edition, by Stephen Cleary (O’Reilly). Copyright 2019 Stephen Cleary,",
+    "edition": "2a",
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "continuous-api-management": {
+    "title": "Continuous API Management 2e",
+    "author": "Medjaoui et al.",
+    "source_file": "continuousapimanagement2e.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Mehdi Medjaoui, Build Digital GmbH, Kudo & Leap Ltd., and Amund",
+    "edition": "2a",
+    "domains": [
+      "arquitectura",
+      "producto"
+    ],
+    "lang": "en"
+  },
+  "continuous-delivery-humble": {
+    "title": "Continuous Delivery",
+    "author": "Humble, Farley",
+    "source_file": "Continuous-Delivery-Jez Humble-David-Farley.pdf",
+    "format": "pdf",
+    "year": 2011,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2011 Pearson Education, Inc.",
+    "edition": null,
+    "domains": [
+      "devops-cicd",
+      "testing"
+    ],
+    "lang": "en"
+  },
+  "csharp13-dotnet9-motta-extract": {
+    "title": "C# 13 and .NET 9",
+    "author": "Motta",
+    "source_file": "c-13-and-net-9-jefferson-s-motta.pdf",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "First Edition 2025",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "cyber-risk-management-program": {
+    "title": "Building a Cyber Risk Management Program",
+    "author": "Allen",
+    "source_file": "buildingacyberriskmanagementprogram.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Security Risk Governance Group LLC, Brandon Bapst, and Terry Al",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "liderazgo-organizacion"
+    ],
+    "lang": "en"
+  },
+  "cybersecurity-ops-bash": {
+    "title": "Cybersecurity Ops with bash",
+    "author": "Troncone & Albing",
+    "source_file": "cybersecurityopswithbash.epub",
+    "format": "epub",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2019 Digadel Corp & Carl Albing. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "data-science-python-mongodb": {
+    "title": "Data Science Fundamentals for Python and MongoDB",
+    "author": "Paper",
+    "source_file": "Data Science Fundamentals for Python and MongoDB (en).pdf",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 by David Paper",
+    "edition": null,
+    "domains": [
+      "datos",
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "database-design-solutions-stephens": {
+    "title": "Beginning Database Design Solutions 2e",
+    "author": "Stephens",
+    "source_file": "Rod Stephens - Beginning Database Design Solutions_ Understanding and Implementing Database Design Concepts for the Cloud and Beyond (2023, Wiley) - libgen.li.pdf",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 by John Wiley & Sons, Inc. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "database-internals-petrov": {
+    "title": "Database Internals",
+    "author": "Petrov",
+    "source_file": "Alex Petrov - Database Internals_ A Deep Dive into How Distributed Data Systems Work-O'Reilly Media (2019).pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "(O’Reilly). Copyright 2019 Oleksandr Petrov, 978-1-492-04034-7.”",
+    "edition": null,
+    "domains": [
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "ddd-evans": {
+    "title": "Domain-Driven Design",
+    "author": "Evans",
+    "source_file": "Domain Driven Design Tackling Complexity in the Heart of Software - Eric Evans.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "requisitos-analisis"
+    ],
+    "lang": "en"
+  },
+  "ddia-kleppmann": {
+    "title": "Designing Data-Intensive Applications",
+    "author": "Kleppmann",
+    "source_file": "Designing Data Intensive Applications - Martin Kleppmann.pdf",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2017 Martin Kleppmann. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "datos",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "defensive-security-handbook": {
+    "title": "Defensive Security Handbook 2e",
+    "author": "Brotherston et al.",
+    "source_file": "defensivesecurityhandbook2ndedition.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Amanda Berlin, Lee Brotherston, and William F. Reyor III. All r",
+    "edition": "2a",
+    "domains": [
+      "seguridad"
+    ],
+    "lang": "en"
+  },
+  "dependency-injection-seemann": {
+    "title": "Dependency Injection Principles, Practices, and Patterns",
+    "author": "van Deursen & Seemann",
+    "source_file": "Dependency Injection Principles.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "©2019 by Manning Publications Co. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "programacion",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "design-it-keeling-preview": {
+    "title": "Design It!",
+    "author": "Keeling",
+    "source_file": "preview-9781680503456_A36417550.pdf",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2017 The Pragmatic Programmers, LLC.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "design-patterns-gof": {
+    "title": "Design Patterns",
+    "author": "Gamma, Helm, Johnson, Vlissides",
+    "source_file": "Erich Gamma, Richard Helm, Ralph Johnson, John M. Vlissides - Design Patterns_ Elements of Reusable Object-Oriented Software (1994, Addison-Wesley Professional) - libgen.li.pdf",
+    "format": "pdf",
+    "year": 1995,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 1995 by Addison-Wesley",
+    "edition": null,
+    "domains": [
+      "programacion",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "designing-distributed-systems-burns": {
+    "title": "Designing Distributed Systems",
+    "author": "Burns",
+    "source_file": "Designing Distributed Systems_ Patterns and Paradigms for Scalable, Reliable Services (2018, O’Reilly Media) - Brendan Burns.pdf",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 Brendan Burns. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "designing-distributed-systems-burns-2e": {
+    "title": "Designing Distributed Systems 2e",
+    "author": "Burns",
+    "source_file": "Designing Distributed Systems 2E - Brendan Burns.pdf",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 Brendan Burns. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "arquitectura",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "designing-event-driven-systems-stopford": {
+    "title": "Designing Event-Driven Systems",
+    "author": "Stopford",
+    "source_file": "Designing_Event_Driven_Systems.pdf",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 O’Reilly Media. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "designing-web-apis-jin": {
+    "title": "Designing Web APIs",
+    "author": "Jin, Sahni, Shevat",
+    "source_file": "Designing Web APIs - Brenda Jin, Saurabh Sahni, Amir Shevat.pdf",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 Brenda Jin, Saurabh Sahni, and Amir Shevat. All rights reserved",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "devops-handbook": {
+    "title": "The DevOps Handbook 2e",
+    "author": "Kim et al.",
+    "source_file": "The DevOps Handbook_ How to Create World-Class Agility, Reliability, & Security in Technology Organizations-Gene Kim, Jez Humble, Patrick Debois, John Willis, Nicole Forsgren.pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "e DevOps Handbook, Second Edition © 2021 by Gene Kim,",
+    "edition": "2a",
+    "domains": [
+      "devops-cicd",
+      "liderazgo-organizacion"
+    ],
+    "lang": "en"
+  },
+  "distributed-transactional-apps-harrison": {
+    "title": "Architecting Distributed Transactional Applications",
+    "author": "Harrison et al.",
+    "source_file": "Architecting Distributed Transactional Applications - Guy Harrison, Andrew Marshall & Charles Custer.pdf",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 O’Reilly Media, Inc. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "datos",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "docker-compose-gkatziouras": {
+    "title": "A Developer's Essential Guide to Docker Compose",
+    "author": "Gkatziouras",
+    "source_file": "A Developer's Essential Guide to Docker Compose_ Simplify the development and orchestration of multi-container applications (2022, Packt Publishing) -Emmanouil Gkatziouras.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Packt Publishing",
+    "edition": null,
+    "domains": [
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "effective-typescript-vanderkam": {
+    "title": "Effective TypeScript 2e",
+    "author": "Vanderkam",
+    "source_file": "dokumen.pub_effective-typescript-83-specific-ways-to-improve-your-typescript-2nbsped-1098155068-9781098155063.pdf",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "2nd ed., by Dan Vanderkam (O’Reilly). Copyright 2024 Dan Vanderkam,",
+    "edition": "2a",
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "enterprise-integration-patterns": {
+    "title": "Enterprise Integration Patterns",
+    "author": "Hohpe & Woolf",
+    "source_file": "Enterprise Integration Patterns_ Designing, Building, and Deploying Messaging Solutions  -Addison-Wesley Professional (2003).pdf",
+    "format": "pdf",
+    "year": 2003,
+    "year_source": "metadata",
+    "year_evidence": "creationDate D:20031103190634+08'00'",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "evaluating-software-architectures-clements": {
+    "title": "Evaluating Software Architectures: ATAM",
+    "author": "Clements, Kazman, Klein",
+    "source_file": "dokumen.pub_evaluating-software-architectures-methods-and-case-studies-10-printnbsped-020170482x-9780201704822.pdf",
+    "format": "pdf",
+    "year": 2002,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2002 by Addison-Wesley",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "facilitating-software-architecture-harmel-law": {
+    "title": "Facilitating Software Architecture",
+    "author": "Harmel-Law",
+    "source_file": "dokumen.pub_facilitating-software-architecture-for-raymond-rhine-9781098151867.epub",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 Andrew Harmel-Law. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "liderazgo-organizacion"
+    ],
+    "lang": "en"
+  },
+  "flow-architectures-urquhart": {
+    "title": "Flow Architectures",
+    "author": "Urquhart",
+    "source_file": "flowarchitectures.epub",
+    "format": "epub",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 James Urquhart. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "fluent-python-ramalho": {
+    "title": "Fluent Python 2e",
+    "author": "Ramalho",
+    "source_file": "luciano-ramalho-fluent-python_-clear-concise-and-effective-programming-oreilly-media-2022.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Luciano Ramalho (O’Reilly). Copyright 2022 Luciano Ramalho, 978-1-492-05635-5.”",
+    "edition": "2a",
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "fluent-react-kumar": {
+    "title": "Fluent React",
+    "author": "Kumar",
+    "source_file": "dokumen.pub_fluent-react-build-fast-performant-and-intuitive-web-applications-1nbsped-1098138716-9781098138714.pdf",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright 2024 Tejas Kumar. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "foundations-scalable-systems-gorton": {
+    "title": "Foundations of Scalable Systems",
+    "author": "Gorton",
+    "source_file": "foundationsofscalablesystems.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Ian Gorton. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "fundamentals-software-architecture": {
+    "title": "Fundamentals of Software Architecture 2e",
+    "author": "Richards & Ford",
+    "source_file": "fundamentalsofsoftwarearchitecture_V2.epub",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Mark Richards, Neal Ford. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "gitops-kubernetes": {
+    "title": "GitOps and Kubernetes",
+    "author": "Yuen et al.",
+    "source_file": "dokumen.pub_gitops-and-kubernetes-continuous-deployment-with-argo-cd-jenkins-x-and-flux-1nbsped-1617297275-9781617297977.pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "©2021 by Manning Publications Co. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "hands-on-llms-alammar": {
+    "title": "Hands-On Large Language Models",
+    "author": "Alammar & Grootendorst",
+    "source_file": "Hands-On-Large-Language-Models.pdf",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Jay Alammar and Maarten Pieter Grootendorst. All rights",
+    "edition": null,
+    "domains": [
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "head-first-design-patterns": {
+    "title": "Head First Design Patterns 2e",
+    "author": "Freeman & Robson",
+    "source_file": "Eric Freeman, Elisabeth Robson - Head First Design Patterns_ Building Extensible and Maintainable Object-Oriented Software (2020, O'Reilly Media).pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 Eric Freeman and Elisabeth Robson. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "how-to-measure-anything-hubbard": {
+    "title": "How to Measure Anything 2e",
+    "author": "Hubbard",
+    "source_file": "HowToMeasureAnythingEd2DouglasWHubbard.pdf",
+    "format": "pdf",
+    "year": 2010,
+    "year_source": "copyright",
+    "year_evidence": "Copyright⃝C 2010 by Douglas W. Hubbard. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "requisitos-analisis",
+      "agile-gestion"
+    ],
+    "lang": "en"
+  },
+  "identity-security-software-dev": {
+    "title": "Identity Security for Software Development",
+    "author": "Walsh, Ailon, Barker",
+    "source_file": "identitysecurityforsoftwaredevelopment.epub",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 O’Reilly Media, Inc. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "implementing-mlops-haviv": {
+    "title": "Implementing MLOps in the Enterprise",
+    "author": "Haviv & Gift",
+    "source_file": "Implementing MLOps in the Enterprise A Production-First Approach (Yaron Haviv, Noah Gift) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "_the Enterprise_ by Yaron Haviv and Noah Gift (O’Reilly). Copyright 2024 Yaron H",
+    "edition": null,
+    "domains": [
+      "ia-ml",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "infrastructure-as-code-morris": {
+    "title": "Infrastructure as Code 3e",
+    "author": "Morris",
+    "source_file": "infrastructure-as-code-designing-and-delivering-dynamic-systems-for-the-cloud-age-3nbsped-109815035x-9781098150358.pdf",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 Kief Morris. All rights reserved.",
+    "edition": "3a",
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "inside-cyber-warfare": {
+    "title": "Inside Cyber Warfare 3e",
+    "author": "Carr",
+    "source_file": "insidecyberwarfare3rdedition.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Jeffrey Caruso. All rights reserved.",
+    "edition": "3a",
+    "domains": [
+      "seguridad"
+    ],
+    "lang": "en"
+  },
+  "intelligent-continuous-security": {
+    "title": "Intelligent Continuous Security",
+    "author": "Hornbeek",
+    "source_file": "intelligentcontinuoussecurity.epub",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 Marc Hornbeek. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "devops-cicd",
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "istio-up-running": {
+    "title": "Istio: Up and Running",
+    "author": "Calcote, Butcher",
+    "source_file": "Istio Up and Running.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Lee Calcote and Zack Butcher. All rights reserved. Printed in t",
+    "edition": null,
+    "domains": [
+      "cloud",
+      "sre-observabilidad"
+    ],
+    "lang": "en"
+  },
+  "kafka-definitive-guide": {
+    "title": "Kafka: The Definitive Guide",
+    "author": "Narkhede, Shapira, Palino",
+    "source_file": "Kafka The Definitive Guide Real-Time Data and Stream Processing at Scale (Neha Narkhede, Gwen Shapira, Todd Palino) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "year_evidence": "Narkhede, Gwen Shapira, and Todd Palino (O’Reilly). Copyright 2017 Neha Nar‐",
+    "edition": null,
+    "domains": [
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "kubernetes-best-practices-2e-final": {
+    "title": "Kubernetes Best Practices 2e",
+    "author": "Burns et al.",
+    "source_file": "Kubernetes Best Practices Blueprints for Building Successful Applications on Kubernetes - Second Edition (Brendan Burns, Eddie Villalba, Dave Strebel etc.) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright 2024 Brendan Burns, Eddie Villalba, Dave Strebel, and Lachlan Evenson,",
+    "edition": "2a",
+    "domains": [
+      "cloud",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "kubernetes-in-action-luksa": {
+    "title": "Kubernetes in Action 2e MEAP",
+    "author": "Lukša",
+    "source_file": "Marko Lukša - Kubernetes in Action, Second Edition MEAP V15.-Manning Publications Co. (2023).epub",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright 2023 Manning Publications",
+    "edition": "2a",
+    "domains": [
+      "cloud",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "kubernetes-patterns-ibryam": {
+    "title": "Kubernetes Patterns 2e",
+    "author": "Ibryam & Huss",
+    "source_file": "Bilgin Ibryam, Roland Huss - Kubernetes Patterns_ Reusable Elements for Designing Cloud Native Applications-O'Reilly Media (2023).pdf",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 Bilgin Ibryam and Roland Huß. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "cloud",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "learning-cloud-security": {
+    "title": "Learning Cloud Security",
+    "author": "Messier",
+    "source_file": "learningcloudsecurity.epub",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2026 Ric Messier. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "learning-ddd-khononov": {
+    "title": "Learning Domain-Driven Design",
+    "author": "Khononov",
+    "source_file": "learningdomain-drivendesign.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Vladislav Khononov. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "requisitos-analisis"
+    ],
+    "lang": "en"
+  },
+  "learning-serverless-security": {
+    "title": "Learning Serverless Security",
+    "author": "Lat",
+    "source_file": "learningserverlesssecurity.epub",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2026 Joshua Arvin Lat. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "llm-security-playbook-wilson": {
+    "title": "The Developer's Playbook for LLM Security",
+    "author": "Wilson",
+    "source_file": "developersplaybookforlargelanguagemodelsecurity.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Stephen Wilson. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "mastering-api-architecture": {
+    "title": "Mastering API Architecture",
+    "author": "Gough, Bryant, Auburn",
+    "source_file": "masteringapiarchitecture.epub",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 James Gough Ltd, Big Picture Tech Ltd, and Matthew Auburn Ltd.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "microservices-patterns-richardson": {
+    "title": "Microservices Patterns",
+    "author": "Richardson",
+    "source_file": "Microservices patterns.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "©2019 by Chris Richardson. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "microservices-up-and-running": {
+    "title": "Microservices: Up and Running",
+    "author": "Mitra & Nadareishvili",
+    "source_file": "microservicesupandrunning.epub",
+    "format": "epub",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 Mitra Pandey Consulting, Ltd. and Irakli Nadareishvili. All rig",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "monolith-to-microservices-newman": {
+    "title": "Monolith to Microservices",
+    "author": "Newman",
+    "source_file": "monolithtomicroservices.epub",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Sam Newman. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "network-warrior-donahue": {
+    "title": "Network Warrior 2e",
+    "author": "Donahue",
+    "source_file": "Gary A. Donahue - Network Warrior (2011, O'Reilly Media) - libgen.li.pdf",
+    "format": "pdf",
+    "year": 2011,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2011 Gary Donahue. All rights reserved. Printed in the United States",
+    "edition": "2a",
+    "domains": [
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "networking-and-kubernetes": {
+    "title": "Networking and Kubernetes",
+    "author": "Strong & Lancey",
+    "source_file": "James Strong, Vallery Lancey - Networking and Kubernetes_ A Layered Approach (2021, O'Reilly Media) - libgen.li (1).pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 Strongjz tech and Vallery Lancey. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "observability-engineering": {
+    "title": "Observability Engineering 2e",
+    "author": "Majors et al.",
+    "source_file": "Observability Engineering_2ndEd.pdf",
+    "format": "pdf",
+    "year": 2026,
+    "year_source": "copyright",
+    "year_evidence": "(O’Reilly). Copyright 2026 Hound Technology, Inc., 978-1-098-17992-2.”",
+    "edition": "2a",
+    "domains": [
+      "sre-observabilidad"
+    ],
+    "lang": "en"
+  },
+  "open-cloud-native-microservices": {
+    "title": "Developing Open Cloud Native Microservices",
+    "author": "Charters et al.",
+    "source_file": "developing-open-cloud-native-microservice.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2019 Graham Charters, Sebastian Daschner, Pratik Patel, Steve Poole.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "philosophy-software-design-ousterhout": {
+    "title": "A Philosophy of Software Design",
+    "author": "Ousterhout",
+    "source_file": "A Philosophy of Software Design - John Ousterhout.pdf",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2018 John K. Ousterhout.",
+    "edition": null,
+    "domains": [
+      "programacion",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "poeaa-fowler": {
+    "title": "Patterns of Enterprise Application Architecture",
+    "author": "Fowler",
+    "source_file": "Patterns of Enterprise Application Architecture.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "practical-cloud-security": {
+    "title": "Practical Cloud Security 2e",
+    "author": "Dotson",
+    "source_file": "practicalcloudsecurity2ndedition.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Chris Dotson. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "seguridad",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "pragmatic-programmer": {
+    "title": "The Pragmatic Programmer 20th Anniv.",
+    "author": "Thomas & Hunt",
+    "source_file": "David Thomas, Andrew Hunt - The Pragmatic Programmer_ Your Journey To Mastery, 20th Anniversary Edition (2019, Addison-Wesley Professional) - libgen.li.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Pearson Education, Inc.",
+    "edition": "20 aniversario",
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "privacy-security-llms": {
+    "title": "Privacy and Security for Large Language Models",
+    "author": "Lin",
+    "source_file": "privacyandsecurityforlargelanguagemodels.epub",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2026 Baihan Lin. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "pro-git": {
+    "title": "Pro Git",
+    "author": "Chacon & Straub",
+    "source_file": "Scott Chacon_ Ben Straub - Pro Git (2023).pdf",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "metadata",
+    "year_evidence": "creationDate D:20230525161330+00'00'",
+    "edition": null,
+    "domains": [
+      "programacion",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "production-ready-microservices-fowler": {
+    "title": "Production-Ready Microservices",
+    "author": "Susan Fowler",
+    "source_file": "Production-Ready Microservices.pdf",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2017 Susan Fowler. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "sre-observabilidad",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "prometheus-up-running": {
+    "title": "Prometheus: Up & Running 2e",
+    "author": "Pivotto & Brazil",
+    "source_file": "Prometheus Up  Running (Julien Pivotto, Brian Brazil) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 Julien Pivotto. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "sre-observabilidad"
+    ],
+    "lang": "en"
+  },
+  "prompt-engineering-llms-berryman": {
+    "title": "Prompt Engineering for LLMs",
+    "author": "Berryman & Ziegler",
+    "source_file": "John-Berryman-Albert-Ziegler-Prompt-Engineering-for-LLMs_-The-Art-and-Science-of-Building-Large-Language-Model-Based-Applications-2024-OReilly-Media-libgen.li_.pdf",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 Johnathan Berryman and Albert Ziegler. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "ia-ml"
+    ],
+    "lang": "en"
+  },
+  "refactoring-fowler": {
+    "title": "Refactoring",
+    "author": "Fowler",
+    "source_file": "Martin Fowler - Refactoring - Improving the Design of Existing Code.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2019 Pearson Education, Inc.",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "regex-cookbook": {
+    "title": "Regular Expressions Cookbook 2e",
+    "author": "Goyvaerts & Levithan",
+    "source_file": "Jan Goyvaerts, Steven Levithan - Regular Expressions Cookbook (2012, O'Reilly Media).pdf",
+    "format": "pdf",
+    "year": 2012,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2012 Jan Goyvaerts, Steven Levithan. All rights reserved. Printed in",
+    "edition": "2a",
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "restful-api-design-patterns": {
+    "title": "Hands-On RESTful API Design Patterns and Best Practices",
+    "author": "Subramanian & Raj",
+    "source_file": "hands-on-restful-api-design-patterns-and-best-practices.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2019 Packt Publishing",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "robust-python-viafore": {
+    "title": "Robust Python",
+    "author": "Viafore",
+    "source_file": "Robust Python ER2_2022.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Kudzera, LLC. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "scalable-k8s-ai-platforms": {
+    "title": "Scalable Kubernetes Infrastructure for AI Platforms",
+    "author": "Corvin, Ibrahim et al.",
+    "source_file": "Scalable Kubernetes Infrastructure for AI Platforms (for True Epub) (Alex Corvin, Taneem Ibrahim etc.) (z-library.sk, 1lib.sk, z-lib.sk).epub",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2025 O’Reilly Media, Inc. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "ia-ml",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "security-architecture-hybrid-cloud": {
+    "title": "Security Architecture for Hybrid Cloud",
+    "author": "Buecker et al.",
+    "source_file": "securityarchitectureforhybridcloud.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Mark Buckwell, Stefaan Van daele, and Carsten Horst. All rights",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "arquitectura",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "security-as-code": {
+    "title": "Security as Code",
+    "author": "Chu & Das",
+    "source_file": "securityascode.epub",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2023 Virginia Chu and BK Sarthak Das. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "semantic-software-design-hewitt": {
+    "title": "Semantic Software Design",
+    "author": "Hewitt",
+    "source_file": "dokumen.pub_semantic-software-design-a-new-theory-and-practical-guide-for-modern-architects-1nbsped-1492045950-978-1492045953.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Eben Hewitt. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "software-architect-elevator-hohpe": {
+    "title": "The Software Architect Elevator",
+    "author": "Hohpe",
+    "source_file": "softwarearchitectelevator.epub",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2020 Gregor Hohpe. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "liderazgo-organizacion"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-hard-parts": {
+    "title": "Software Architecture: The Hard Parts",
+    "author": "Ford et al.",
+    "source_file": "softwarearchitecture_thehardparts.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Neal Ford, Mark Richards, Pramod Sadalage, and Zhamak Dehghani.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-in-practice-3e": {
+    "title": "Software Architecture in Practice 3e",
+    "author": "Bass, Clements, Kazman",
+    "source_file": "Software Architecture in Practice (3rd).pdf",
+    "format": "pdf",
+    "year": 2013,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2013 Pearson Education, Inc.",
+    "edition": "3a",
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-in-practice-4e-preview": {
+    "title": "Software Architecture in Practice 4e",
+    "author": "Bass, Clements, Kazman",
+    "source_file": "preview-9780136885672_A42299524.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Pearson Education, Inc.",
+    "edition": "4a",
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-metrics": {
+    "title": "Software Architecture Metrics",
+    "author": "Ciceri et al.",
+    "source_file": "softwarearchitecturemetrics.epub",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Apiumhub S.L. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-patterns-richards": {
+    "title": "Software Architecture Patterns",
+    "author": "Richards",
+    "source_file": "Mark Richards - Software Architecture Patterns (2015, O'Reilly).pdf",
+    "format": "pdf",
+    "year": 2015,
+    "year_source": "copyright",
+    "year_evidence": "©2015 O’Reilly Media, Inc. The O’Reilly logo is a registered trademark of O’Reil",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "software-estimation-mcconnell-extract": {
+    "title": "Software Estimation: Demystifying the Black Art",
+    "author": "McConnell",
+    "source_file": "9780735605350.pdf",
+    "format": "pdf",
+    "year": 2006,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2006 by Steve McConnell",
+    "edition": null,
+    "domains": [
+      "agile-gestion"
+    ],
+    "lang": "en"
+  },
+  "software-supply-chain-security": {
+    "title": "Software Supply Chain Security",
+    "author": "Crossley",
+    "source_file": "softwaresupplychainsecurity.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Cassaundra Crossley. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "sql-performance-explained-winand": {
+    "title": "SQL Performance Explained",
+    "author": "Winand",
+    "source_file": "SQL Performance Explained.pdf",
+    "format": "pdf",
+    "year": 2012,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2012 Markus Winand",
+    "edition": null,
+    "domains": [
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "sre-google": {
+    "title": "Site Reliability Engineering",
+    "author": "Google",
+    "source_file": "Site Reliability Engineering.pdf",
+    "format": "pdf",
+    "year": 2016,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2016 Google, Inc. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "sre-observabilidad"
+    ],
+    "lang": "en"
+  },
+  "tdd-by-example-beck": {
+    "title": "Test-Driven Development by Example",
+    "author": "Beck",
+    "source_file": "kent-beck-test-driven-development-by-example.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": null,
+    "domains": [
+      "testing",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "technology-strategy-patterns-hewitt": {
+    "title": "Technology Strategy Patterns",
+    "author": "Hewitt",
+    "source_file": "vdoc.pub_technology-strategy-patterns-architecture-as-strategy.pdf",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2019 Eben Hewitt. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "liderazgo-organizacion",
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "terraform-up-running-brikman": {
+    "title": "Terraform: Up & Running 3e",
+    "author": "Brikman",
+    "source_file": "Brikman Y. Terraform. Up and Running. Writing...as Code 3ed 2022.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022 Yevgeniy Brikman. All rights reserved. Printed in the United St",
+    "edition": "3a",
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "threat-modeling-tarandach": {
+    "title": "Threat Modeling: A Practical Guide",
+    "author": "Tarandach, Coles",
+    "source_file": "threat-modeling-a-practical-guide-for-development-teams-1nbsped-1492056553-9781492056553_compress.pdf",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2021 Izar Tarandach and Matthew J. Coles. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "seguridad"
+    ],
+    "lang": "en"
+  },
+  "togaf-foundation-study-guide": {
+    "title": "TOGAF Enterprise Architecture Foundation Study Guide",
+    "author": "Van Haren",
+    "source_file": "The Togaf(r) Enterprise Architecture Foundation Study Guide Preparation for the Togaf Enterprise Architecture Part 1… (Van Haren Publishing) (Z-Library).pdf",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "year_evidence": "Copyright© 2023, The Open Group",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "togaf10-intro-core-concepts": {
+    "title": "The TOGAF Standard 10th Ed. - Introduction and Core Concepts",
+    "author": "The Open Group",
+    "source_file": "The TOGAF Standard, 10th Edition - Introduction and Core Concepts.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "© 2005-2022 The Open Group. Published by The Open Group, April 2022.",
+    "edition": "10a",
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "togaf10-pocket-guide": {
+    "title": "The TOGAF Standard 10th Ed. - A Pocket Guide",
+    "author": "The Open Group",
+    "source_file": "pdfcoffee.com_the-togaf-standard10th-edition-a-pocket-guidethe-open-group-guide-pdf-free.pdf",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2022, The Open Group",
+    "edition": "10a",
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "tsql-fundamentals-ben-gan-preview": {
+    "title": "T-SQL Fundamentals 3e",
+    "author": "Ben-Gan",
+    "source_file": "preview-9781509302017_A27227753.pdf",
+    "format": "pdf",
+    "year": 2016,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2016 by Itzik Ben-Gan",
+    "edition": "3a",
+    "domains": [
+      "datos"
+    ],
+    "lang": "en"
+  },
+  "undisturbed-rest-stowe": {
+    "title": "Undisturbed REST",
+    "author": "Stowe",
+    "source_file": "Stowe M. - Undisturbed Rest - libgen.li.pdf",
+    "format": "pdf",
+    "year": 2015,
+    "year_source": "copyright",
+    "year_evidence": "© 2015. All Rights Reserved.",
+    "edition": null,
+    "domains": [
+      "arquitectura",
+      "programacion"
+    ],
+    "lang": "en"
+  },
+  "unit-testing-khorikov": {
+    "title": "Unit Testing Principles, Practices, and Patterns",
+    "author": "Khorikov",
+    "source_file": "Manning.Unit.Testing.Principles.Practices.and.Patterns.2020.1.pdf",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "year_evidence": "©2020 by Manning Publications Co. All rights reserved.",
+    "edition": null,
+    "domains": [
+      "testing"
+    ],
+    "lang": "en"
+  },
+  "web-application-security-hoffman": {
+    "title": "Web Application Security 2e",
+    "author": "Hoffman",
+    "source_file": "webapplicationsecurity2ndedition.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Andrew Hoffman. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "seguridad"
+    ],
+    "lang": "en"
+  },
+  "web-scalability-ejsmont": {
+    "title": "Web Scalability for Startup Engineers",
+    "author": "Ejsmont",
+    "source_file": "Ejsmont, Artur - Web scalability for startup engineers (2015).pdf",
+    "format": "pdf",
+    "year": 2015,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2015 by McGraw-Hill Education. All rights reserved. Except as permit",
+    "edition": null,
+    "domains": [
+      "arquitectura"
+    ],
+    "lang": "en"
+  },
+  "writing-effective-use-cases-cockburn": {
+    "title": "Writing Effective Use Cases",
+    "author": "Cockburn",
+    "source_file": "Writing Effective Use Cases.pdf",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "year_evidence": null,
+    "edition": null,
+    "domains": [
+      "requisitos-analisis"
+    ],
+    "lang": "en"
+  },
+  "zero-trust-networks": {
+    "title": "Zero Trust Networks 2e",
+    "author": "Gilman et al.",
+    "source_file": "zerotrustnetworks2ndedition.epub",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "year_evidence": "Copyright © 2024 Christina Morillo and Razi Rais. All rights reserved.",
+    "edition": "2a",
+    "domains": [
+      "seguridad"
+    ],
+    "lang": "en"
+  }
+}

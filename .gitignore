@@ -1,0 +1,12 @@
+# Entorno local: se recrea con `uv venv` + `uv pip sync requirements.lock`.
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# El indice y el estado viven en %LOCALAPPDATA%\recall, nunca en el repo; por si
+# alguien apunta RECALL_HOME aqui por error:
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.log
+service.json
