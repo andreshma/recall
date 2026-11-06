@@ -31,6 +31,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install --require-hashes --no-deps -r requirements.lock
 
+      - name: Put src/ on the path (same .pth as the local setup, docs/USAGE.md)
+        # Tests also spawn `python -I -m recall serve`, which ignores PYTHONPATH.
+        run: python -c "import pathlib, sysconfig; pathlib.Path(sysconfig.get_paths()['purelib'], 'recall_src.pth').write_text(str(pathlib.Path('src').resolve()))"
+
       - name: Unit tests (no model, no real index)
         # The `model` marker (real model + real index) is excluded by default in
         # pyproject.toml; those suites run locally, see docs/TESTING.md.
