@@ -1,0 +1,1870 @@
+{
+  "3d-data-science-python-poux": {
+    "title": "3D Data Science with Python",
+    "author": "Poux",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "97-things-programmer": {
+    "title": "97 Things Every Programmer Should Know",
+    "author": "Henney",
+    "format": "pdf",
+    "year": 2010,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "accelerate-forsgren": {
+    "title": "Accelerate",
+    "author": "Forsgren, Humble, Kim",
+    "format": "epub",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "devops-cicd",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "agentic-design-patterns-gulli": {
+    "title": "Agentic Design Patterns",
+    "author": "Gulli",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "metadata",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "agile-estimating-planning-cohn": {
+    "title": "Agile Estimating and Planning",
+    "author": "Cohn",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": null,
+    "domains": [
+      "agile-management"
+    ],
+    "lang": "en"
+  },
+  "ai-agents-in-action-lanham": {
+    "title": "AI Agents in Action",
+    "author": "Lanham",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-assisted-statistics-bruce": {
+    "title": "AI-Assisted Statistics for Data Scientists 3e",
+    "author": "Bruce, Bruce, Gedeck",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-engineering-huyen": {
+    "title": "AI Engineering",
+    "author": "Huyen",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-ready-data-blueprints-shukla": {
+    "title": "AI-Ready Data Blueprints",
+    "author": "Shukla, Pham, Sopirala, Tadiparthi",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "algorithms-notes-goalkicker": {
+    "title": "Algorithms Notes for Professionals",
+    "author": "GoalKicker",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "algorithms-unlocked-cormen": {
+    "title": "Algorithms Unlocked",
+    "author": "Cormen",
+    "format": "pdf",
+    "year": 2013,
+    "year_source": "metadata",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "architecting-for-scale-atchison": {
+    "title": "Architecting for Scale 2e",
+    "author": "Atchison",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "architecture",
+      "sre-observability",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "architecting-the-cloud-kavis": {
+    "title": "Architecting the Cloud",
+    "author": "Kavis",
+    "format": "pdf",
+    "year": 2014,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "cloud",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "architectural-patterns-raj": {
+    "title": "Architectural Patterns",
+    "author": "Raj, Raman, Subramanian",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "architecture-modernization-tune": {
+    "title": "Architecture Modernization",
+    "author": "Tune & Perrin",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "architecture-patterns-python": {
+    "title": "Architecture Patterns with Python",
+    "author": "Percival & Gregory",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "art-of-agile-development-shore": {
+    "title": "The Art of Agile Development 2e",
+    "author": "Shore",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "agile-management"
+    ],
+    "lang": "en"
+  },
+  "art-of-postgresql-fontaine": {
+    "title": "The Art of PostgreSQL 2e",
+    "author": "Fontaine",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": "2a",
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
+  "azure-cloud-native-mapbook": {
+    "title": "The Azure Cloud Native Architecture Mapbook",
+    "author": "Packt",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "cloud",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "bedm-bellemare": {
+    "title": "Building Event-Driven Microservices",
+    "author": "Bellemare",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "building-evolutionary-architectures": {
+    "title": "Building Evolutionary Architectures 2e",
+    "author": "Ford et al.",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "building-micro-frontends-mezzalira": {
+    "title": "Building Micro-Frontends",
+    "author": "Mezzalira",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "building-microservices-newman": {
+    "title": "Building Microservices 2e",
+    "author": "Newman",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "building-secure-reliable-systems": {
+    "title": "Building Secure and Reliable Systems",
+    "author": "Google",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "c4-model-brown": {
+    "title": "The C4 Model for Visualising Software Architecture",
+    "author": "Brown",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "chaos-engineering-rosenthal": {
+    "title": "Chaos Engineering",
+    "author": "Rosenthal, Jones",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "sre-observability",
+      "testing"
+    ],
+    "lang": "en"
+  },
+  "clean-architecture-martin": {
+    "title": "Clean Architecture",
+    "author": "Martin",
+    "format": "epub",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "clean-code-martin": {
+    "title": "Clean Code",
+    "author": "Martin",
+    "format": "pdf",
+    "year": 2009,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "cloud-finops-storment": {
+    "title": "Cloud FinOps",
+    "author": "Storment, Fuller",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "cloud-native-devops-k8s": {
+    "title": "Cloud Native DevOps with Kubernetes 2e",
+    "author": "Domingus & Arundel",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "cloud-native-security-cookbook": {
+    "title": "Cloud Native Security Cookbook",
+    "author": "Armitage",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "concurrency-csharp-cookbook-cleary": {
+    "title": "Concurrency in C# Cookbook 2e",
+    "author": "Cleary",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "continuous-api-management": {
+    "title": "Continuous API Management 2e",
+    "author": "Medjaoui et al.",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "architecture",
+      "product"
+    ],
+    "lang": "en"
+  },
+  "continuous-delivery-humble": {
+    "title": "Continuous Delivery",
+    "author": "Humble, Farley",
+    "format": "pdf",
+    "year": 2011,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "devops-cicd",
+      "testing"
+    ],
+    "lang": "en"
+  },
+  "csharp13-dotnet9-motta-extract": {
+    "title": "C# 13 and .NET 9",
+    "author": "Motta",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "cyber-risk-management-program": {
+    "title": "Building a Cyber Risk Management Program",
+    "author": "Allen",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "cybersecurity-ops-bash": {
+    "title": "Cybersecurity Ops with bash",
+    "author": "Troncone & Albing",
+    "format": "epub",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "data-contracts-sanderson": {
+    "title": "Data Contracts",
+    "author": "Sanderson, Freeman",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "data-engineering-design-patterns-konieczny": {
+    "title": "Data Engineering Design Patterns",
+    "author": "Konieczny",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "data-management-at-scale-strengholt": {
+    "title": "Data Management at Scale 2e",
+    "author": "Strengholt",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "data-quality-fundamentals-moses": {
+    "title": "Data Quality Fundamentals",
+    "author": "Moses, Gavish, Vorwerck",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "data-science-command-line-janssens": {
+    "title": "Data Science at the Command Line 2e",
+    "author": "Janssens",
+    "format": "epub",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "data",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "data-science-from-scratch-grus": {
+    "title": "Data Science from Scratch 2e",
+    "author": "Grus",
+    "format": "epub",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "data",
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "data-science-gcp-lakshmanan": {
+    "title": "Data Science on the Google Cloud Platform 2e",
+    "author": "Lakshmanan",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "data",
+      "cloud",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "data-science-hard-parts-vaughan": {
+    "title": "Data Science: The Hard Parts",
+    "author": "Vaughan",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "data-science-python-mongodb": {
+    "title": "Data Science Fundamentals for Python and MongoDB",
+    "author": "Paper",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "database-design-solutions-stephens": {
+    "title": "Beginning Database Design Solutions 2e",
+    "author": "Stephens",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
+  "database-internals-petrov": {
+    "title": "Database Internals",
+    "author": "Petrov",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
+  "ddd-evans": {
+    "title": "Domain-Driven Design",
+    "author": "Evans",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": null,
+    "domains": [
+      "architecture",
+      "requirements-analysis"
+    ],
+    "lang": "en"
+  },
+  "ddia-kleppmann": {
+    "title": "Designing Data-Intensive Applications",
+    "author": "Kleppmann",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "deciphering-data-architectures-serra": {
+    "title": "Deciphering Data Architectures",
+    "author": "Serra",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "defensive-security-handbook": {
+    "title": "Defensive Security Handbook 2e",
+    "author": "Brotherston et al.",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
+  "dependency-injection-seemann": {
+    "title": "Dependency Injection Principles, Practices, and Patterns",
+    "author": "van Deursen & Seemann",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "design-it-keeling-preview": {
+    "title": "Design It!",
+    "author": "Keeling",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "design-patterns-gof": {
+    "title": "Design Patterns",
+    "author": "Gamma, Helm, Johnson, Vlissides",
+    "format": "pdf",
+    "year": 1995,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "designing-distributed-systems-burns": {
+    "title": "Designing Distributed Systems",
+    "author": "Burns",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "designing-distributed-systems-burns-2e": {
+    "title": "Designing Distributed Systems 2e",
+    "author": "Burns",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "architecture",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "designing-event-driven-systems-stopford": {
+    "title": "Designing Event-Driven Systems",
+    "author": "Stopford",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "designing-web-apis-jin": {
+    "title": "Designing Web APIs",
+    "author": "Jin, Sahni, Shevat",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "devops-handbook": {
+    "title": "The DevOps Handbook 2e",
+    "author": "Kim et al.",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "devops-cicd",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "distributed-transactional-apps-harrison": {
+    "title": "Architecting Distributed Transactional Applications",
+    "author": "Harrison et al.",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "docker-compose-gkatziouras": {
+    "title": "A Developer's Essential Guide to Docker Compose",
+    "author": "Gkatziouras",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "effective-typescript-vanderkam": {
+    "title": "Effective TypeScript 2e",
+    "author": "Vanderkam",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "enterprise-integration-patterns": {
+    "title": "Enterprise Integration Patterns",
+    "author": "Hohpe & Woolf",
+    "format": "pdf",
+    "year": 2003,
+    "year_source": "metadata",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "essential-math-data-science-nield": {
+    "title": "Essential Math for Data Science",
+    "author": "Nield",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "evaluating-software-architectures-clements": {
+    "title": "Evaluating Software Architectures: ATAM",
+    "author": "Clements, Kazman, Klein",
+    "format": "pdf",
+    "year": 2002,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "facilitating-software-architecture-harmel-law": {
+    "title": "Facilitating Software Architecture",
+    "author": "Harmel-Law",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "flow-architectures-urquhart": {
+    "title": "Flow Architectures",
+    "author": "Urquhart",
+    "format": "epub",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "fluent-python-ramalho": {
+    "title": "Fluent Python 2e",
+    "author": "Ramalho",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "fluent-react-kumar": {
+    "title": "Fluent React",
+    "author": "Kumar",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "foundations-scalable-systems-gorton": {
+    "title": "Foundations of Scalable Systems",
+    "author": "Gorton",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "fundamentals-data-engineering-reis": {
+    "title": "Fundamentals of Data Engineering",
+    "author": "Reis, Housley",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "fundamentals-data-visualization-wilke": {
+    "title": "Fundamentals of Data Visualization",
+    "author": "Wilke",
+    "format": "epub",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
+  "fundamentals-software-architecture": {
+    "title": "Fundamentals of Software Architecture 2e",
+    "author": "Richards & Ford",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "gitops-kubernetes": {
+    "title": "GitOps and Kubernetes",
+    "author": "Yuen et al.",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "hands-on-apis-ai-data-science-day": {
+    "title": "Hands-On APIs for AI and Data Science",
+    "author": "Day",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "hands-on-llms-alammar": {
+    "title": "Hands-On Large Language Models",
+    "author": "Alammar & Grootendorst",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "head-first-design-patterns": {
+    "title": "Head First Design Patterns 2e",
+    "author": "Freeman & Robson",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "how-to-measure-anything-hubbard": {
+    "title": "How to Measure Anything 2e",
+    "author": "Hubbard",
+    "format": "pdf",
+    "year": 2010,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "requirements-analysis",
+      "agile-management"
+    ],
+    "lang": "en"
+  },
+  "identity-security-software-dev": {
+    "title": "Identity Security for Software Development",
+    "author": "Walsh, Ailon, Barker",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "implementing-mlops-haviv": {
+    "title": "Implementing MLOps in the Enterprise",
+    "author": "Haviv & Gift",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "infrastructure-as-code-morris": {
+    "title": "Infrastructure as Code 3e",
+    "author": "Morris",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "inside-cyber-warfare": {
+    "title": "Inside Cyber Warfare 3e",
+    "author": "Carr",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
+  "intelligent-continuous-security": {
+    "title": "Intelligent Continuous Security",
+    "author": "Hornbeek",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "devops-cicd",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "istio-up-running": {
+    "title": "Istio: Up and Running",
+    "author": "Calcote, Butcher",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "cloud",
+      "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "kafka-definitive-guide": {
+    "title": "Kafka: The Definitive Guide",
+    "author": "Narkhede, Shapira, Palino",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
+  "kubernetes-best-practices-2e-final": {
+    "title": "Kubernetes Best Practices 2e",
+    "author": "Burns et al.",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "cloud",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "kubernetes-in-action-luksa": {
+    "title": "Kubernetes in Action 2e MEAP",
+    "author": "Lukša",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "cloud",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "kubernetes-patterns-ibryam": {
+    "title": "Kubernetes Patterns 2e",
+    "author": "Ibryam & Huss",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "cloud",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "learning-cloud-security": {
+    "title": "Learning Cloud Security",
+    "author": "Messier",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "learning-ddd-khononov": {
+    "title": "Learning Domain-Driven Design",
+    "author": "Khononov",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "requirements-analysis"
+    ],
+    "lang": "en"
+  },
+  "learning-serverless-security": {
+    "title": "Learning Serverless Security",
+    "author": "Lat",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "llm-security-playbook-wilson": {
+    "title": "The Developer's Playbook for LLM Security",
+    "author": "Wilson",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "mastering-api-architecture": {
+    "title": "Mastering API Architecture",
+    "author": "Gough, Bryant, Auburn",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "microservices-patterns-richardson": {
+    "title": "Microservices Patterns",
+    "author": "Richardson",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "microservices-up-and-running": {
+    "title": "Microservices: Up and Running",
+    "author": "Mitra & Nadareishvili",
+    "format": "epub",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "monolith-to-microservices-newman": {
+    "title": "Monolith to Microservices",
+    "author": "Newman",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "network-warrior-donahue": {
+    "title": "Network Warrior 2e",
+    "author": "Donahue",
+    "format": "pdf",
+    "year": 2011,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "networking-and-kubernetes": {
+    "title": "Networking and Kubernetes",
+    "author": "Strong & Lancey",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "observability-engineering": {
+    "title": "Observability Engineering 2e",
+    "author": "Majors et al.",
+    "format": "pdf",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "open-cloud-native-microservices": {
+    "title": "Developing Open Cloud Native Microservices",
+    "author": "Charters et al.",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "philosophy-software-design-ousterhout": {
+    "title": "A Philosophy of Software Design",
+    "author": "Ousterhout",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "poeaa-fowler": {
+    "title": "Patterns of Enterprise Application Architecture",
+    "author": "Fowler",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "power-bi-data-analyst-study-guide-turley": {
+    "title": "Microsoft Power BI Data Analyst Associate Study Guide",
+    "author": "Turley",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "practical-cloud-security": {
+    "title": "Practical Cloud Security 2e",
+    "author": "Dotson",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "practical-linear-algebra-data-science-cohen": {
+    "title": "Practical Linear Algebra for Data Science",
+    "author": "Cohen",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "pragmatic-programmer": {
+    "title": "The Pragmatic Programmer 20th Anniv.",
+    "author": "Thomas & Hunt",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": "20 aniversario",
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "privacy-security-llms": {
+    "title": "Privacy and Security for Large Language Models",
+    "author": "Lin",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "pro-git": {
+    "title": "Pro Git",
+    "author": "Chacon & Straub",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "metadata",
+    "edition": null,
+    "domains": [
+      "programming",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "production-ready-microservices-fowler": {
+    "title": "Production-Ready Microservices",
+    "author": "Susan Fowler",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "sre-observability",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "prometheus-up-running": {
+    "title": "Prometheus: Up & Running 2e",
+    "author": "Pivotto & Brazil",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "prompt-engineering-llms-berryman": {
+    "title": "Prompt Engineering for LLMs",
+    "author": "Berryman & Ziegler",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "python-data-science-handbook-vanderplas": {
+    "title": "Python Data Science Handbook 2e",
+    "author": "VanderPlas",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "data",
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "python-for-data-analysis-mckinney": {
+    "title": "Python for Data Analysis 3e",
+    "author": "McKinney",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "data",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "refactoring-fowler": {
+    "title": "Refactoring",
+    "author": "Fowler",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "regex-cookbook": {
+    "title": "Regular Expressions Cookbook 2e",
+    "author": "Goyvaerts & Levithan",
+    "format": "pdf",
+    "year": 2012,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "restful-api-design-patterns": {
+    "title": "Hands-On RESTful API Design Patterns and Best Practices",
+    "author": "Subramanian & Raj",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "robust-python-viafore": {
+    "title": "Robust Python",
+    "author": "Viafore",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "scalable-k8s-ai-platforms": {
+    "title": "Scalable Kubernetes Infrastructure for AI Platforms",
+    "author": "Corvin, Ibrahim et al.",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "security-architecture-hybrid-cloud": {
+    "title": "Security Architecture for Hybrid Cloud",
+    "author": "Buecker et al.",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "architecture",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "security-as-code": {
+    "title": "Security as Code",
+    "author": "Chu & Das",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "semantic-modeling-data-alexopoulos": {
+    "title": "Semantic Modeling for Data",
+    "author": "Alexopoulos",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "semantic-software-design-hewitt": {
+    "title": "Semantic Software Design",
+    "author": "Hewitt",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "software-architect-elevator-hohpe": {
+    "title": "The Software Architect Elevator",
+    "author": "Hohpe",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-hard-parts": {
+    "title": "Software Architecture: The Hard Parts",
+    "author": "Ford et al.",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-in-practice-3e": {
+    "title": "Software Architecture in Practice 3e",
+    "author": "Bass, Clements, Kazman",
+    "format": "pdf",
+    "year": 2013,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-in-practice-4e-preview": {
+    "title": "Software Architecture in Practice 4e",
+    "author": "Bass, Clements, Kazman",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "4a",
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-metrics": {
+    "title": "Software Architecture Metrics",
+    "author": "Ciceri et al.",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "software-architecture-patterns-richards": {
+    "title": "Software Architecture Patterns",
+    "author": "Richards",
+    "format": "pdf",
+    "year": 2015,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "software-engineering-data-scientists-nelson": {
+    "title": "Software Engineering for Data Scientists",
+    "author": "Nelson",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "software-estimation-mcconnell-extract": {
+    "title": "Software Estimation: Demystifying the Black Art",
+    "author": "McConnell",
+    "format": "pdf",
+    "year": 2006,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "agile-management"
+    ],
+    "lang": "en"
+  },
+  "software-supply-chain-security": {
+    "title": "Software Supply Chain Security",
+    "author": "Crossley",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "sql-performance-explained-winand": {
+    "title": "SQL Performance Explained",
+    "author": "Winand",
+    "format": "pdf",
+    "year": 2012,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
+  "sre-google": {
+    "title": "Site Reliability Engineering",
+    "author": "Google",
+    "format": "pdf",
+    "year": 2016,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "tdd-by-example-beck": {
+    "title": "Test-Driven Development by Example",
+    "author": "Beck",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": null,
+    "domains": [
+      "testing",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "technology-strategy-patterns-hewitt": {
+    "title": "Technology Strategy Patterns",
+    "author": "Hewitt",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "leadership-organization",
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "terraform-up-running-brikman": {
+    "title": "Terraform: Up & Running 3e",
+    "author": "Brikman",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "devops-cicd",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "threat-modeling-tarandach": {
+    "title": "Threat Modeling: A Practical Guide",
+    "author": "Tarandach, Coles",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
+  "togaf-foundation-study-guide": {
+    "title": "TOGAF Enterprise Architecture Foundation Study Guide",
+    "author": "Van Haren",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "togaf10-intro-core-concepts": {
+    "title": "The TOGAF Standard 10th Ed. - Introduction and Core Concepts",
+    "author": "The Open Group",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "10a",
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "togaf10-pocket-guide": {
+    "title": "The TOGAF Standard 10th Ed. - A Pocket Guide",
+    "author": "The Open Group",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": "10a",
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "tsql-fundamentals-ben-gan-preview": {
+    "title": "T-SQL Fundamentals 3e",
+    "author": "Ben-Gan",
+    "format": "pdf",
+    "year": 2016,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
+  "undisturbed-rest-stowe": {
+    "title": "Undisturbed REST",
+    "author": "Stowe",
+    "format": "pdf",
+    "year": 2015,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "unit-testing-khorikov": {
+    "title": "Unit Testing Principles, Practices, and Patterns",
+    "author": "Khorikov",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "testing"
+    ],
+    "lang": "en"
+  },
+  "web-application-security-hoffman": {
+    "title": "Web Application Security 2e",
+    "author": "Hoffman",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
+  "web-scalability-ejsmont": {
+    "title": "Web Scalability for Startup Engineers",
+    "author": "Ejsmont",
+    "format": "pdf",
+    "year": 2015,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "architecture"
+    ],
+    "lang": "en"
+  },
+  "writing-effective-use-cases-cockburn": {
+    "title": "Writing Effective Use Cases",
+    "author": "Cockburn",
+    "format": "pdf",
+    "year": null,
+    "year_source": null,
+    "edition": null,
+    "domains": [
+      "requirements-analysis"
+    ],
+    "lang": "en"
+  },
+  "zero-trust-networks": {
+    "title": "Zero Trust Networks 2e",
+    "author": "Gilman et al.",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  }
+}

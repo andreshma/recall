@@ -1,0 +1,12 @@
+{
+  "collections": {"books": {"roots": ["C:\\Users\\<user>\\books\\md"]}},
+  "chunking": {"target": 3200, "max_chars": 3500, "min_chars": 1500, "overlap": 400},
+  "model": {
+    "name": "onnx-community/embeddinggemma-2-ONNX",
+    "snapshot": "~/.cache/recall-models/onnx-community--embeddinggemma-2-ONNX/<revision>",
+    "doc_max_tokens": 1100,
+    "batch_size": 8
+  },
+  "search": {"query_window_tokens": 32},
+  "hook": {"mode": "shadow", "threshold": 0.75}
+}

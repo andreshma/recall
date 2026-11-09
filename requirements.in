@@ -1,0 +1,10 @@
+# Lock input. Regenerate with (offline, from the uv cache):
+#   uv pip compile --offline --python-version 3.12 --python-platform x86_64-pc-windows-msvc --generate-hashes --excludes requirements.excludes requirements.in -o requirements.lock
+numpy==2.5.4
+onnxruntime-directml==1.24.4
+tokenizers==0.23.3
+pytest==9.2.0
+# Build backend and its editable-install helper, locked so that
+# `uv pip install --no-deps --no-build-isolation -e .` uses hashed packages only.
+hatchling==1.32.4
+editables==0.6

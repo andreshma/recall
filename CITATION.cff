@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  If you use recall or its evaluation study, please cite it using the
+  metadata below. The study is in docs/paper.md.
+type: software
+title: "recall: local, bilingual semantic search over a technical book library"
+abstract: >-
+  recall indexes a Markdown library of technical books into SQLite (float32
+  vectors and FTS5) with a local ONNX embedding model, and serves cited
+  passages to a coding assistant through a fail-open prompt hook and an MCP
+  server. Queries can be written in Spanish or English.
+authors:
+  - alias: andreshma
+version: 0.3.0
+date-released: "2026-11-09"
+license: Apache-2.0
+repository-code: "https://github.com/andreshma/recall"
+url: "https://github.com/andreshma/recall"
+keywords:
+  - retrieval-augmented generation
+  - semantic search
+  - embeddings
+  - sqlite
+  - onnx
+  - mcp
+references:
+  - type: report
+    title: "recall: local semantic search over a bilingual technical library"
+    authors:
+      - alias: andreshma
+    date-published: "2026-11-05"
+    url: "https://github.com/andreshma/recall/blob/main/docs/paper.md"
+    notes: >-
+      Chunking and embedding-model study (dated snapshot); the file in the
+      repository is docs/paper.md.

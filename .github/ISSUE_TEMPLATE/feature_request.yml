@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest an idea or a new capability
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reminder: recall is local-first. Proposals that send book text or prompts
+        to an external service are out of scope.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do that's hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [indexing/chunking, embedding model, search/ranking, hook, MCP server, citations/pages, evaluation, docs, other]

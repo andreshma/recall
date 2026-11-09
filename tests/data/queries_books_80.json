@@ -1,0 +1,1430 @@
+[
+ {
+  "id": "B01en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "cone of uncertainty in software estimation",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/](20-chapter-16|02-chapter-1)\\.md"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn",
+   "software-estimation-mcconnell"
+  ]
+ },
+ {
+  "id": "B01es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cono de incertidumbre en la estimación de software",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/](20-chapter-16|02-chapter-1)\\.md"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn",
+   "software-estimation-mcconnell"
+  ]
+ },
+ {
+  "id": "B02en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "error budget burn rate alerting on SLOs",
+  "rel": {
+   "path": [
+    "observability-engineering[\\\\/](21-chapter-12|19-chapter-11)",
+    "sre-google[\\\\/]09-chapter-3"
+   ]
+  },
+  "book": [
+   "observability-engineering",
+   "sre-google"
+  ]
+ },
+ {
+  "id": "B02es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "tasa de consumo del presupuesto de errores para alertas de SLO",
+  "rel": {
+   "path": [
+    "observability-engineering[\\\\/](21-chapter-12|19-chapter-11)",
+    "sre-google[\\\\/]09-chapter-3"
+   ]
+  },
+  "book": [
+   "observability-engineering",
+   "sre-google"
+  ]
+ },
+ {
+  "id": "B03en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "test doubles: mocks vs stubs",
+  "rel": {
+   "path": [
+    "unit-testing-khorikov[\\\\/](15-5-mocks|11-2-what|20-9-mocking)"
+   ]
+  },
+  "book": [
+   "unit-testing-khorikov"
+  ]
+ },
+ {
+  "id": "B03es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "diferencia entre mocks y stubs en pruebas unitarias",
+  "rel": {
+   "path": [
+    "unit-testing-khorikov[\\\\/](15-5-mocks|11-2-what|20-9-mocking)"
+   ]
+  },
+  "book": [
+   "unit-testing-khorikov"
+  ]
+ },
+ {
+  "id": "B04en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "what is a bounded context in domain-driven design",
+  "rel": {
+   "path": [
+    "learning-ddd-khononov[\\\\/](05-chapter-3|06-chapter-4)",
+    "ddd-evans[\\\\/]14-maintaining",
+    "data-management-at-scale-strengholt[\\\\/]03-chapter-2"
+   ]
+  },
+  "book": [
+   "learning-ddd-khononov",
+   "ddd-evans"
+  ]
+ },
+ {
+  "id": "B04es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "qué es un contexto delimitado en DDD",
+  "rel": {
+   "path": [
+    "learning-ddd-khononov[\\\\/](05-chapter-3|06-chapter-4)",
+    "ddd-evans[\\\\/]14-maintaining",
+    "data-management-at-scale-strengholt[\\\\/]03-chapter-2"
+   ]
+  },
+  "book": [
+   "learning-ddd-khononov",
+   "ddd-evans"
+  ]
+ },
+ {
+  "id": "B05en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "idempotent consumer handling duplicate messages",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "enterprise-integration-patterns[\\\\/]16-10",
+    "web-scalability-ejsmont[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "enterprise-integration-patterns",
+   "web-scalability-ejsmont"
+  ]
+ },
+ {
+  "id": "B05es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "consumidor idempotente para mensajes duplicados",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "enterprise-integration-patterns[\\\\/]16-10",
+    "web-scalability-ejsmont[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "enterprise-integration-patterns",
+   "web-scalability-ejsmont"
+  ]
+ },
+ {
+  "id": "B06en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "consistent hashing for partitioning data",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]11-chapter-6",
+    "web-scalability-ejsmont[\\\\/]11-chapter-6",
+    "designing-distributed-systems-burns.*sharded"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "web-scalability-ejsmont",
+   "designing-distributed-systems-burns"
+  ]
+ },
+ {
+  "id": "B06es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "hashing consistente para particionar datos",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]11-chapter-6",
+    "web-scalability-ejsmont[\\\\/]11-chapter-6",
+    "designing-distributed-systems-burns.*sharded"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "web-scalability-ejsmont",
+   "designing-distributed-systems-burns"
+  ]
+ },
+ {
+  "id": "B07en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "transactional outbox pattern",
+  "rel": {
+   "path": [
+    "bedm-bellemare[\\\\/]05-chapter-4",
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "learning-ddd-khononov[\\\\/]12-chapter-9"
+   ]
+  },
+  "book": [
+   "bedm-bellemare",
+   "microservices-patterns-richardson",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B07es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "patrón de bandeja de salida transaccional para publicar eventos",
+  "rel": {
+   "path": [
+    "bedm-bellemare[\\\\/]05-chapter-4",
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "learning-ddd-khononov[\\\\/]12-chapter-9"
+   ]
+  },
+  "book": [
+   "bedm-bellemare",
+   "microservices-patterns-richardson",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B08en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "anti-corruption layer between bounded contexts",
+  "rel": {
+   "path": [
+    "ddd-evans[\\\\/]14-maintaining",
+    "learning-ddd-khononov[\\\\/](06-chapter-4|12-chapter-9)"
+   ]
+  },
+  "book": [
+   "ddd-evans",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B08es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "capa anticorrupción para integrar un sistema legado",
+  "rel": {
+   "path": [
+    "ddd-evans[\\\\/]14-maintaining",
+    "learning-ddd-khononov[\\\\/](06-chapter-4|12-chapter-9)"
+   ]
+  },
+  "book": [
+   "ddd-evans",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B09en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "STRIDE threat modeling methodology",
+  "rel": {
+   "path": [
+    "threat-modeling-tarandach[\\\\/]08-chapter-3",
+    "mastering-api-architecture[\\\\/]10-chapter-6"
+   ]
+  },
+  "book": [
+   "threat-modeling-tarandach",
+   "mastering-api-architecture"
+  ]
+ },
+ {
+  "id": "B09es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "metodología de modelado de amenazas por suplantación, manipulación y repudio",
+  "rel": {
+   "path": [
+    "threat-modeling-tarandach[\\\\/]08-chapter-3",
+    "mastering-api-architecture[\\\\/]10-chapter-6"
+   ]
+  },
+  "book": [
+   "threat-modeling-tarandach",
+   "mastering-api-architecture"
+  ]
+ },
+ {
+  "id": "B10en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "managing terraform remote state and locking",
+  "rel": {
+   "path": [
+    "terraform-up-running-brikman[\\\\/]04-3-how-to-manage",
+    "infrastructure-as-code-morris[\\\\/]24-20"
+   ]
+  },
+  "book": [
+   "terraform-up-running-brikman",
+   "infrastructure-as-code-morris"
+  ]
+ },
+ {
+  "id": "B10es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo gestionar el estado remoto de terraform con bloqueo",
+  "rel": {
+   "path": [
+    "terraform-up-running-brikman[\\\\/]04-3-how-to-manage",
+    "infrastructure-as-code-morris[\\\\/]24-20"
+   ]
+  },
+  "book": [
+   "terraform-up-running-brikman",
+   "infrastructure-as-code-morris"
+  ]
+ },
+ {
+  "id": "C01en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "what should an architecture decision record (ADR) contain and how should it be structured",
+  "rel": {
+   "path": [
+    "facilitating-software-architecture-harmel-law[\\\\/]08-chapter-6",
+    "fundamentals-software-architecture[\\\\/]23-chapter-19",
+    "microservices-up-and-running[\\\\/]02-chapter-1"
+   ]
+  },
+  "book": [
+   "facilitating-software-architecture-harmel-law",
+   "fundamentals-software-architecture",
+   "microservices-up-and-running"
+  ]
+ },
+ {
+  "id": "C01es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "qué secciones debe tener un ADR y cómo estructurar el registro de decisiones de arquitectura",
+  "rel": {
+   "path": [
+    "facilitating-software-architecture-harmel-law[\\\\/]08-chapter-6",
+    "fundamentals-software-architecture[\\\\/]23-chapter-19",
+    "microservices-up-and-running[\\\\/]02-chapter-1"
+   ]
+  },
+  "book": [
+   "facilitating-software-architecture-harmel-law",
+   "fundamentals-software-architecture",
+   "microservices-up-and-running"
+  ]
+ },
+ {
+  "id": "C02en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "what should a C4 container diagram show",
+  "rel": {
+   "path": [
+    "c4-model-brown[\\\\/]08-level-2"
+   ]
+  },
+  "book": [
+   "c4-model-brown"
+  ]
+ },
+ {
+  "id": "C02es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "qué debe mostrar el diagrama de contenedores del modelo C4",
+  "rel": {
+   "path": [
+    "c4-model-brown[\\\\/]08-level-2"
+   ]
+  },
+  "book": [
+   "c4-model-brown"
+  ]
+ },
+ {
+  "id": "C03en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "sharing dependencies between micro-frontends at runtime with webpack module federation",
+  "rel": {
+   "path": [
+    "building-micro-frontends-mezzalira[\\\\/](05-chapter-4|06-chapter-5)"
+   ]
+  },
+  "book": [
+   "building-micro-frontends-mezzalira"
+  ]
+ },
+ {
+  "id": "C03es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo compartir dependencias entre micro frontends en tiempo de ejecución con module federation",
+  "rel": {
+   "path": [
+    "building-micro-frontends-mezzalira[\\\\/](05-chapter-4|06-chapter-5)"
+   ]
+  },
+  "book": [
+   "building-micro-frontends-mezzalira"
+  ]
+ },
+ {
+  "id": "C04en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "BFF pattern: a separate backend or API gateway per client type",
+  "rel": {
+   "path": [
+    "building-micro-frontends-mezzalira[\\\\/]09-chapter-8",
+    "restful-api-design-patterns[\\\\/]10-chapter-4",
+    "microservices-patterns-richardson[\\\\/]45-8-2",
+    "architectural-patterns-raj[\\\\/]17-chapter-9"
+   ]
+  },
+  "book": [
+   "building-micro-frontends-mezzalira",
+   "restful-api-design-patterns",
+   "microservices-patterns-richardson",
+   "architectural-patterns-raj"
+  ]
+ },
+ {
+  "id": "C04es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "patrón BFF: un backend distinto para cada tipo de cliente, web y móvil",
+  "rel": {
+   "path": [
+    "building-micro-frontends-mezzalira[\\\\/]09-chapter-8",
+    "restful-api-design-patterns[\\\\/]10-chapter-4",
+    "microservices-patterns-richardson[\\\\/]45-8-2",
+    "architectural-patterns-raj[\\\\/]17-chapter-9"
+   ]
+  },
+  "book": [
+   "building-micro-frontends-mezzalira",
+   "restful-api-design-patterns",
+   "microservices-patterns-richardson",
+   "architectural-patterns-raj"
+  ]
+ },
+ {
+  "id": "C05en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "why a module with a simple interface that hides a lot of functionality beats many tiny classes",
+  "rel": {
+   "path": [
+    "philosophy-software-design-ousterhout[\\\\/](23-4-4|24-4-5|25-4-6|26-4-7)",
+    "learning-ddd-khononov[\\\\/]19-chapter-14"
+   ]
+  },
+  "book": [
+   "philosophy-software-design-ousterhout",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "C05es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "por qué conviene que un módulo tenga una interfaz sencilla que esconda mucha funcionalidad en lugar de muchas clases pequeñitas",
+  "rel": {
+   "path": [
+    "philosophy-software-design-ousterhout[\\\\/](23-4-4|24-4-5|25-4-6|26-4-7)",
+    "learning-ddd-khononov[\\\\/]19-chapter-14"
+   ]
+  },
+  "book": [
+   "philosophy-software-design-ousterhout",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "C06en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "where should the object graph be wired up when using dependency injection (composition root)",
+  "rel": {
+   "path": [
+    "dependency-injection-seemann[\\\\/](13-4-di|17-7-application)"
+   ]
+  },
+  "book": [
+   "dependency-injection-seemann"
+  ]
+ },
+ {
+  "id": "C06es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "en qué punto de la aplicación se debe armar el grafo de objetos cuando se usa inyección de dependencias",
+  "rel": {
+   "path": [
+    "dependency-injection-seemann[\\\\/](13-4-di|17-7-application)"
+   ]
+  },
+  "book": [
+   "dependency-injection-seemann"
+  ]
+ },
+ {
+  "id": "C07en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "LSM trees vs B-trees for write-heavy storage engines",
+  "rel": {
+   "path": [
+    "database-internals-petrov[\\\\/]11-chapter-7",
+    "ddia-kleppmann[\\\\/]07-chapter-3"
+   ]
+  },
+  "book": [
+   "database-internals-petrov",
+   "ddia-kleppmann"
+  ]
+ },
+ {
+  "id": "C07es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "árboles LSM frente a árboles B en motores de almacenamiento con muchas escrituras",
+  "rel": {
+   "path": [
+    "database-internals-petrov[\\\\/]11-chapter-7",
+    "ddia-kleppmann[\\\\/]07-chapter-3"
+   ]
+  },
+  "book": [
+   "database-internals-petrov",
+   "ddia-kleppmann"
+  ]
+ },
+ {
+  "id": "C08en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "write skew under snapshot isolation and how serializable isolation prevents it",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]12-chapter-7",
+    "database-internals-petrov[\\\\/](09-chapter-5|19-chapter-13)",
+    "art-of-postgresql-fontaine[\\\\/]07-vii",
+    "poeaa-fowler[\\\\/]05-chapter-5"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "database-internals-petrov",
+   "art-of-postgresql-fontaine",
+   "poeaa-fowler"
+  ]
+ },
+ {
+  "id": "C08es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "niveles de aislamiento de transacciones: anomalías como el sesgo de escritura con aislamiento por instantánea",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]12-chapter-7",
+    "database-internals-petrov[\\\\/](09-chapter-5|19-chapter-13)",
+    "art-of-postgresql-fontaine[\\\\/]07-vii",
+    "poeaa-fowler[\\\\/]05-chapter-5"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "database-internals-petrov",
+   "art-of-postgresql-fontaine",
+   "poeaa-fowler"
+  ]
+ },
+ {
+  "id": "C09en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "first, second and third normal form explained",
+  "rel": {
+   "path": [
+    "database-design-solutions-stephens[\\\\/](14-chapter-7|22-chapter-14)",
+    "art-of-postgresql-fontaine[\\\\/]06-vi",
+    "tsql-fundamentals-ben-gan-preview[\\\\/]01-chapter-1"
+   ]
+  },
+  "book": [
+   "database-design-solutions-stephens",
+   "art-of-postgresql-fontaine",
+   "tsql-fundamentals-ben-gan-preview"
+  ]
+ },
+ {
+  "id": "C09es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "formas normales en el diseño de bases de datos relacionales: primera, segunda y tercera",
+  "rel": {
+   "path": [
+    "database-design-solutions-stephens[\\\\/](14-chapter-7|22-chapter-14)",
+    "art-of-postgresql-fontaine[\\\\/]06-vi",
+    "tsql-fundamentals-ben-gan-preview[\\\\/]01-chapter-1"
+   ]
+  },
+  "book": [
+   "database-design-solutions-stephens",
+   "art-of-postgresql-fontaine",
+   "tsql-fundamentals-ben-gan-preview"
+  ]
+ },
+ {
+  "id": "C10en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "how Raft and Paxos reach distributed consensus",
+  "rel": {
+   "path": [
+    "database-internals-petrov[\\\\/]20-chapter-14",
+    "sre-google[\\\\/]30-chapter-23",
+    "ddia-kleppmann[\\\\/]14-chapter-9",
+    "foundations-scalable-systems-gorton[\\\\/]16-chapter-12"
+   ]
+  },
+  "book": [
+   "database-internals-petrov",
+   "sre-google",
+   "ddia-kleppmann",
+   "foundations-scalable-systems-gorton"
+  ]
+ },
+ {
+  "id": "C10es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo funcionan los algoritmos de consenso distribuido como Raft y Paxos",
+  "rel": {
+   "path": [
+    "database-internals-petrov[\\\\/]20-chapter-14",
+    "sre-google[\\\\/]30-chapter-23",
+    "ddia-kleppmann[\\\\/]14-chapter-9",
+    "foundations-scalable-systems-gorton[\\\\/]16-chapter-12"
+   ]
+  },
+  "book": [
+   "database-internals-petrov",
+   "sre-google",
+   "ddia-kleppmann",
+   "foundations-scalable-systems-gorton"
+  ]
+ },
+ {
+  "id": "C11en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "nested loops vs hash join vs sort-merge join and how indexing affects each",
+  "rel": {
+   "path": [
+    "sql-performance-explained-winand[\\\\/]07-chapter-4"
+   ]
+  },
+  "book": [
+   "sql-performance-explained-winand"
+  ]
+ },
+ {
+  "id": "C11es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cuándo conviene un nested loops, un hash join o un merge join y cómo indexar para cada uno",
+  "rel": {
+   "path": [
+    "sql-performance-explained-winand[\\\\/]07-chapter-4"
+   ]
+  },
+  "book": [
+   "sql-performance-explained-winand"
+  ]
+ },
+ {
+  "id": "C12en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "repetitive manual operational work that grows linearly with the service: how SRE teams measure and cap it",
+  "rel": {
+   "path": [
+    "sre-google[\\\\/]11-chapter-5"
+   ]
+  },
+  "book": [
+   "sre-google"
+  ]
+ },
+ {
+  "id": "C12es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "trabajo operativo manual y repetitivo que crece al mismo ritmo que el servicio: cómo medirlo y ponerle tope en un equipo SRE",
+  "rel": {
+   "path": [
+    "sre-google[\\\\/]11-chapter-5"
+   ]
+  },
+  "book": [
+   "sre-google"
+  ]
+ },
+ {
+  "id": "C13en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "load shedding and graceful degradation when a service is overloaded",
+  "rel": {
+   "path": [
+    "sre-google[\\\\/](28-chapter-21|29-chapter-22)",
+    "building-secure-reliable-systems[\\\\/]15-chapter-8",
+    "mastering-api-architecture[\\\\/]10-chapter-6",
+    "architecting-for-scale-atchison[\\\\/]11-chapter-5"
+   ]
+  },
+  "book": [
+   "sre-google",
+   "building-secure-reliable-systems",
+   "mastering-api-architecture",
+   "architecting-for-scale-atchison"
+  ]
+ },
+ {
+  "id": "C13es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "descartar peticiones y degradar el servicio de forma controlada cuando hay sobrecarga",
+  "rel": {
+   "path": [
+    "sre-google[\\\\/](28-chapter-21|29-chapter-22)",
+    "building-secure-reliable-systems[\\\\/]15-chapter-8",
+    "mastering-api-architecture[\\\\/]10-chapter-6",
+    "architecting-for-scale-atchison[\\\\/]11-chapter-5"
+   ]
+  },
+  "book": [
+   "sre-google",
+   "building-secure-reliable-systems",
+   "mastering-api-architecture",
+   "architecting-for-scale-atchison"
+  ]
+ },
+ {
+  "id": "C14en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "compute p99 latency from Prometheus histograms with histogram_quantile",
+  "rel": {
+   "path": [
+    "prometheus-up-running[\\\\/](06-3|18-13|21-16)"
+   ]
+  },
+  "book": [
+   "prometheus-up-running"
+  ]
+ },
+ {
+  "id": "C14es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "calcular el percentil 99 de latencia a partir de histogramas en Prometheus",
+  "rel": {
+   "path": [
+    "prometheus-up-running[\\\\/](06-3|18-13|21-16)"
+   ]
+  },
+  "book": [
+   "prometheus-up-running"
+  ]
+ },
+ {
+  "id": "C15en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "scheduled exercises where we deliberately break production systems to rehearse incident response",
+  "rel": {
+   "path": [
+    "architecting-for-scale-atchison[\\\\/]18-chapter-10",
+    "devops-handbook[\\\\/]35-19",
+    "chaos-engineering-rosenthal[\\\\/](11-chapter-5|17-chapter-10|23-chapter-15)",
+    "building-secure-reliable-systems[\\\\/]25-chapter-16"
+   ]
+  },
+  "book": [
+   "architecting-for-scale-atchison",
+   "devops-handbook",
+   "chaos-engineering-rosenthal",
+   "building-secure-reliable-systems"
+  ]
+ },
+ {
+  "id": "C15es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "simulacros programados en los que rompemos sistemas de producción a propósito para ensayar la respuesta a incidentes",
+  "rel": {
+   "path": [
+    "architecting-for-scale-atchison[\\\\/]18-chapter-10",
+    "devops-handbook[\\\\/]35-19",
+    "chaos-engineering-rosenthal[\\\\/](11-chapter-5|17-chapter-10|23-chapter-15)",
+    "building-secure-reliable-systems[\\\\/]25-chapter-16"
+   ]
+  },
+  "book": [
+   "architecting-for-scale-atchison",
+   "devops-handbook",
+   "chaos-engineering-rosenthal",
+   "building-secure-reliable-systems"
+  ]
+ },
+ {
+  "id": "C16en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "DORA four key metrics: deployment frequency, lead time, change failure rate and time to restore",
+  "rel": {
+   "path": [
+    "software-architecture-metrics[\\\\/]02-chapter-1",
+    "accelerate-forsgren[\\\\/]13-chapter-2",
+    "infrastructure-as-code-morris[\\\\/]03-1"
+   ]
+  },
+  "book": [
+   "software-architecture-metrics",
+   "accelerate-forsgren",
+   "infrastructure-as-code-morris"
+  ]
+ },
+ {
+  "id": "C16es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "las cuatro métricas DORA para medir el desempeño de la entrega de software",
+  "rel": {
+   "path": [
+    "software-architecture-metrics[\\\\/]02-chapter-1",
+    "accelerate-forsgren[\\\\/]13-chapter-2",
+    "infrastructure-as-code-morris[\\\\/]03-1"
+   ]
+  },
+  "book": [
+   "software-architecture-metrics",
+   "accelerate-forsgren",
+   "infrastructure-as-code-morris"
+  ]
+ },
+ {
+  "id": "C17en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "git rebase vs merge and when you should not rebase",
+  "rel": {
+   "path": [
+    "pro-git[\\\\/]11-git-branching"
+   ]
+  },
+  "book": [
+   "pro-git"
+  ]
+ },
+ {
+  "id": "C17es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "diferencia entre rebase y merge en git y cuándo no conviene hacer rebase",
+  "rel": {
+   "path": [
+    "pro-git[\\\\/]11-git-branching"
+   ]
+  },
+  "book": [
+   "pro-git"
+  ]
+ },
+ {
+  "id": "C18en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "difference between liveness and readiness probes in Kubernetes",
+  "rel": {
+   "path": [
+    "kubernetes-in-action-luksa[\\\\/](08-6|13-11)",
+    "kubernetes-patterns-ibryam[\\\\/]09-chapter-4",
+    "networking-and-kubernetes[\\\\/]07-chapter-4",
+    "gitops-kubernetes[\\\\/]16-8",
+    "open-cloud-native-microservices[\\\\/]09-chapter-5"
+   ]
+  },
+  "book": [
+   "kubernetes-in-action-luksa",
+   "kubernetes-patterns-ibryam",
+   "networking-and-kubernetes",
+   "gitops-kubernetes",
+   "open-cloud-native-microservices"
+  ]
+ },
+ {
+  "id": "C18es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "diferencia entre las sondas de liveness y readiness en Kubernetes",
+  "rel": {
+   "path": [
+    "kubernetes-in-action-luksa[\\\\/](08-6|13-11)",
+    "kubernetes-patterns-ibryam[\\\\/]09-chapter-4",
+    "networking-and-kubernetes[\\\\/]07-chapter-4",
+    "gitops-kubernetes[\\\\/]16-8",
+    "open-cloud-native-microservices[\\\\/]09-chapter-5"
+   ]
+  },
+  "book": [
+   "kubernetes-in-action-luksa",
+   "kubernetes-patterns-ibryam",
+   "networking-and-kubernetes",
+   "gitops-kubernetes",
+   "open-cloud-native-microservices"
+  ]
+ },
+ {
+  "id": "C19en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "strategy for buying reserved instances and committed use discounts",
+  "rel": {
+   "path": [
+    "cloud-finops-storment[\\\\/](19-chapter-13|20-chapter-14)"
+   ]
+  },
+  "book": [
+   "cloud-finops-storment"
+  ]
+ },
+ {
+  "id": "C19es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "estrategia para comprar instancias reservadas y descuentos por uso comprometido en la nube",
+  "rel": {
+   "path": [
+    "cloud-finops-storment[\\\\/](19-chapter-13|20-chapter-14)"
+   ]
+  },
+  "book": [
+   "cloud-finops-storment"
+  ]
+ },
+ {
+  "id": "C20en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "defining RTO and RPO for a disaster recovery plan",
+  "rel": {
+   "path": [
+    "defensive-security-handbook[\\\\/]08-chapter-7",
+    "architecting-the-cloud-kavis[\\\\/]21-chapter-13",
+    "software-architecture-metrics[\\\\/]08-chapter-7",
+    "security-architecture-hybrid-cloud[\\\\/]09-chapter-artifacts",
+    "learning-cloud-security[\\\\/]04-chapter-3",
+    "azure-cloud-native-mapbook[\\\\/]11-infrastructure"
+   ]
+  },
+  "book": [
+   "defensive-security-handbook",
+   "architecting-the-cloud-kavis",
+   "software-architecture-metrics",
+   "security-architecture-hybrid-cloud",
+   "learning-cloud-security",
+   "azure-cloud-native-mapbook"
+  ]
+ },
+ {
+  "id": "C20es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo definir RTO y RPO en un plan de recuperación ante desastres",
+  "rel": {
+   "path": [
+    "defensive-security-handbook[\\\\/]08-chapter-7",
+    "architecting-the-cloud-kavis[\\\\/]21-chapter-13",
+    "software-architecture-metrics[\\\\/]08-chapter-7",
+    "security-architecture-hybrid-cloud[\\\\/]09-chapter-artifacts",
+    "learning-cloud-security[\\\\/]04-chapter-3",
+    "azure-cloud-native-mapbook[\\\\/]11-infrastructure"
+   ]
+  },
+  "book": [
+   "defensive-security-handbook",
+   "architecting-the-cloud-kavis",
+   "software-architecture-metrics",
+   "security-architecture-hybrid-cloud",
+   "learning-cloud-security",
+   "azure-cloud-native-mapbook"
+  ]
+ },
+ {
+  "id": "C21en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "how to defend a web app against CSRF with anti-forgery tokens",
+  "rel": {
+   "path": [
+    "web-application-security-hoffman[\\\\/](14-chapter-11|33-chapter-29)",
+    "restful-api-design-patterns[\\\\/]12-chapter-6"
+   ]
+  },
+  "book": [
+   "web-application-security-hoffman",
+   "restful-api-design-patterns"
+  ]
+ },
+ {
+  "id": "C21es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo proteger una aplicación web contra ataques CSRF",
+  "rel": {
+   "path": [
+    "web-application-security-hoffman[\\\\/](14-chapter-11|33-chapter-29)",
+    "restful-api-design-patterns[\\\\/]12-chapter-6"
+   ]
+  },
+  "book": [
+   "web-application-security-hoffman",
+   "restful-api-design-patterns"
+  ]
+ },
+ {
+  "id": "C22en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "what goes into an SBOM and the SPDX vs CycloneDX formats",
+  "rel": {
+   "path": [
+    "software-supply-chain-security[\\\\/]09-chapter-8",
+    "llm-security-playbook-wilson[\\\\/]10-chapter-9",
+    "identity-security-software-dev[\\\\/]10-chapter-9",
+    "security-architecture-hybrid-cloud[\\\\/]23-chapter-artifacts",
+    "zero-trust-networks[\\\\/]08-chapter-7"
+   ]
+  },
+  "book": [
+   "software-supply-chain-security",
+   "llm-security-playbook-wilson",
+   "identity-security-software-dev",
+   "security-architecture-hybrid-cloud",
+   "zero-trust-networks"
+  ]
+ },
+ {
+  "id": "C22es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "qué es un SBOM, qué información contiene y qué formatos existen",
+  "rel": {
+   "path": [
+    "software-supply-chain-security[\\\\/]09-chapter-8",
+    "llm-security-playbook-wilson[\\\\/]10-chapter-9",
+    "identity-security-software-dev[\\\\/]10-chapter-9",
+    "security-architecture-hybrid-cloud[\\\\/]23-chapter-artifacts",
+    "zero-trust-networks[\\\\/]08-chapter-7"
+   ]
+  },
+  "book": [
+   "software-supply-chain-security",
+   "llm-security-playbook-wilson",
+   "identity-security-software-dev",
+   "security-architecture-hybrid-cloud",
+   "zero-trust-networks"
+  ]
+ },
+ {
+  "id": "C23en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "enforcing mTLS between services in a service mesh",
+  "rel": {
+   "path": [
+    "istio-up-running[\\\\/](05-4|07-6)",
+    "zero-trust-networks[\\\\/]09-chapter-8",
+    "designing-web-apis-jin[\\\\/]06-chapter-3"
+   ]
+  },
+  "book": [
+   "istio-up-running",
+   "zero-trust-networks",
+   "designing-web-apis-jin"
+  ]
+ },
+ {
+  "id": "C23es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo exigir TLS mutuo entre servicios dentro de una malla de servicios",
+  "rel": {
+   "path": [
+    "istio-up-running[\\\\/](05-4|07-6)",
+    "zero-trust-networks[\\\\/]09-chapter-8",
+    "designing-web-apis-jin[\\\\/]06-chapter-3"
+   ]
+  },
+  "book": [
+   "istio-up-running",
+   "zero-trust-networks",
+   "designing-web-apis-jin"
+  ]
+ },
+ {
+  "id": "C24en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "defending an LLM application against prompt injection, including indirect injection",
+  "rel": {
+   "path": [
+    "llm-security-playbook-wilson[\\\\/]05-chapter-4",
+    "ai-engineering-huyen[\\\\/]08-chapter-5",
+    "inside-cyber-warfare[\\\\/]08-chapter-7"
+   ]
+  },
+  "book": [
+   "llm-security-playbook-wilson",
+   "ai-engineering-huyen",
+   "inside-cyber-warfare"
+  ]
+ },
+ {
+  "id": "C24es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo defender una aplicación con LLM de la inyección de prompts, incluida la inyección indirecta",
+  "rel": {
+   "path": [
+    "llm-security-playbook-wilson[\\\\/]05-chapter-4",
+    "ai-engineering-huyen[\\\\/]08-chapter-5",
+    "inside-cyber-warfare[\\\\/]08-chapter-7"
+   ]
+  },
+  "book": [
+   "llm-security-playbook-wilson",
+   "ai-engineering-huyen",
+   "inside-cyber-warfare"
+  ]
+ },
+ {
+  "id": "C25en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "using one language model to grade another model's outputs: how reliable is it and what biases does it have",
+  "rel": {
+   "path": [
+    "ai-engineering-huyen[\\\\/](06-chapter-3|07-chapter-4)"
+   ]
+  },
+  "book": [
+   "ai-engineering-huyen"
+  ]
+ },
+ {
+  "id": "C25es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "usar un modelo de lenguaje para calificar las respuestas de otro: qué tan confiable es y qué sesgos tiene",
+  "rel": {
+   "path": [
+    "ai-engineering-huyen[\\\\/](06-chapter-3|07-chapter-4)"
+   ]
+  },
+  "book": [
+   "ai-engineering-huyen"
+  ]
+ },
+ {
+  "id": "C26en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "what is a feature store and online vs offline features in MLOps",
+  "rel": {
+   "path": [
+    "implementing-mlops-haviv[\\\\/](05-chapter-2|07-chapter-4|10-chapter-7)"
+   ]
+  },
+  "book": [
+   "implementing-mlops-haviv"
+  ]
+ },
+ {
+  "id": "C26es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "para qué sirve un feature store en MLOps y la diferencia entre el almacén en línea y fuera de línea",
+  "rel": {
+   "path": [
+    "implementing-mlops-haviv[\\\\/](05-chapter-2|07-chapter-4|10-chapter-7)"
+   ]
+  },
+  "book": [
+   "implementing-mlops-haviv"
+  ]
+ },
+ {
+  "id": "C27en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "planning poker for estimating user stories",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/]08-chapter-6"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn"
+  ]
+ },
+ {
+  "id": "C27es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo estimar historias de usuario con planning poker",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/]08-chapter-6"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn"
+  ]
+ },
+ {
+  "id": "C28en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "how much is it worth spending to reduce uncertainty before making a decision",
+  "rel": {
+   "path": [
+    "how-to-measure-anything-hubbard[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "how-to-measure-anything-hubbard"
+  ]
+ },
+ {
+  "id": "C28es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cuánto vale la pena invertir en reducir la incertidumbre antes de tomar una decisión",
+  "rel": {
+   "path": [
+    "how-to-measure-anything-hubbard[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "how-to-measure-anything-hubbard"
+  ]
+ },
+ {
+  "id": "C29en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "use case goal levels: summary, user goal and subfunction",
+  "rel": {
+   "path": [
+    "writing-effective-use-cases-cockburn[\\\\/](01-base|02-using|05-reminders|06-mistakes)"
+   ]
+  },
+  "book": [
+   "writing-effective-use-cases-cockburn"
+  ]
+ },
+ {
+  "id": "C29es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "niveles de objetivo en casos de uso: resumen, objetivo de usuario y subfunción",
+  "rel": {
+   "path": [
+    "writing-effective-use-cases-cockburn[\\\\/](01-base|02-using|05-reminders|06-mistakes)"
+   ]
+  },
+  "book": [
+   "writing-effective-use-cases-cockburn"
+  ]
+ },
+ {
+  "id": "C30en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "consumer-driven contract testing between microservices",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/](48-9-1|51-10-1)",
+    "mastering-api-architecture[\\\\/]04-chapter-2",
+    "software-architecture-hard-parts[\\\\/]16-chapter-13",
+    "building-evolutionary-architectures[\\\\/]05-chapter-3",
+    "monolith-to-microservices-newman[\\\\/]06-chapter-5"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "mastering-api-architecture",
+   "software-architecture-hard-parts",
+   "building-evolutionary-architectures",
+   "monolith-to-microservices-newman"
+  ]
+ },
+ {
+  "id": "C30es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "pruebas de contrato dirigidas por el consumidor entre microservicios",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/](48-9-1|51-10-1)",
+    "mastering-api-architecture[\\\\/]04-chapter-2",
+    "software-architecture-hard-parts[\\\\/]16-chapter-13",
+    "building-evolutionary-architectures[\\\\/]05-chapter-3",
+    "monolith-to-microservices-newman[\\\\/]06-chapter-5"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "mastering-api-architecture",
+   "software-architecture-hard-parts",
+   "building-evolutionary-architectures",
+   "monolith-to-microservices-newman"
+  ]
+ }
+]

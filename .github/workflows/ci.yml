@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Actions are pinned by commit SHA; the comment records the tag. Every checkout
+# drops the job token from .git/config (persist-credentials: false): no job
+# pushes. Python tools come from requirements-dev.lock (versions and hashes).
+
+jobs:
+  test:
+    name: unit tests (windows · py3.12 · locked)
+    # requirements.lock is resolved for win/amd64 (onnxruntime-directml).
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install the locked environment and the package (hashes required)
+        # The editable install makes `python -I -m recall` importable, which the
+        # tests need: they spawn `python -I -m recall serve` (ignores PYTHONPATH).
+        # --no-build-isolation builds with the hatchling/editables from the lock.
+        run: |
+          python -m pip install --require-hashes --no-deps -r requirements.lock
+          python -m pip install --no-deps --no-build-isolation -e .
+          python -m pip install --require-hashes --no-deps -r requirements-dev.lock
+
+      - name: Unit tests with a coverage floor (no model, no real index)
+        # The `model` marker (real model + real index) is excluded by default in
+        # pyproject.toml; those suites run locally, see docs/TESTING.md. The ONNX
+        # path of embedder.py needs the model, so the floor is on the total.
+        env:
+          HF_HUB_OFFLINE: "1"
+        run: |
+          python -I -m coverage run -m pytest -q
+          python -I -m coverage report --fail-under=80
+
+  quickstart:
+    name: README quickstart, verbatim (windows)
+    # Runs the README's install block exactly as written, from a fresh checkout,
+    # so the documented first steps cannot rot. The model and library steps
+    # need local files and are not run here.
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: "0.11.7"
+
+      - name: Run the README install block
+        shell: pwsh
+        run: |
+          python .github/scripts/readme_block.py quickstart-install > quickstart.ps1
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          Get-Content quickstart.ps1
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
+          . ./quickstart.ps1
+
+      - name: The package runs under python -I
+        shell: pwsh
+        run: |
+          .venv\Scripts\python.exe -I -m recall --help
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+  lint:
+    name: lint and types (ruff · mypy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: ruff and mypy (config in pyproject.toml)
+        # Static checks only: no project dependencies installed, so mypy treats
+        # numpy/onnxruntime as untyped (ignore_missing_imports) and checks the
+        # Windows branches as Windows code (--platform win32).
+        run: |
+          python -m pip install --require-hashes --no-deps -r requirements-dev.lock
+          ruff format --check .
+          ruff check .
+          mypy --platform win32
+
+  security:
+    name: supply-chain (SCA)
+    runs-on: windows-latest
+    # Advisory: surfaces known vulnerabilities without blocking unrelated changes.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Audit both lockfiles (pip-audit)
+        run: |
+          python -m pip install --require-hashes --no-deps -r requirements-dev.lock
+          pip-audit --require-hashes --disable-pip -r requirements.lock
+          pip-audit --require-hashes --disable-pip -r requirements-dev.lock

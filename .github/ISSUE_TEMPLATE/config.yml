@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or idea
+    url: https://github.com/andreshma/recall/discussions
+    about: Ask usage questions and discuss ideas in Discussions (see SUPPORT.md).
+  - name: Security vulnerability
+    url: https://github.com/andreshma/recall/security/advisories/new
+    about: Please report vulnerabilities privately — do NOT open a public issue.

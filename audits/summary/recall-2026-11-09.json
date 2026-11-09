@@ -1,0 +1,74 @@
+{
+  "project": "recall",
+  "version": "0.3.0",
+  "date": "2026-11-09",
+  "tier": "single-user alpha, pre-publication",
+  "gate": "advisory",
+  "rag_as_found": "red",
+  "rag_after_fixes": "green",
+  "commit_audited": null,
+  "code_audited": "tree after the 2026-11-09 English translation (pre-public history)",
+  "report": "report-recall-2026-11-09.md",
+  "adversarial_review": "../docs/ADVERSARIAL_REVIEW.md#review-of-2026-11-09",
+  "sbom": [
+    "audits/sbom/recall-2026-11-09.cdx.json",
+    "audits/sbom/recall-dev-2026-11-09.cdx.json"
+  ],
+  "counts": {
+    "high": 1,
+    "medium": 5,
+    "low": 18,
+    "info": 3
+  },
+  "fixed": [
+    "ADV-1",
+    "ADV-2",
+    "ADV-3",
+    "ADV-4",
+    "ADV-5",
+    "ADV-6",
+    "ADV-7",
+    "ADV-8",
+    "ADV-9",
+    "ADV-10",
+    "ADV-11",
+    "F-01",
+    "F-03",
+    "F-04",
+    "F-05",
+    "F-06",
+    "F-07",
+    "F-08",
+    "F-09",
+    "F-10",
+    "F-11",
+    "F-12",
+    "F-13",
+    "F-14",
+    "F-15",
+    "F-16",
+    "F-17",
+    "F-18",
+    "F-19"
+  ],
+  "accepted": [
+    "ADV-2 proof-to-request gap (milliseconds)",
+    "ADV-2 /proof unauthenticated by design (loopback, Host-validated)",
+    "ADV-2 upgrade from 0.2: stop the old service once",
+    "F-16 MCP returns absolute paths (documented)",
+    "F-19 HashEmbedder stays in embedder.py (documented test double)",
+    "F-15 paper kept as a dated snapshot"
+  ],
+  "deterministic": {
+    "trivy_runtime_lock": {
+      "vulns": 0,
+      "packages": 18
+    },
+    "trivy_dev_lock": {
+      "vulns": 0,
+      "note": "msgpack re-locked 1.2.1 -> 1.2.4 (CVE-2026-114613)"
+    },
+    "ruff": "clean",
+    "mypy": "clean"
+  }
+}

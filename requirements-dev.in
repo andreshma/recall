@@ -1,0 +1,9 @@
+# Dev and CI tools (lint, types, coverage, dependency audit). pytest is in
+# requirements.in. Universal lock (Windows and Linux runners), regenerate with:
+#   uv pip compile --universal --python-version 3.12 --generate-hashes requirements-dev.in -o requirements-dev.lock
+# (add --offline to resolve from the uv cache only). Keep these pins equal to
+# [dependency-groups].dev in pyproject.toml.
+ruff==0.17.4
+mypy==2.4.1
+coverage==7.17.2
+pip-audit==2.10.1

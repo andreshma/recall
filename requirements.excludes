@@ -1,0 +1,5 @@
+# huggingface-hub (a tokenizers dependency) is EXCLUDED on purpose: only
+# Tokenizer.from_pretrained uses it, and it downloads from the network. recall
+# loads tokenizer.json from the snapshot's local path, so without this package
+# the process has nothing it could even call the Hub with.
+huggingface-hub

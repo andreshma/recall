@@ -1,0 +1,393 @@
+[
+ {
+  "id": "L01es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Estoy armando la propuesta para un cliente que quiere fecha y costo cerrados desde la primera reunión, y todavía ni tenemos los requisitos completos. Antes de comprometernos quiero explicarle con fundamento por qué la estimación al inicio tiene tanto margen de error y cómo se va cerrando el cono de incertidumbre conforme avanza el proyecto.",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/](20-chapter-16|02-chapter-1)\\.md"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn",
+   "software-estimation-mcconnell"
+  ],
+  "from": "B01es"
+ },
+ {
+  "id": "L02es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Tenemos un SLO de disponibilidad del 99.9% para la API de pagos y las alertas actuales por umbral de errores nos despiertan a cada rato por picos que no importan. Quiero rediseñarlas para que solo avisen cuando de verdad nos estemos comiendo el presupuesto de errores demasiado rápido, con varias ventanas de tiempo.",
+  "rel": {
+   "path": [
+    "observability-engineering[\\\\/](21-chapter-12|19-chapter-11)",
+    "sre-google[\\\\/]09-chapter-3"
+   ]
+  },
+  "book": [
+   "observability-engineering",
+   "sre-google"
+  ],
+  "from": "B02es"
+ },
+ {
+  "id": "L03es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Nuestro servicio de facturación consume eventos de Kafka y a veces el mismo mensaje llega dos veces después de un rebalanceo, lo que termina generando facturas duplicadas. ¿Cómo diseño el consumidor para que procesar el mismo mensaje varias veces no tenga efectos secundarios?",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "enterprise-integration-patterns[\\\\/]16-10",
+    "web-scalability-ejsmont[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "enterprise-integration-patterns",
+   "web-scalability-ejsmont"
+  ],
+  "from": "B05es"
+ },
+ {
+  "id": "L04es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "En el microservicio de pedidos guardamos la orden en Postgres y luego publicamos un evento a RabbitMQ, pero si el broker falla justo después del commit perdemos el evento y los demás servicios nunca se enteran. Necesito un patrón para que guardar en la base y publicar el evento sea confiable sin transacciones distribuidas.",
+  "rel": {
+   "path": [
+    "bedm-bellemare[\\\\/]05-chapter-4",
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "learning-ddd-khononov[\\\\/]12-chapter-9"
+   ]
+  },
+  "book": [
+   "bedm-bellemare",
+   "microservices-patterns-richardson",
+   "learning-ddd-khononov"
+  ],
+  "from": "B07es"
+ },
+ {
+  "id": "L05es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Vamos a construir un sistema nuevo de clientes que tiene que hablar con un ERP de hace veinte años cuyo modelo de datos es un desastre, y no quiero que esos conceptos raros se nos filtren al dominio nuevo. ¿Qué patrón uso para aislar el modelo nuevo del sistema legado?",
+  "rel": {
+   "path": [
+    "ddd-evans[\\\\/]14-maintaining",
+    "learning-ddd-khononov[\\\\/](06-chapter-4|12-chapter-9)"
+   ]
+  },
+  "book": [
+   "ddd-evans",
+   "learning-ddd-khononov"
+  ],
+  "from": "B08es"
+ },
+ {
+  "id": "L06es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Somos cinco personas trabajando sobre la misma infraestructura con terraform y ya nos pasó dos veces que dos aplicamos al mismo tiempo y se corrompió el archivo de estado local. Quiero mover el estado a un backend remoto en Azure con bloqueo para que no vuelva a pasar.",
+  "rel": {
+   "path": [
+    "terraform-up-running-brikman[\\\\/]04-3-how-to-manage",
+    "infrastructure-as-code-morris[\\\\/]24-20"
+   ]
+  },
+  "book": [
+   "terraform-up-running-brikman",
+   "infrastructure-as-code-morris"
+  ],
+  "from": "B10es"
+ },
+ {
+  "id": "L07es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "El equipo toma decisiones de arquitectura en reuniones y a los seis meses nadie recuerda por qué elegimos Cosmos en lugar de Postgres ni qué alternativas se descartaron. Quiero empezar a documentar las decisiones de forma ligera; dime qué secciones debe tener un ADR y cómo organizar el registro.",
+  "rel": {
+   "path": [
+    "facilitating-software-architecture-harmel-law[\\\\/]08-chapter-6",
+    "fundamentals-software-architecture[\\\\/]23-chapter-19",
+    "microservices-up-and-running[\\\\/]02-chapter-1"
+   ]
+  },
+  "book": [
+   "facilitating-software-architecture-harmel-law",
+   "fundamentals-software-architecture",
+   "microservices-up-and-running"
+  ],
+  "from": "C01es"
+ },
+ {
+  "id": "L08es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "En Black Friday el servicio de catálogo se satura, las colas crecen, la latencia se dispara y al final se cae todo en cascada aunque solo una parte del tráfico era crítica. Quiero que bajo sobrecarga el sistema rechace peticiones de forma controlada y degrade funciones secundarias en vez de colapsar.",
+  "rel": {
+   "path": [
+    "sre-google[\\\\/](28-chapter-21|29-chapter-22)",
+    "building-secure-reliable-systems[\\\\/]15-chapter-8",
+    "mastering-api-architecture[\\\\/]10-chapter-6",
+    "architecting-for-scale-atchison[\\\\/]11-chapter-5"
+   ]
+  },
+  "book": [
+   "sre-google",
+   "building-secure-reliable-systems",
+   "mastering-api-architecture",
+   "architecting-for-scale-atchison"
+  ],
+  "from": "C13es"
+ },
+ {
+  "id": "L09es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Desplegamos en AKS y cada vez que un pod arranca tarda unos cuarenta segundos en cargar caches, pero Kubernetes le manda tráfico antes y los usuarios ven errores 502; además a veces se queda colgado y nadie lo reinicia. Explícame bien la diferencia entre las sondas de liveness y readiness y cómo configurarlas aquí.",
+  "rel": {
+   "path": [
+    "kubernetes-in-action-luksa[\\\\/](08-6|13-11)",
+    "kubernetes-patterns-ibryam[\\\\/]09-chapter-4",
+    "networking-and-kubernetes[\\\\/]07-chapter-4",
+    "gitops-kubernetes[\\\\/]16-8",
+    "open-cloud-native-microservices[\\\\/]09-chapter-5"
+   ]
+  },
+  "book": [
+   "kubernetes-in-action-luksa",
+   "kubernetes-patterns-ibryam",
+   "networking-and-kubernetes",
+   "gitops-kubernetes",
+   "open-cloud-native-microservices"
+  ],
+  "from": "C18es"
+ },
+ {
+  "id": "L10es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Estamos construyendo un asistente con LLM que lee correos de clientes y documentos de SharePoint para contestar tickets, y me preocupa que alguien meta instrucciones escondidas en un correo o en un PDF para que el modelo filtre datos. ¿Cómo defiendo la aplicación contra la inyección de prompts, sobre todo la indirecta?",
+  "rel": {
+   "path": [
+    "llm-security-playbook-wilson[\\\\/]05-chapter-4",
+    "ai-engineering-huyen[\\\\/]08-chapter-5",
+    "inside-cyber-warfare[\\\\/]08-chapter-7"
+   ]
+  },
+  "book": [
+   "llm-security-playbook-wilson",
+   "ai-engineering-huyen",
+   "inside-cyber-warfare"
+  ],
+  "from": "C24es"
+ },
+ {
+  "id": "L11es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Tenemos doce microservicios mantenidos por equipos distintos y cada vez que alguien cambia un campo en una respuesta rompe a otro equipo, y las pruebas end to end tardan horas y fallan por cualquier cosa. Quiero algo para que cada consumidor declare lo que espera del proveedor y se verifique en el pipeline del proveedor.",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/](48-9-1|51-10-1)",
+    "mastering-api-architecture[\\\\/]04-chapter-2",
+    "software-architecture-hard-parts[\\\\/]16-chapter-13",
+    "building-evolutionary-architectures[\\\\/]05-chapter-3",
+    "monolith-to-microservices-newman[\\\\/]06-chapter-5"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "mastering-api-architecture",
+   "software-architecture-hard-parts",
+   "building-evolutionary-architectures",
+   "monolith-to-microservices-newman"
+  ],
+  "from": "C30es"
+ },
+ {
+  "id": "L12es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "Auditoría nos pidió formalizar el plan de recuperación ante desastres del core bancario y no tenemos claro cuánto tiempo podemos estar caídos ni cuántos datos podemos perder; necesito definir RTO y RPO por sistema y justificar la arquitectura de respaldo y réplica que eso implica.",
+  "rel": {
+   "path": [
+    "defensive-security-handbook[\\\\/]08-chapter-7",
+    "architecting-the-cloud-kavis[\\\\/]21-chapter-13",
+    "software-architecture-metrics[\\\\/]08-chapter-7",
+    "security-architecture-hybrid-cloud[\\\\/]09-chapter-artifacts",
+    "learning-cloud-security[\\\\/]04-chapter-3",
+    "azure-cloud-native-mapbook[\\\\/]11-infrastructure"
+   ]
+  },
+  "book": [
+   "defensive-security-handbook",
+   "architecting-the-cloud-kavis",
+   "software-architecture-metrics",
+   "security-architecture-hybrid-cloud",
+   "learning-cloud-security",
+   "azure-cloud-native-mapbook"
+  ],
+  "from": "C20es"
+ },
+ {
+  "id": "L13en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "We are splitting a large retail platform into teams and every team uses the word customer to mean something slightly different, which causes endless confusion in the shared database. I want to understand how to draw the boundaries properly: what exactly is a bounded context in domain-driven design and how do I find them?",
+  "rel": {
+   "path": [
+    "learning-ddd-khononov[\\\\/](05-chapter-3|06-chapter-4)",
+    "ddd-evans[\\\\/]14-maintaining"
+   ]
+  },
+  "book": [
+   "learning-ddd-khononov",
+   "ddd-evans"
+  ],
+  "from": "B04en"
+ },
+ {
+  "id": "L14en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "Our cache cluster has twelve nodes and every time we add or remove a node almost every key gets remapped, which causes a thundering herd against the database. I am looking for a partitioning scheme where adding a node only moves a small fraction of keys, something like consistent hashing with virtual nodes.",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]11-chapter-6",
+    "web-scalability-ejsmont[\\\\/]11-chapter-6",
+    "designing-distributed-systems-burns.*sharded"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "web-scalability-ejsmont",
+   "designing-distributed-systems-burns"
+  ],
+  "from": "B06en"
+ },
+ {
+  "id": "L15en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "Before we expose the new partner API to the internet our security lead wants a structured review of what could go wrong, covering spoofing, tampering, repudiation, information disclosure, denial of service and elevation of privilege, so please walk me through how to run a threat modeling session with STRIDE.",
+  "rel": {
+   "path": [
+    "threat-modeling-tarandach[\\\\/]08-chapter-3",
+    "mastering-api-architecture[\\\\/]10-chapter-6"
+   ]
+  },
+  "book": [
+   "threat-modeling-tarandach",
+   "mastering-api-architecture"
+  ],
+  "from": "B09en"
+ },
+ {
+  "id": "L16en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "We ingest millions of telemetry writes per minute and our current B-tree based database is struggling with write amplification and random IO. I keep hearing that LSM trees handle heavy write workloads better; explain the trade-offs between LSM trees and B-trees for storage engines.",
+  "rel": {
+   "path": [
+    "database-internals-petrov[\\\\/]11-chapter-7",
+    "ddia-kleppmann[\\\\/]07-chapter-3"
+   ]
+  },
+  "book": [
+   "database-internals-petrov",
+   "ddia-kleppmann"
+  ],
+  "from": "C07en"
+ },
+ {
+  "id": "L17en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "Product asked for a dashboard with p99 latency per endpoint, but our services export Prometheus histograms and I am not sure how to compute percentiles correctly across instances or which bucket boundaries to choose so the estimate is not way off.",
+  "rel": {
+   "path": [
+    "prometheus-up-running[\\\\/](06-3|18-13|21-16)"
+   ]
+  },
+  "book": [
+   "prometheus-up-running"
+  ],
+  "from": "C14en"
+ },
+ {
+  "id": "L18en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "Leadership wants to know whether the platform investments of the last year actually improved how we ship software, and they keep asking for numbers. Which metrics should we track, I mean the four DORA metrics like deployment frequency and lead time, and how do we measure them honestly?",
+  "rel": {
+   "path": [
+    "software-architecture-metrics[\\\\/]02-chapter-1",
+    "accelerate-forsgren[\\\\/]13-chapter-2",
+    "infrastructure-as-code-morris[\\\\/]03-1"
+   ]
+  },
+  "book": [
+   "software-architecture-metrics",
+   "accelerate-forsgren",
+   "infrastructure-as-code-morris"
+  ],
+  "from": "C16en"
+ },
+ {
+  "id": "L19en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "Our legacy web app uses cookie based sessions and a pentest flagged that a malicious site could make the browser submit a transfer form on behalf of a logged in user. How do I protect the application against cross-site request forgery with tokens and SameSite cookies?",
+  "rel": {
+   "path": [
+    "web-application-security-hoffman[\\\\/](14-chapter-11|33-chapter-29)",
+    "restful-api-design-patterns[\\\\/]12-chapter-6"
+   ]
+  },
+  "book": [
+   "web-application-security-hoffman",
+   "restful-api-design-patterns"
+  ],
+  "from": "C21en"
+ },
+ {
+  "id": "L20en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "The team keeps arguing about how big each story is and the estimates from the most senior developer dominate everything. I would like a more collaborative way where everyone estimates independently and we discuss the differences, so how do we run planning poker for user stories?",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/]08-chapter-6"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn"
+  ],
+  "from": "C27en"
+ }
+]

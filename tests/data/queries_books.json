@@ -1,0 +1,350 @@
+[
+ {
+  "id": "B01en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "cone of uncertainty in software estimation",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/](20-chapter-16|02-chapter-1)\\.md"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn",
+   "software-estimation-mcconnell"
+  ]
+ },
+ {
+  "id": "B01es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cono de incertidumbre en la estimación de software",
+  "rel": {
+   "path": [
+    "agile-estimating-planning-cohn[\\\\/](20-chapter-16|02-chapter-1)\\.md"
+   ]
+  },
+  "book": [
+   "agile-estimating-planning-cohn",
+   "software-estimation-mcconnell"
+  ]
+ },
+ {
+  "id": "B02en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "error budget burn rate alerting on SLOs",
+  "rel": {
+   "path": [
+    "observability-engineering[\\\\/](21-chapter-12|19-chapter-11)",
+    "sre-google[\\\\/]09-chapter-3"
+   ]
+  },
+  "book": [
+   "observability-engineering",
+   "sre-google"
+  ]
+ },
+ {
+  "id": "B02es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "tasa de consumo del presupuesto de errores para alertas de SLO",
+  "rel": {
+   "path": [
+    "observability-engineering[\\\\/](21-chapter-12|19-chapter-11)",
+    "sre-google[\\\\/]09-chapter-3"
+   ]
+  },
+  "book": [
+   "observability-engineering",
+   "sre-google"
+  ]
+ },
+ {
+  "id": "B03en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "test doubles: mocks vs stubs",
+  "rel": {
+   "path": [
+    "unit-testing-khorikov[\\\\/](15-5-mocks|11-2-what|20-9-mocking)"
+   ]
+  },
+  "book": [
+   "unit-testing-khorikov"
+  ]
+ },
+ {
+  "id": "B03es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "diferencia entre mocks y stubs en pruebas unitarias",
+  "rel": {
+   "path": [
+    "unit-testing-khorikov[\\\\/](15-5-mocks|11-2-what|20-9-mocking)"
+   ]
+  },
+  "book": [
+   "unit-testing-khorikov"
+  ]
+ },
+ {
+  "id": "B04en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "what is a bounded context in domain-driven design",
+  "rel": {
+   "path": [
+    "learning-ddd-khononov[\\\\/](05-chapter-3|06-chapter-4)",
+    "ddd-evans[\\\\/]14-maintaining",
+    "data-management-at-scale-strengholt[\\\\/]03-chapter-2"
+   ]
+  },
+  "book": [
+   "learning-ddd-khononov",
+   "ddd-evans"
+  ]
+ },
+ {
+  "id": "B04es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "qué es un contexto delimitado en DDD",
+  "rel": {
+   "path": [
+    "learning-ddd-khononov[\\\\/](05-chapter-3|06-chapter-4)",
+    "ddd-evans[\\\\/]14-maintaining",
+    "data-management-at-scale-strengholt[\\\\/]03-chapter-2"
+   ]
+  },
+  "book": [
+   "learning-ddd-khononov",
+   "ddd-evans"
+  ]
+ },
+ {
+  "id": "B05en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "idempotent consumer handling duplicate messages",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "enterprise-integration-patterns[\\\\/]16-10",
+    "web-scalability-ejsmont[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "enterprise-integration-patterns",
+   "web-scalability-ejsmont"
+  ]
+ },
+ {
+  "id": "B05es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "consumidor idempotente para mensajes duplicados",
+  "rel": {
+   "path": [
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "enterprise-integration-patterns[\\\\/]16-10",
+    "web-scalability-ejsmont[\\\\/]12-chapter-7"
+   ]
+  },
+  "book": [
+   "microservices-patterns-richardson",
+   "enterprise-integration-patterns",
+   "web-scalability-ejsmont"
+  ]
+ },
+ {
+  "id": "B06en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "consistent hashing for partitioning data",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]11-chapter-6",
+    "web-scalability-ejsmont[\\\\/]11-chapter-6",
+    "designing-distributed-systems-burns.*sharded"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "web-scalability-ejsmont",
+   "designing-distributed-systems-burns"
+  ]
+ },
+ {
+  "id": "B06es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "hashing consistente para particionar datos",
+  "rel": {
+   "path": [
+    "ddia-kleppmann[\\\\/]11-chapter-6",
+    "web-scalability-ejsmont[\\\\/]11-chapter-6",
+    "designing-distributed-systems-burns.*sharded"
+   ]
+  },
+  "book": [
+   "ddia-kleppmann",
+   "web-scalability-ejsmont",
+   "designing-distributed-systems-burns"
+  ]
+ },
+ {
+  "id": "B07en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "transactional outbox pattern",
+  "rel": {
+   "path": [
+    "bedm-bellemare[\\\\/]05-chapter-4",
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "learning-ddd-khononov[\\\\/]12-chapter-9"
+   ]
+  },
+  "book": [
+   "bedm-bellemare",
+   "microservices-patterns-richardson",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B07es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "patrón de bandeja de salida transaccional para publicar eventos",
+  "rel": {
+   "path": [
+    "bedm-bellemare[\\\\/]05-chapter-4",
+    "microservices-patterns-richardson[\\\\/]21-3-3",
+    "learning-ddd-khononov[\\\\/]12-chapter-9"
+   ]
+  },
+  "book": [
+   "bedm-bellemare",
+   "microservices-patterns-richardson",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B08en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "anti-corruption layer between bounded contexts",
+  "rel": {
+   "path": [
+    "ddd-evans[\\\\/]14-maintaining",
+    "learning-ddd-khononov[\\\\/](06-chapter-4|12-chapter-9)"
+   ]
+  },
+  "book": [
+   "ddd-evans",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B08es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "capa anticorrupción para integrar un sistema legado",
+  "rel": {
+   "path": [
+    "ddd-evans[\\\\/]14-maintaining",
+    "learning-ddd-khononov[\\\\/](06-chapter-4|12-chapter-9)"
+   ]
+  },
+  "book": [
+   "ddd-evans",
+   "learning-ddd-khononov"
+  ]
+ },
+ {
+  "id": "B09en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "STRIDE threat modeling methodology",
+  "rel": {
+   "path": [
+    "threat-modeling-tarandach[\\\\/]08-chapter-3",
+    "mastering-api-architecture[\\\\/]10-chapter-6"
+   ]
+  },
+  "book": [
+   "threat-modeling-tarandach",
+   "mastering-api-architecture"
+  ]
+ },
+ {
+  "id": "B09es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "metodología de modelado de amenazas por suplantación, manipulación y repudio",
+  "rel": {
+   "path": [
+    "threat-modeling-tarandach[\\\\/]08-chapter-3",
+    "mastering-api-architecture[\\\\/]10-chapter-6"
+   ]
+  },
+  "book": [
+   "threat-modeling-tarandach",
+   "mastering-api-architecture"
+  ]
+ },
+ {
+  "id": "B10en",
+  "type": "book",
+  "qlang": "en",
+  "dlang": "en",
+  "q": "managing terraform remote state and locking",
+  "rel": {
+   "path": [
+    "terraform-up-running-brikman[\\\\/]04-3-how-to-manage",
+    "infrastructure-as-code-morris[\\\\/]24-20"
+   ]
+  },
+  "book": [
+   "terraform-up-running-brikman",
+   "infrastructure-as-code-morris"
+  ]
+ },
+ {
+  "id": "B10es",
+  "type": "book",
+  "qlang": "es",
+  "dlang": "en",
+  "q": "cómo gestionar el estado remoto de terraform con bloqueo",
+  "rel": {
+   "path": [
+    "terraform-up-running-brikman[\\\\/]04-3-how-to-manage",
+    "infrastructure-as-code-morris[\\\\/]24-20"
+   ]
+  },
+  "book": [
+   "terraform-up-running-brikman",
+   "infrastructure-as-code-morris"
+  ]
+ }
+]
