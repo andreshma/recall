@@ -8,6 +8,21 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Changed
+
+- The CPU fallback no longer inherits the DirectML-tuned session options. The
+  memory pattern (a CPU speed-up ONNX Runtime enables by default, but which
+  DirectML does not support) now stays on when inference runs on CPU, and the
+  Run lock that serializes DirectML — which cannot run concurrent calls — is
+  skipped on CPU, where ONNX Runtime allows concurrent `Run`, so the
+  multithreaded service parallelizes embeddings under load. Embedding output is
+  unchanged; no re-index is needed.
+
+### Fixed
+
+- The shared tokenizer is now guarded while its truncation/padding is mutated,
+  so concurrent requests cannot corrupt each other's encoding.
+
 ## [0.3.0] - 2026-11-09
 
 First public release. It gathers everything since 0.2.0: the fixes from the

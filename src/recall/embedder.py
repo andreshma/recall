@@ -19,6 +19,7 @@ import json
 import sys
 import threading
 from collections.abc import Sequence
+from contextlib import nullcontext
 from pathlib import Path
 from typing import ClassVar, Protocol
 
@@ -233,17 +234,23 @@ class OnnxEmbedder:
         self._count_tok = Tokenizer.from_file(str(tok_path))
         self._count_tok.no_truncation()
         self._count_tok.no_padding()
-        so = ort.SessionOptions()
-        so.log_severity_level = 3
-        # DirectML supports neither the memory pattern nor parallel execution
-        # (ONNX Runtime docs, DirectML EP). On CPU it does not change the result.
-        so.enable_mem_pattern = False
-        so.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
-        # "only one thread may call Run at a time" on a DirectML session. The
-        # service is multithreaded: two concurrent Runs crashed the process inside
-        # the NVIDIA driver (nvwgf2umx.dll, 0xc0000005, 2026-11-06).
+
+        # Session options depend on the provider that actually starts, so they
+        # are built per attempt inside open_session (DirectML must disable the
+        # memory pattern; the CPU fallback keeps it on). See _session_options.
+        def session_options(dml: bool):
+            return _session_options(ort, dml=dml)
+
+        # The tokenizer is shared and mutated per call (truncation length); this
+        # guards it so concurrent requests cannot corrupt each other's encoding.
+        self._encode_lock = threading.Lock()
+        self._sess, self.device_id = open_session(ort, str(model), session_options, providers)
+        # "only one thread may call Run at a time" on a DirectML session: two
+        # concurrent Runs crashed the process inside the NVIDIA driver
+        # (nvwgf2umx.dll, 0xc0000005, 2026-11-06). On CPU, ONNX Runtime allows
+        # concurrent Run calls, so the lock is taken only for DirectML.
         self._run_lock = threading.Lock()
-        self._sess, self.device_id = open_session(ort, str(model), so, providers)
+        self._run_guard = self._run_lock if self.device_id is not None else nullcontext()
         self.providers = self._sess.get_providers()
         self._inputs = [i.name for i in self._sess.get_inputs()]
         outs = [o.name for o in self._sess.get_outputs()]
@@ -307,10 +314,13 @@ class OnnxEmbedder:
 
     def _encode(self, texts: list[str], max_len: int) -> tuple[np.ndarray, np.ndarray]:
         """ids and mask, with end-of-sequence and padding as the model requires."""
-        self._tok.no_padding()
-        # With a manual EOS, truncate one token earlier so the EOS always fits.
-        self._tok.enable_truncation(max_length=max_len - (1 if self._eos_id is not None else 0))
-        seqs = [e.ids for e in self._tok.encode_batch(texts)]
+        # The tokenizer is shared and its truncation/padding is mutated here, so
+        # hold the encode lock: concurrent CPU requests must not interleave this.
+        with self._encode_lock:
+            self._tok.no_padding()
+            # With a manual EOS, truncate one token earlier so the EOS always fits.
+            self._tok.enable_truncation(max_length=max_len - (1 if self._eos_id is not None else 0))
+            seqs = [e.ids for e in self._tok.encode_batch(texts)]
         if self._eos_id is not None:
             seqs = [s if s and s[-1] == self._eos_id else [*s, self._eos_id] for s in seqs]
         # Padding to multiples of 32 reduces the distinct shapes DirectML sees.
@@ -372,7 +382,7 @@ class OnnxEmbedder:
         for s in range(0, len(order), self.batch_size):
             ids = order[s : s + self.batch_size]
             ii, am = self._encode([texts[i] for i in ids], max_len)
-            with self._run_lock:
+            with self._run_guard:
                 h = self._sess.run([self._sess.get_outputs()[self._out].name], self._feed(ii, am))[0]
             v = self._pool(np.asarray(h, dtype=np.float32), am)
             v = np.asarray(v[:, : self.dim], dtype=np.float32)
@@ -424,6 +434,21 @@ def _describe(attempt: list) -> str:
     return ", ".join(p if isinstance(p, str) else f"{p[0]}:{p[1]['device_id']}" for p in attempt)
 
 
+def _session_options(ort, *, dml: bool):
+    """ONNX Runtime ``SessionOptions`` tuned for the provider that will run.
+
+    DirectML supports neither the memory pattern nor parallel execution (ONNX
+    Runtime docs, DirectML EP). On CPU the memory pattern is a real speed-up and
+    does not change the result, so the CPU fallback keeps it on instead of
+    inheriting the DirectML-tuned options.
+    """
+    so = ort.SessionOptions()
+    so.log_severity_level = 3
+    so.enable_mem_pattern = not dml
+    so.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+    return so
+
+
 def open_session(ort, model: str, so, providers: Sequence[str], log=None) -> tuple:
     """(InferenceSession, DirectML adapter or None), trying :func:`provider_attempts` in order.
 
@@ -431,6 +456,10 @@ def open_session(ort, model: str, so, providers: Sequence[str], log=None) -> tup
     without DirectML. Missing adapter or broken driver: CPU rather than
     nothing. The choice is always logged (stderr by default): a silent CPU
     fallback made queries miss the hook's 1.5 s budget with no trace (F-09).
+
+    ``so`` is the ONNX Runtime ``SessionOptions``, or a ``callable(is_dml)``
+    that builds them for each attempt (so the CPU fallback is not stuck with
+    the DirectML-tuned options); anything else is passed through unchanged.
     """
     log = log or (lambda m: print(m, file=sys.stderr, flush=True))
     attempts = provider_attempts(providers, ort.get_available_providers())
@@ -438,8 +467,9 @@ def open_session(ort, model: str, so, providers: Sequence[str], log=None) -> tup
     for i, attempt in enumerate(attempts):
         last = i == len(attempts) - 1
         dml = next((p[1]["device_id"] for p in attempt if not isinstance(p, str) and p[0] == _DML), None)
+        opts = so(dml is not None) if callable(so) else so
         try:
-            sess = ort.InferenceSession(model, so, providers=attempt)
+            sess = ort.InferenceSession(model, opts, providers=attempt)
         except Exception as e:
             if last:
                 raise
