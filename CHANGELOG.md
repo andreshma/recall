@@ -8,6 +8,23 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-09
+
+### Changed
+
+- The CPU fallback no longer inherits the DirectML-tuned session options. The
+  memory pattern (a CPU speed-up ONNX Runtime enables by default, but which
+  DirectML does not support) now stays on when inference runs on CPU, and the
+  Run lock that serializes DirectML — which cannot run concurrent calls — is
+  skipped on CPU, where ONNX Runtime allows concurrent `Run`, so the
+  multithreaded service parallelizes embeddings under load. Embedding output is
+  unchanged; no re-index is needed.
+
+### Fixed
+
+- The shared tokenizer is now guarded while its truncation/padding is mutated,
+  so concurrent requests cannot corrupt each other's encoding.
+
 ## [0.3.0] - 2026-11-09
 
 First public release. It gathers everything since 0.2.0: the fixes from the
@@ -257,5 +274,6 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/andreshma/recall/releases/tag/v0.3.0

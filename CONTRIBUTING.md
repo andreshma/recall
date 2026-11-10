@@ -93,6 +93,14 @@ MRR@10 and separation as in [docs/paper.md](docs/paper.md), and run
 
 ## Branching and commits
 
-`main` is always releasable; work on a `feature/<name>` branch and open a PR.
-Use Conventional Commits (`feat:`, `fix:`, `docs:`, `exp:`…). Add a test for
-anything that touches the hook, the service auth, or the model identity.
+This project uses **Gitflow**:
+
+- `develop` is the default branch and the integration target for day-to-day work.
+- `main` always holds the latest released, production-ready state.
+- Work on a `feature/<name>` branch off `develop` and open a PR into `develop`.
+- Releases are cut on a `release/<version>` branch (`develop` → `main`), tagged on
+  `main`, then merged back into `develop`. Urgent fixes use `hotfix/<name>` off `main`.
+
+Both `main` and `develop` are protected: changes land through a pull request that
+passes CI. Use Conventional Commits (`feat:`, `fix:`, `docs:`, `exp:`…). Add a
+test for anything that touches the hook, the service auth, or the model identity.
