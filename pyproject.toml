@@ -1,6 +1,6 @@
 [project]
 name = "recall"
-version = "0.3.0"
+version = "0.3.1"
 description = "Local, bilingual (ES/EN) semantic search over a technical book library for coding assistants: SQLite FTS5 + ONNX embeddings, a fail-open prompt hook and an MCP server."
 readme = "README.md"
 license = "Apache-2.0"
