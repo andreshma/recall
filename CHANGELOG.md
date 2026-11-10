@@ -8,6 +8,8 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-09
+
 ### Changed
 
 - The CPU fallback no longer inherits the DirectML-tuned session options. The
@@ -272,5 +274,6 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/andreshma/recall/releases/tag/v0.3.0
