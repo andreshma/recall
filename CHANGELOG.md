@@ -8,6 +8,26 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Changed
+
+- **Queries are embedded on CPU by default** (`model.query_providers:
+  ["CPUExecutionProvider"]`; indexing stays on DirectML). A week of shadow logs
+  showed 24 % of searched prompts timing out: DirectML's median was fine but
+  about one call in ten stalled for seconds. On CPU all query windows are
+  embedded in one call. Long prompts: service p90 2.4–4.2 s → 1.2 s, whole hook
+  p50 1.8 s → 0.9 s; retrieval unchanged. See ADR 0009. To keep queries on a
+  GPU, set `query_providers` in `config.json`.
+- The hook talks to the service over a plain loopback socket instead of
+  `urllib.request`, whose import cost ~200 ms of the budget on every prompt.
+
+### Fixed
+
+- CI: Windows jobs judged multi-line steps only by their last command, so a
+  failing `pytest` followed by a passing `coverage report` left the job green.
+  They now run in bash (`-eo pipefail`).
+- `recall.__version__` and `CITATION.cff` said 0.3.0 in the 0.3.1 release
+  (the version test was failing unnoticed because of the CI bug above).
+
 ## [0.3.1] - 2026-11-09
 
 ### Changed

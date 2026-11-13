@@ -38,8 +38,9 @@ class FakeOrt:
 
 
 def test_defaults_name_no_adapter():
-    for role in ("index_providers", "query_providers"):
-        assert config.DEFAULTS["model"][role] == ["DmlExecutionProvider", "CPUExecutionProvider"]
+    assert config.DEFAULTS["model"]["index_providers"] == ["DmlExecutionProvider", "CPUExecutionProvider"]
+    # ADR 0009: queries default to CPU (steady latency for the hook's budget).
+    assert config.DEFAULTS["model"]["query_providers"] == ["CPUExecutionProvider"]
 
 
 def test_attempt_order():

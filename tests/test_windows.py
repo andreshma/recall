@@ -66,6 +66,41 @@ def test_long_prompt_finds_topic_buried_after_context(indexed):
     assert hits and "incertidumbre" in hits[0]["text"].lower()
 
 
+def test_directml_keeps_one_call_per_window_and_the_deadline(indexed):
+    """ADR 0009: on DirectML the cost is tokens per call, so windows are not batched."""
+    s, emb = _searcher(indexed)
+    emb.providers = ["DmlExecutionProvider", "CPUExecutionProvider"]
+    sizes = []
+    orig = emb.embed
+
+    def spy(texts, kind):
+        sizes.append(len(texts))
+        return orig(texts, kind)
+
+    emb.embed = spy
+    prompt = "uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece"
+    s.search(prompt, k=3)
+    assert len(sizes) > 1 and set(sizes) == {1}
+    sizes.clear()
+    s.search(prompt, k=3, deadline=time.perf_counter() - 1)
+    assert sizes == [1]
+
+
+def test_cpu_batches_all_windows_in_one_call(indexed):
+    s, emb = _searcher(indexed)
+    emb.providers = ["CPUExecutionProvider"]
+    sizes = []
+    orig = emb.embed
+
+    def spy(texts, kind):
+        sizes.append(len(texts))
+        return orig(texts, kind)
+
+    emb.embed = spy
+    s.search("uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece", k=3)
+    assert len(sizes) == 1 and sizes[0] > 1
+
+
 def test_deadline_stops_embedding_but_keeps_the_first_window(indexed):
     s, emb = _searcher(indexed)
     emb.calls = 0
@@ -81,9 +116,10 @@ def test_windows_are_interleaved_across_queries(indexed):
     orig = emb.embed
 
     def spy(texts, kind):
-        seen.append(texts[0])
+        seen.append(list(texts))
         return orig(texts, kind)
 
     emb.embed = spy
     s.search(["a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13", "b1 b2 b3"], k=3)
-    assert any("b1" in t for t in seen)  # the second query is not left without a window
+    assert len(seen) == 1  # all windows of all phrasings go in ONE embed call
+    assert any("b1" in t for t in seen[0])  # the second query is not left without a window

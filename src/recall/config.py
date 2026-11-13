@@ -59,8 +59,10 @@ DEFAULTS: dict[str, Any] = {
         # adapters per machine. "DmlExecutionProvider:N" in config.json picks
         # adapter N (e.g. a discrete GPU); if it cannot start, the others are
         # tried before CPU and the choice is logged (embedder.open_session).
+        # Queries run on CPU (ADR 0009): DirectML's median was lower but one call
+        # in ten took > 3 s, which broke the hook's 1.5 s budget; CPU was steady.
         "index_providers": ["DmlExecutionProvider", "CPUExecutionProvider"],
-        "query_providers": ["DmlExecutionProvider", "CPUExecutionProvider"],
+        "query_providers": ["CPUExecutionProvider"],
         "batch_size": 32,
     },
     "search": {
