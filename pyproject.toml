@@ -28,7 +28,7 @@ dependencies = [
     # the CPU runtime only so that the unit suite and static checks can run
     # there; they are not a supported runtime platform.
     "onnxruntime-directml==1.24.4; sys_platform == 'win32'",
-    "onnxruntime==1.24.4; sys_platform != 'win32'",
+    "onnxruntime==1.31.1; sys_platform != 'win32'",
     "tokenizers==0.23.3",
 ]
 
