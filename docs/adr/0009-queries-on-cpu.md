@@ -1,6 +1,6 @@
 # 0009. Embed queries on CPU, index on DirectML
 
-- Status: Accepted
+- Status: Superseded by [0010](0010-directml-one-query-shape.md): the stalls came from the session seeing several input shapes, not from DirectML itself
 - Date: 2026-11-13
 
 ## Context and problem statement

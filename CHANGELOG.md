@@ -10,18 +10,25 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ### Changed
 
-- **Queries are embedded on CPU by default** (`model.query_providers:
-  ["CPUExecutionProvider"]`; indexing stays on DirectML). A week of shadow logs
-  showed 24 % of searched prompts timing out: DirectML's median was fine but
-  about one call in ten stalled for seconds. On CPU all query windows are
-  embedded in one call. Long prompts: service p90 2.4–4.2 s → 1.2 s, whole hook
-  p50 1.8 s → 0.9 s; retrieval unchanged. See ADR 0009. To keep queries on a
-  GPU, set `query_providers` in `config.json`.
+- On CPU, all query windows of a prompt are embedded in one call (2–3× faster
+  than one call per window, identical vectors).
+- Read-only index connections use memory-mapped I/O (`pragma mmap_size`, 1 GiB
+  cap). The FTS5 query of each window ranked its matches by re-reading pages
+  through `read()` calls; with the map it is ~4x faster (183 real windows:
+  p90 147 -> ~40 ms), and the slowest searches lost up to ~1 s of SQLite time.
+  It uses the OS file cache, so it adds no private memory. Results unchanged.
 - The hook talks to the service over a plain loopback socket instead of
   `urllib.request`, whose import cost ~200 ms of the budget on every prompt.
 
 ### Fixed
 
+- **DirectML query stalls.** A week of shadow logs showed 24 % of searched
+  prompts timing out because about one DirectML call in ten took seconds. The
+  cause: a DirectML session is fast only for the first input shape it runs,
+  and the service's warm-up fed it seven widths at start. Query sessions on
+  DirectML now run every text at one fixed shape, `(1, query_window_tokens)`:
+  ~90 ms per window, max ~180 ms, against 0.8 s median on CPU; vectors
+  unchanged. See ADR 0010 (supersedes 0009, which had moved queries to CPU).
 - CI: Windows jobs judged multi-line steps only by their last command, so a
   failing `pytest` followed by a passing `coverage report` left the job green.
   They now run in bash (`-eo pipefail`).

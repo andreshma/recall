@@ -422,11 +422,11 @@ class Searcher:
             V, ids, coll, lang, pos, book, sha = self.V, self.ids, self.coll, self.lang, self.pos, self.book, self.sha
         if not len(ids):
             return []
-        # How windows reach the model depends on where queries run (ADR 0009):
-        # on CPU (the default) all windows go in ONE call, 2-3x faster than one
-        # call per window (measured 2026-11-13 on 20 long prompts, identical
-        # vectors); on DirectML the cost is the total tokens per call (ADR 0008),
-        # so each window keeps its own call and the deadline can stop between them.
+        # How windows reach the model depends on where queries run: on CPU all
+        # windows go in ONE call, 2-3x faster than one call per window (measured
+        # 2026-11-13, identical vectors, ADR 0009); on DirectML each window is
+        # its own call at the one pinned shape (ADR 0010), so the deadline can
+        # stop between them.
         provs = getattr(self.emb, "providers", None) or ["CPUExecutionProvider"]
         batched = provs[0] == "CPUExecutionProvider"
         full = qs

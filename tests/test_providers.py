@@ -39,8 +39,8 @@ class FakeOrt:
 
 def test_defaults_name_no_adapter():
     assert config.DEFAULTS["model"]["index_providers"] == ["DmlExecutionProvider", "CPUExecutionProvider"]
-    # ADR 0009: queries default to CPU (steady latency for the hook's budget).
-    assert config.DEFAULTS["model"]["query_providers"] == ["CPUExecutionProvider"]
+    # ADR 0010: queries are back on DirectML, at one pinned shape.
+    assert config.DEFAULTS["model"]["query_providers"] == ["DmlExecutionProvider", "CPUExecutionProvider"]
 
 
 def test_attempt_order():

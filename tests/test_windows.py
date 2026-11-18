@@ -67,7 +67,7 @@ def test_long_prompt_finds_topic_buried_after_context(indexed):
 
 
 def test_directml_keeps_one_call_per_window_and_the_deadline(indexed):
-    """ADR 0009: on DirectML the cost is tokens per call, so windows are not batched."""
+    """ADR 0010: on DirectML each window is its own call at the one pinned shape."""
     s, emb = _searcher(indexed)
     emb.providers = ["DmlExecutionProvider", "CPUExecutionProvider"]
     sizes = []

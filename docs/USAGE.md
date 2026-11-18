@@ -278,12 +278,13 @@ $py = 'C:\Users\<user>\source\repos\recall\.venv\Scripts\python.exe'
   chunking). Indexing or searching with a different identity fails with
   `ModelMismatchError` instead of returning wrong results; changing model or
   chunking requires `--rebuild` (or a separate home, §13).
-- **Queries run on CPU** by default (`model.query_providers:
-  ["CPUExecutionProvider"]`, [ADR 0009](adr/0009-queries-on-cpu.md)): on
-  DirectML about one query in ten stalled for seconds, which broke the hook's
-  1.5 s budget, while CPU stayed under ~1.2 s for long prompts. Indexing
-  stays on DirectML. To query on a GPU anyway, set `query_providers` to
-  `["DmlExecutionProvider:N", "CPUExecutionProvider"]`.
+- **One input shape per DirectML query session**
+  ([ADR 0010](adr/0010-directml-one-query-shape.md)). A DirectML session is
+  fast only for the first tensor shape it runs; after a second shape every
+  call took 1–3.6 s. On DirectML each query text is therefore embedded alone
+  and padded to exactly `search.query_window_tokens` tokens
+  (`model.query_max_tokens` if windows are off). ~90 ms per window on the
+  development laptop, against ~0.8 s on CPU. On CPU all windows go in one call.
 - **DirectML adapter.** The default index providers are `DmlExecutionProvider`
   (no adapter number: DXGI adapter 0 is tried first) then
   `CPUExecutionProvider`. `DmlExecutionProvider:N` in `model.index_providers`
@@ -632,7 +633,7 @@ value and record it on the next `recall index`.
 | `model` | `onnx_file` | `onnx/model_quantized.onnx` | ONNX file inside the snapshot. |
 | `model` | `dim` | 768 | Embedding dimension. |
 | `model` | `doc_max_tokens`, `query_max_tokens` | 320, 256 | Truncation. Raise `doc_max_tokens` with larger chunks (~1 token per 3–4 characters). |
-| `model` | `index_providers`, `query_providers` | index: `DmlExecutionProvider`, `CPUExecutionProvider`; query: `CPUExecutionProvider` (ADR 0009) | ONNX Runtime providers, in order. `DmlExecutionProvider:N` puts DXGI adapter N first; other adapters (0–3) and then CPU are tried if it cannot start (§5). |
+| `model` | `index_providers`, `query_providers` | index: `DmlExecutionProvider`, `CPUExecutionProvider`; query: same (one fixed shape on DirectML, ADR 0010) | ONNX Runtime providers, in order. `DmlExecutionProvider:N` puts DXGI adapter N first; other adapters (0–3) and then CPU are tried if it cannot start (§5). |
 | `model` | `batch_size` | 32 | Indexing batch. |
 | `search` | `fts_weight_same_lang`, `fts_weight_cross_lang` | 0.25, 0.02 | Lexical weight in RRF when query and chunk share a language / don't. |
 | `search` | `rrf_k`, `vec_weight`, `candidates`, `min_reload_s` | 60, 1.0, 100, 30 | Fusion and reload tuning. |
