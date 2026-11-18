@@ -40,10 +40,10 @@ import math
 import os
 import re
 import secrets
+import socket
 import sys
 import threading
 import time
-import urllib.request
 
 DEFAULT_HOOK = {
     "mode": "shadow",
@@ -191,6 +191,7 @@ def short_path(path: object) -> str:
 #: ~25 000 prompts: weeks of use, plenty to calibrate shadow mode.
 LOG_MAX_BYTES = 5 * 1024 * 1024
 LOG_KEEP = 3
+MAX_RESPONSE = 4 * 1024 * 1024  # bytes read from the service at most
 SHADOW_LOG = "shadow.log"
 
 
@@ -264,7 +265,41 @@ def server_proof(token: str, nonce: str, port: int) -> str:
     return hmac.new(token.encode("ascii"), msg, hashlib.sha256).hexdigest()
 
 
-def verify_server(opener, port: int, token: str, timeout: float) -> None:
+def http_request(
+    port: int, method: str, path: str, timeout: float, body: bytes = b"", headers: dict | None = None
+) -> bytes:
+    """Minimal HTTP/1.0 exchange with the loopback service; returns the body.
+
+    Plain ``socket`` instead of ``urllib.request``: importing urllib.request
+    (http.client, email, ssl) cost ~200 ms of the hook's 1.5 s budget on every
+    prompt (measured 2026-11-13), and a raw loopback socket never goes through
+    a proxy. The service answers HTTP/1.0 and closes the connection, so the
+    response is read until EOF. Raises on any non-200 status.
+    """
+    lines = [f"{method} {path} HTTP/1.0", f"Host: 127.0.0.1:{port}"]
+    lines += [f"{k}: {v}" for k, v in (headers or {}).items()]
+    if method == "POST":
+        lines.append(f"Content-Length: {len(body)}")
+    request = ("\r\n".join(lines) + "\r\n\r\n").encode("ascii") + body
+    chunks, size = [], 0
+    with socket.create_connection(("127.0.0.1", port), timeout=timeout) as conn:
+        conn.sendall(request)
+        while True:
+            chunk = conn.recv(65536)
+            if not chunk:
+                break
+            size += len(chunk)
+            if size > MAX_RESPONSE:
+                raise ValueError("response too large")
+            chunks.append(chunk)
+    head, sep, payload = b"".join(chunks).partition(b"\r\n\r\n")
+    status = head.split(b"\r\n", 1)[0].split()
+    if not sep or len(status) < 2 or status[1] != b"200":
+        raise ValueError("unexpected response from service")
+    return payload
+
+
+def verify_server(port: int, token: str, timeout: float) -> None:
     """Raise unless the process on ``port`` proves it knows ``token`` (ADV-2).
 
     Sent before the token and the prompt: after a crash ``service.json`` may
@@ -272,8 +307,7 @@ def verify_server(opener, port: int, token: str, timeout: float) -> None:
     random nonce.
     """
     nonce = secrets.token_urlsafe(24)
-    with opener.open(f"http://127.0.0.1:{port}/proof?nonce={nonce}", timeout=timeout) as r:
-        got = json.loads(r.read(4096)).get("proof")
+    got = json.loads(http_request(port, "GET", f"/proof?nonce={nonce}", timeout)).get("proof")
     if not isinstance(got, str) or not hmac.compare_digest(got.encode(), server_proof(token, nonce, port).encode()):
         raise ServerProofError("server proof failed")
 
@@ -302,25 +336,18 @@ def query_service(
             "budget_ms": max(50, int(timeout * 700)),
         }
     ).encode("utf-8")
-    req = urllib.request.Request(
-        f"http://127.0.0.1:{port}/search",
-        data=body,
-        method="POST",
-        headers={"Content-Type": "application/json", "Authorization": f"Bearer {token}"},
-    )
-    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))  # loopback, no proxy
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {token}"}
     timeout = max(0.05, timeout)
     box: dict = {}
 
     def fetch() -> None:
         try:
-            verify_server(opener, port, token, timeout)
-            with opener.open(req, timeout=timeout) as r:
-                box["hits"] = json.loads(r.read(4 * 1024 * 1024))["hits"]
+            verify_server(port, token, timeout)
+            box["hits"] = json.loads(http_request(port, "POST", "/search", timeout, body, headers))["hits"]
         except Exception as e:  # re-raised on the main thread
             box["err"] = e
 
-    # urllib's timeout is per socket operation, not total: a service that trickles
+    # The socket timeout is per operation, not total: a service that trickles
     # bytes stretches it without limit. The daemon thread bounds wall-clock time.
     th = threading.Thread(target=fetch, daemon=True)
     th.start()

@@ -422,8 +422,13 @@ class Searcher:
             V, ids, coll, lang, pos, book, sha = self.V, self.ids, self.coll, self.lang, self.pos, self.book, self.sha
         if not len(ids):
             return []
-        # One at a time: on DirectML a batch of 2-4 queries is a new tensor shape
-        # (seconds of compilation); batch-1 shapes are warmed up by the service.
+        # How windows reach the model depends on where queries run: on CPU all
+        # windows go in ONE call, 2-3x faster than one call per window (measured
+        # 2026-11-13, identical vectors, ADR 0009); on DirectML each window is
+        # its own call at the one pinned shape (ADR 0010), so the deadline can
+        # stop between them.
+        provs = getattr(self.emb, "providers", None) or ["CPUExecutionProvider"]
+        batched = provs[0] == "CPUExecutionProvider"
         full = qs
         wt, wn = int(self.cfg["query_window_tokens"]), int(self.cfg["query_max_windows"])
         ov = int(self.cfg["query_window_overlap"])
@@ -432,13 +437,18 @@ class Searcher:
         per = [query_windows(self.emb, q, wt, wn, ov) for q in full]
         wins = [(g, ws[i]) for i in range(max(map(len, per))) for g, ws in enumerate(per) if i < len(ws)]
         wins = wins[: max(wn, len(full))]
-        vecs: list[np.ndarray] = []
-        for _g, w in wins:
-            if vecs and deadline is not None and time.perf_counter() > deadline:
-                break
-            vecs.append(self.emb.embed([format_query(self.emb, w)], "query"))
-        wins = wins[: len(vecs)]
-        qv = np.vstack(vecs)
+        if batched:
+            if deadline is not None and time.perf_counter() > deadline:
+                wins = wins[:1]  # out of time already: the first window only
+            qv = self.emb.embed([format_query(self.emb, w) for _g, w in wins], "query")
+        else:
+            vecs: list[np.ndarray] = []
+            for _g, w in wins:
+                if vecs and deadline is not None and time.perf_counter() > deadline:
+                    break
+                vecs.append(self.emb.embed([format_query(self.emb, w)], "query"))
+            wins = wins[: len(vecs)]
+            qv = np.vstack(vecs)
         with self._lock:
             cos_all = V @ qv.T  # n x windows
             mask = None

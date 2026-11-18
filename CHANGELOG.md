@@ -8,6 +8,33 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Changed
+
+- On CPU, all query windows of a prompt are embedded in one call (2–3× faster
+  than one call per window, identical vectors).
+- Read-only index connections use memory-mapped I/O (`pragma mmap_size`, 1 GiB
+  cap). The FTS5 query of each window ranked its matches by re-reading pages
+  through `read()` calls; with the map it is ~4x faster (183 real windows:
+  p90 147 -> ~40 ms), and the slowest searches lost up to ~1 s of SQLite time.
+  It uses the OS file cache, so it adds no private memory. Results unchanged.
+- The hook talks to the service over a plain loopback socket instead of
+  `urllib.request`, whose import cost ~200 ms of the budget on every prompt.
+
+### Fixed
+
+- **DirectML query stalls.** A week of shadow logs showed 24 % of searched
+  prompts timing out because about one DirectML call in ten took seconds. The
+  cause: a DirectML session is fast only for the first input shape it runs,
+  and the service's warm-up fed it seven widths at start. Query sessions on
+  DirectML now run every text at one fixed shape, `(1, query_window_tokens)`:
+  ~90 ms per window, max ~180 ms, against 0.8 s median on CPU; vectors
+  unchanged. See ADR 0010 (supersedes 0009, which had moved queries to CPU).
+- CI: Windows jobs judged multi-line steps only by their last command, so a
+  failing `pytest` followed by a passing `coverage report` left the job green.
+  They now run in bash (`-eo pipefail`).
+- `recall.__version__` and `CITATION.cff` said 0.3.0 in the 0.3.1 release
+  (the version test was failing unnoticed because of the CI bug above).
+
 ## [0.3.1] - 2026-11-09
 
 ### Changed

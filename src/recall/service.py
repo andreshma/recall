@@ -682,10 +682,12 @@ def make_handler(searcher, token: str, port_ref: list, info: dict, guard: Engine
 def warm_up(searcher) -> None:
     """Embed queries of several lengths before announcing the service.
 
-    DirectML compiles the graph for each new tensor shape (queries are padded
-    to multiples of 32 tokens): without this, the first queries of each length
-    exhausted the hook's 1.5 s budget (measured in the 2026-10-27 e2e: 5 of 5
-    ``service-unavailable`` right after start).
+    The first DirectML call pays the graph compilation; without a warm-up the
+    first queries exhausted the hook's 1.5 s budget (2026-10-27 e2e: 5 of 5
+    ``service-unavailable`` right after start). On DirectML every query runs
+    at the one pinned shape (``OnnxEmbedder.query_shape``, ADR 0010), so these
+    lengths all compile that same shape and never a second one; on CPU they
+    are cheap.
     """
     from .embedder import format_query
 

@@ -17,6 +17,9 @@ def cfg():
     from recall import config
 
     c = config.load()
+    # This test simulates a lost DirectML device, so the query session must be on
+    # DirectML whatever the local config says.
+    c["model"]["query_providers"] = list(c["model"]["index_providers"])
     try:
         from recall.embedder import from_config
 

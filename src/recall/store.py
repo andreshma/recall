@@ -93,12 +93,23 @@ def open_rw(path: Path) -> sqlite3.Connection:
     return con
 
 
+#: Memory-mapped I/O for read connections (upper bound; SQLite maps at most the
+#: file). Measured 2026-11-18 on the 313 MB production index, the FTS5 query of
+#: 183 real query windows: p50 17 -> 4 ms, p90 147 -> 37-44 ms, max 214 -> ~60 ms.
+#: With the default page cache (2 MB) every BM25 ranking re-read its pages
+#: through read() calls; a 64 MB page cache did not help. The map shares the
+#: OS file cache, so it adds no private memory.
+RO_MMAP_BYTES = 1 << 30
+
+
 def open_ro(path: Path) -> sqlite3.Connection:
     """READ-ONLY connection (``mode=ro``): the service never writes."""
     if not path.is_file():
         raise FileNotFoundError(f"No index at {path}; run `recall index` first.")
     uri = "file:" + path.as_posix() + "?mode=ro"
-    return sqlite3.connect(uri, uri=True, timeout=30, check_same_thread=False)
+    con = sqlite3.connect(uri, uri=True, timeout=30, check_same_thread=False)
+    con.execute(f"pragma mmap_size={RO_MMAP_BYTES}")
+    return con
 
 
 def get_meta(con: sqlite3.Connection, key: str) -> str | None:
