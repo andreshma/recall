@@ -212,6 +212,7 @@ class OnnxEmbedder:
         padding_side: str = "right",
         pad_token: str | None = None,
         append_eos: str | None = None,
+        query_width: int | None = None,
     ) -> None:
         import onnxruntime as ort
         from tokenizers import Tokenizer
@@ -252,6 +253,14 @@ class OnnxEmbedder:
         self._run_lock = threading.Lock()
         self._run_guard = self._run_lock if self.device_id is not None else nullcontext()
         self.providers = self._sess.get_providers()
+        # A DirectML session is fast only for the first input shape it runs:
+        # once it has seen another shape, every call slows to 1-3.6 s (measured
+        # 2026-11-17, ADR 0010). Queries on DirectML therefore always run as ONE
+        # text padded to ONE width: the query window if windows are on, else
+        # query_max_tokens. Padding is masked, so the vectors do not change.
+        self.query_shape: tuple[int, int] | None = None
+        if self.device_id is not None:
+            self.query_shape = (1, int(query_width) if query_width else self._query_max)
         self._inputs = [i.name for i in self._sess.get_inputs()]
         outs = [o.name for o in self._sess.get_outputs()]
         if pooling == "auto":
@@ -312,8 +321,14 @@ class OnnxEmbedder:
         """Document with this model's format."""
         return doc_input(book, chapter, text, self.doc_format)
 
-    def _encode(self, texts: list[str], max_len: int) -> tuple[np.ndarray, np.ndarray]:
-        """ids and mask, with end-of-sequence and padding as the model requires."""
+    def _encode(self, texts: list[str], max_len: int, width: int | None = None) -> tuple[np.ndarray, np.ndarray]:
+        """ids and mask, with end-of-sequence and padding as the model requires.
+
+        ``width`` fixes the padded width (texts are truncated to fit it);
+        without it the width is the longest text rounded up to 32.
+        """
+        if width is not None:
+            max_len = min(max_len, width)
         # The tokenizer is shared and its truncation/padding is mutated here, so
         # hold the encode lock: concurrent CPU requests must not interleave this.
         with self._encode_lock:
@@ -324,8 +339,8 @@ class OnnxEmbedder:
         if self._eos_id is not None:
             seqs = [s if s and s[-1] == self._eos_id else [*s, self._eos_id] for s in seqs]
         # Padding to multiples of 32 reduces the distinct shapes DirectML sees.
-        width = max(len(s) for s in seqs)
-        width = -(-width // 32) * 32
+        if width is None:
+            width = -(-max(len(s) for s in seqs) // 32) * 32
         ii = np.full((len(seqs), width), self._pad_id, dtype=np.int64)
         am = np.zeros((len(seqs), width), dtype=np.int64)
         for r, s in enumerate(seqs):
@@ -377,18 +392,28 @@ class OnnxEmbedder:
         if not texts:
             return np.zeros((0, self.dim), dtype=np.float32)
         max_len = self._query_max if kind == "query" else self._doc_max
+        if kind == "query" and self.query_shape is not None:
+            # DirectML: one text per call, always the same shape (see __init__).
+            out = np.zeros((len(texts), self.dim), dtype=np.float32)
+            for i, t in enumerate(texts):
+                out[i] = self._run([t], max_len, self.query_shape[1])[0]
+            return out
         order = sorted(range(len(texts)), key=lambda i: len(texts[i]))
         out = np.zeros((len(texts), self.dim), dtype=np.float32)
         for s in range(0, len(order), self.batch_size):
             ids = order[s : s + self.batch_size]
-            ii, am = self._encode([texts[i] for i in ids], max_len)
-            with self._run_guard:
-                h = self._sess.run([self._sess.get_outputs()[self._out].name], self._feed(ii, am))[0]
-            v = self._pool(np.asarray(h, dtype=np.float32), am)
-            v = np.asarray(v[:, : self.dim], dtype=np.float32)
-            v /= np.linalg.norm(v, axis=1, keepdims=True) + 1e-12
-            out[ids] = v
+            out[ids] = self._run([texts[i] for i in ids], max_len)
         return out
+
+    def _run(self, texts: list[str], max_len: int, width: int | None = None) -> np.ndarray:
+        """Normalized vectors for one batch."""
+        ii, am = self._encode(texts, max_len, width)
+        with self._run_guard:
+            h = self._sess.run([self._sess.get_outputs()[self._out].name], self._feed(ii, am))[0]
+        v = self._pool(np.asarray(h, dtype=np.float32), am)
+        v = np.asarray(v[:, : self.dim], dtype=np.float32)
+        v /= np.linalg.norm(v, axis=1, keepdims=True) + 1e-12
+        return v
 
 
 #: DirectML adapters (DXGI order) tried when the requested one cannot start.
@@ -489,6 +514,8 @@ def from_config(cfg: dict, role: str) -> OnnxEmbedder:
     """Build the embedder for ``role`` ("index" or "query") from the config."""
     m = cfg["model"]
     provs = m["index_providers"] if role == "index" else m["query_providers"]
+    # The query width DirectML is pinned to (see OnnxEmbedder.query_shape).
+    qw = int(cfg.get("search", {}).get("query_window_tokens") or 0) if role == "query" else 0
     extra = {
         k: m[k]
         for k in ("name", "query_prefix", "doc_format", "pooling", "padding_side", "pad_token", "append_eos")
@@ -502,6 +529,7 @@ def from_config(cfg: dict, role: str) -> OnnxEmbedder:
         m["doc_max_tokens"],
         m["query_max_tokens"],
         m["batch_size"],
+        query_width=qw or None,
         **extra,
     )
 
