@@ -25,11 +25,13 @@ def cfg():
     c = copy.deepcopy(config.load())
     c.setdefault("search", {})["query_window_tokens"] = 32
     c["model"]["query_providers"] = list(c["model"]["index_providers"])  # DirectML first
-    try:
-        from recall.embedder import from_config
+    from recall.embedder import from_config
 
+    try:
         emb = from_config(c, "query")
     except FileNotFoundError:
+        emb = None
+    if emb is None:
         pytest.skip("no local model")
     if emb.query_shape is None:
         pytest.skip("query session is not on DirectML")
