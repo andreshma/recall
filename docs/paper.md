@@ -44,7 +44,7 @@ recall has four components that share one index.
 
 **Service.** A local process (`recall serve`) keeps the model loaded and listens on 127.0.0.1 on an ephemeral port, protected by a Bearer token. A startup script (`start-recall.ps1`) launches it when a session opens.
 
-**Automatic hook** (`recall_hook.py`). Runs before every prompt. It skips trivial or mechanical prompts ("commit this", "run the tests"), searches, and, if the best cosine clears the threshold, injects up to three passages with their citations. It has a 1.5 s budget and fails open: on any error or delay the prompt passes through untouched. It starts in **shadow mode**, logging what it would have injected (a hash of the prompt, never its text) without injecting anything, so the threshold can be calibrated on real usage.
+**Automatic hook** (`recall_hook.py`). Runs before every prompt. It skips trivial or mechanical prompts ("commit this", "run the tests"), searches, and, if any result's cosine clears the threshold, injects up to three passages with their citations. It has a 1.5 s budget and fails open: on any error or delay the prompt passes through untouched. It starts in **shadow mode**, logging what it would have injected (a hash of the prompt, never its text) without injecting anything, so the threshold can be calibrated on real usage.
 
 **MCP server.** Exposes the `recall_books_search` tool, which the assistant calls with the question in both Spanish and English in a single request. It supports filters by topic domain (14 domains) and by publication year. The year is verified against the copyright page for 119 of the 126 books; the remaining seven are left without a year rather than given a guessed one.
 

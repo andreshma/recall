@@ -22,6 +22,11 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ### Fixed
 
+- `tools/shadow_report.py` counted would-inject prompts by `best`, the cosine
+  of the first hit in the hybrid ranking, while the hook injects when any hit
+  clears the threshold. It now uses the highest logged score (`best` for old
+  entries without `scores`) and matches the hook's decisions exactly; on real
+  logs the old count was about half (89 vs 162 at 0.75).
 - **DirectML query stalls.** A week of shadow logs showed 24 % of searched
   prompts timing out because about one DirectML call in ten took seconds. The
   cause: a DirectML session is fast only for the first input shape it runs,
