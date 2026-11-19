@@ -8,6 +8,25 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Added
+
+- **Hub prior for the hook threshold** (ADR 0011). Two weeks of shadow log
+  showed the hook would inject on 26 % of real prompts at 0.75, mostly the
+  same few chapters (agent frameworks, *Zero Trust Networks* "context-aware
+  agents"), which are close to almost any prompt about agents, hooks or
+  services. `recall.hub` measures, per chunk, how close it is to 90 synthetic
+  operational prompts (`hub_prompts.json`); every hit carries it as `hub` and
+  the hook compares `cos - hook.hub_weight * hub` with its threshold. The
+  ranking is unchanged. Held-out, at the same 7 % of negatives injected:
+  positives with the right passage 72 % → 77 %. The service computes it in
+  the background (~15 s on the first start with a model, then cached in
+  `hub_ref.npz`); until then the hook logs `hub-pending` and does not inject.
+  `/health` reports `hub_ready`. **Recalibrate:** the threshold now applies to
+  the adjusted score; for the production configuration start at 0.74 and use
+  `tools/shadow_report.py --since` the upgrade date.
+- The shadow log records the chunk ids and the adjusted scores (`adj`) of the
+  hits, so a later prior or threshold can be replayed over it.
+
 ### Changed
 
 - On CPU, all query windows of a prompt are embedded in one call (2–3× faster

@@ -56,3 +56,12 @@ def test_top_score_falls_back_to_best():
 def test_empty_log(tmp_path):
     s = sr.summarize(sr.read_rows(tmp_path / "shadow.log"))
     assert s["total"] == 0 and s["latency_ms"] is None
+
+
+def test_adjusted_scores_win_and_pending_entries_are_not_scored():
+    # Since ADR 0011 the hook compares cos - hub ("adj"), not the raw cosine.
+    assert sr.top_score({"best": 0.80, "scores": [0.80, 0.78], "adj": [0.71, 0.76]}) == 0.76
+    assert sr.top_score({"decision": "hub-pending", "scores": [0.9], "adj": [None]}) is None
+    assert sr.top_score({"scores": [0.7], "adj": [None, None]}) == 0.7
+    s = sr.summarize([{"decision": "below-threshold", "best": 0.7, "scores": [0.7], "adj": [0.69], "ms": 500}])
+    assert s["adjusted"] == 1 and s["would_inject_at"][0.70] == 0
