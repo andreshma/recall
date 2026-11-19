@@ -43,10 +43,27 @@ def read_rows(log: Path, since: str | None = None) -> list[dict]:
     return rows
 
 
+def top_score(row: dict) -> float | None:
+    """Highest cosine among the logged hits: the value the hook compares with
+    its threshold.
+
+    The hook injects when *any* hit clears the threshold (``select`` in
+    ``recall_hook.py``), and ``best`` is only the cosine of the hit the hybrid
+    ranking put first, which is often lower. ``scores`` holds every hit the
+    hook asked for (k=8), so its maximum reproduces the hook's decision.
+    Entries without ``scores`` fall back to ``best``.
+    """
+    nums = [s for s in row.get("scores") or [] if isinstance(s, (int, float)) and not isinstance(s, bool)]
+    if nums:
+        return max(nums)
+    best = row.get("best")
+    return best if isinstance(best, (int, float)) and not isinstance(best, bool) else None
+
+
 def summarize(rows: list[dict]) -> dict:
-    scored = [r for r in rows if isinstance(r.get("best"), (int, float))]
-    ms = [r["ms"] for r in rows if isinstance(r.get("ms"), (int, float)) and r.get("best") is not None]
-    best = sorted(r["best"] for r in scored)
+    scored = [r for r in rows if top_score(r) is not None]
+    ms = [r["ms"] for r in scored if isinstance(r.get("ms"), (int, float))]
+    best = sorted(top_score(r) for r in scored)
     return {
         "total": len(rows),
         "decisions": dict(Counter(r.get("decision", "?") for r in rows).most_common()),
