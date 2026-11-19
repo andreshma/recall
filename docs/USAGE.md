@@ -506,7 +506,7 @@ Get-Content "$env:USERPROFILE\.claude\settings.json" -Raw | ConvertFrom-Json | O
   or "continue") and mechanical requests (git, file operations, edits; see
   `MECHANICAL` in `recall_hook.py`).
 - Injects up to `max_snippets` passages of `max_chars`, one per file, only when
-  the best cosine clears `threshold`. Each passage is the window of the chunk
+  any hit's cosine clears `threshold`. Each passage is the window of the chunk
   that shares the most terms with the prompt, with its citation (book — chapter
   — section, library-relative path `book-id/file.md`:lines, page when known).
   Passages are wrapped in a `<recall_books>` block marked as data; in every
@@ -564,8 +564,9 @@ Review it after a few days:
 ```
 
 The report reads `shadow.log` and its rotations and prints decision counts,
-latency (p50/p95/max), quantiles of the best cosine, how many searched prompts
-would have been injected at each candidate threshold, and the most frequent
+latency (p50/p95/max), quantiles of the highest cosine per prompt, how many
+searched prompts would have been injected at each candidate threshold, and the
+most frequent
 paths. Since only a hash of the prompt is logged, false positives are reviewed
 through those paths.
 
