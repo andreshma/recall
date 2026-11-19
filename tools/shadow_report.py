@@ -43,21 +43,30 @@ def read_rows(log: Path, since: str | None = None) -> list[dict]:
     return rows
 
 
+def _finite(values) -> list[float]:
+    return [v for v in values or [] if isinstance(v, (int, float)) and not isinstance(v, bool) and v == v]
+
+
 def top_score(row: dict) -> float | None:
-    """Highest cosine among the logged hits: the value the hook compares with
-    its threshold.
+    """Highest score the hook compared with its threshold for this prompt.
 
     The hook injects when *any* hit clears the threshold (``select`` in
-    ``recall_hook.py``), and ``best`` is only the cosine of the hit the hybrid
-    ranking put first, which is often lower. ``scores`` holds every hit the
-    hook asked for (k=8), so its maximum reproduces the hook's decision.
-    Entries without ``scores`` fall back to ``best``.
+    ``recall_hook.py``); ``best`` is only the cosine of the hit the hybrid
+    ranking put first, which is often lower. Since ADR 0011 the hook compares
+    ``adj`` (cosine minus the hub prior); older entries only have ``scores``
+    (raw cosines of every hit, k=8) or, older still, ``best``. The two scales
+    are not comparable: calibrate with ``--since`` the date the prior went in
+    (``adjusted`` in the summary counts the entries on the new scale).
+    ``hub-pending`` entries (prior not loaded yet) have no comparable score.
     """
-    nums = [s for s in row.get("scores") or [] if isinstance(s, (int, float)) and not isinstance(s, bool)]
-    if nums:
-        return max(nums)
-    best = row.get("best")
-    return best if isinstance(best, (int, float)) and not isinstance(best, bool) else None
+    if row.get("decision") == "hub-pending":
+        return None
+    for key in ("adj", "scores"):
+        nums = _finite(row.get(key))
+        if nums:
+            return max(nums)
+    best = _finite([row.get("best")])
+    return best[0] if best else None
 
 
 def summarize(rows: list[dict]) -> dict:
@@ -68,6 +77,7 @@ def summarize(rows: list[dict]) -> dict:
         "total": len(rows),
         "decisions": dict(Counter(r.get("decision", "?") for r in rows).most_common()),
         "searched": len(scored),
+        "adjusted": sum(1 for r in scored if _finite(r.get("adj"))),
         "latency_ms": {"p50": statistics.median(ms), "p95": sorted(ms)[int(0.95 * (len(ms) - 1))], "max": max(ms)}
         if ms
         else None,

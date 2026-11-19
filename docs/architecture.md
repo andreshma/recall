@@ -57,8 +57,9 @@ flowchart TD
 | Store | `store.py` | Schema, read-only / read-write connections, model-identity guard, generation counter. |
 | Embedder | `embedder.py` | ONNX session, tokenizer, prefixes, pooling, model identity (sha256 of weights). |
 | Searcher | `search.py` | Vector scan + FTS5, reciprocal rank fusion, dedup, cosine, filters, snippets. |
+| Hub prior | `hub.py`, `hub_prompts.json` | Per-chunk closeness to generic coding prompts, returned as `hub` and subtracted by the hook before its threshold (ADR 0011). |
 | Service | `service.py`, `client.py` | One warm process shared by hook and MCP; loopback, token, `Host` check, `/proof` handshake, 64 KiB body cap, 32 connections, 3 s request-read deadline, engine guard. |
-| Hook | `recall_hook.py` | Filter trivial/mechanical prompts, query, apply threshold, inject or log (shadow). |
+| Hook | `recall_hook.py` | Filter trivial/mechanical prompts, query, apply threshold to `cos - hub`, inject or log (shadow). |
 | MCP | `mcp_server.py` | `recall_books_search` tool with domain and year filters; hand-written MCP subset. |
 | Metadata | `metadata.py`, `data/books_meta.json` | Year, edition, format and topic domains per book. |
 | Tools | `tools/verify_index.py`, `tools/shadow_report.py`, `tools/build_pages.py` | Integrity check, shadow-log calibration report, page map. |

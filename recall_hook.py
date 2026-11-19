@@ -53,6 +53,9 @@ DEFAULT_HOOK = {
     "budget_s": 1.5,
     "min_prompt_chars": 20,
     "collections": ["books"],
+    # Weight of the per-chunk hub prior (ADR 0011): the threshold applies to
+    # cos - hub_weight * hub. 0 compares the raw cosine.
+    "hub_weight": 1.0,
 }
 
 TRIVIAL = re.compile(
@@ -362,16 +365,38 @@ def query_service(
     return hits
 
 
-def select(hits: list, threshold: float, max_snippets: int) -> list:
-    """Hits above the threshold, one per file, at most ``max_snippets``."""
+def _num(hit: object, key: str) -> float | None:
+    """``hit[key]`` as a finite float, or None."""
+    try:
+        v = float(hit[key])  # type: ignore[index]
+    except (TypeError, ValueError, KeyError, IndexError):
+        return None
+    return v if math.isfinite(v) else None
+
+
+def adjusted(hit: object, hub_weight: float) -> float | None:
+    """The score the threshold applies to: ``cos - hub_weight * hub`` (ADR 0011).
+
+    None when the cosine is missing, or when the weight is on and the service
+    sent no ``hub`` (an older service, or the prior is still loading).
+    """
+    c = _num(hit, "cos")
+    if c is None or not hub_weight:
+        return c
+    h = _num(hit, "hub")
+    return None if h is None else c - hub_weight * h
+
+
+def select(hits: list, threshold: float, max_snippets: int, hub_weight: float = 0.0) -> list:
+    """Hits whose adjusted score clears the threshold, one per file, at most ``max_snippets``."""
     good, seen = [], set()
     for h in hits:
         try:
-            cos = float(h.get("cos", 0))
             path = str(h["path"])
-        except (TypeError, ValueError, KeyError, AttributeError):
+        except (TypeError, KeyError, IndexError):
             continue
-        if not math.isfinite(cos) or cos < threshold or path.lower() in seen:
+        score = adjusted(h, hub_weight)
+        if score is None or score < threshold or path.lower() in seen:
             continue
         seen.add(path.lower())
         good.append(h)
@@ -409,11 +434,17 @@ def render(good: list, max_chars: int) -> str:
 
 def _score(hit: dict) -> float | None:
     """Rounded cosine for the log; None if it is not a finite number."""
+    c = _num(hit, "cos")
+    return None if c is None else round(c, 4)
+
+
+def hub_weight_of(cfg: dict) -> float:
+    """``hub_weight`` from the config; anything invalid or negative means 0 (raw cosine)."""
     try:
-        c = float(hit.get("cos", 0))
-    except (TypeError, ValueError, AttributeError):
-        return None
-    return round(c, 4) if math.isfinite(c) else None
+        w = float(cfg.get("hub_weight", DEFAULT_HOOK["hub_weight"]))
+    except (TypeError, ValueError):
+        return 0.0
+    return w if math.isfinite(w) and w > 0 else 0.0
 
 
 def emit(context: str, out=None) -> None:
@@ -470,7 +501,8 @@ def main(stdin=None, out=None) -> int:
             },
         )
         return 0
-    good = select(hits, float(cfg.get("threshold", DEFAULT_HOOK["threshold"])), int(cfg.get("max_snippets", 3)))
+    weight = hub_weight_of(cfg)
+    good = select(hits, float(cfg.get("threshold", DEFAULT_HOOK["threshold"])), int(cfg.get("max_snippets", 3)), weight)
     ms = int((time.perf_counter() - t0) * 1000)
     entry = {
         "h": h,
@@ -479,7 +511,16 @@ def main(stdin=None, out=None) -> int:
         "best": _score(hits[0]) if hits else None,
         "scores": [_score(x) for x in hits[:8]],
         "paths": [x.get("path") for x in good],
+        # Chunk ids (not text) so that a later prior or threshold can be
+        # replayed over the log; "adj" is what the threshold compared.
+        "ids": [x.get("id") if isinstance(x, dict) and isinstance(x.get("id"), int) else None for x in hits[:8]],
     }
+    if weight:
+        adj = [adjusted(x, weight) for x in hits[:8]]
+        entry["adj"] = [None if a is None else round(a, 4) for a in adj]
+        if hits and any(a is None and _num(x, "cos") is not None for a, x in zip(adj, hits[:8], strict=True)):
+            log(state, SHADOW_LOG, {**entry, "decision": "hub-pending"})
+            return 0
     if not good:
         log(state, SHADOW_LOG, {**entry, "decision": "below-threshold"})
         return 0
