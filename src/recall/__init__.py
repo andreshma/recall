@@ -15,4 +15,4 @@ import os
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 
-__version__ = "0.3.1"
+__version__ = "0.4.0"

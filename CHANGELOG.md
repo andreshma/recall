@@ -8,6 +8,15 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-20
+
+**Breaking:** `hook.threshold` now applies to the hub-adjusted score
+(`cos - hook.hub_weight * hub`), not to the raw cosine. **Upgrade note:** after
+upgrading, restart the service; with E5 start at `hook.threshold: 0.74` and
+recalibrate with `tools/shadow_report.py --since <upgrade date>`. To keep the
+old behavior, set `hook.hub_weight: 0`. Explicit search (`recall search`, MCP)
+and its ranking are unchanged; no re-index is needed.
+
 ### Added
 
 - **Hub prior for the hook threshold** (ADR 0011). Two weeks of shadow log
@@ -325,6 +334,7 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/andreshma/recall/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/andreshma/recall/releases/tag/v0.3.0
