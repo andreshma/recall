@@ -43,14 +43,41 @@ def read_rows(log: Path, since: str | None = None) -> list[dict]:
     return rows
 
 
+def _finite(values) -> list[float]:
+    return [v for v in values or [] if isinstance(v, (int, float)) and not isinstance(v, bool) and v == v]
+
+
+def top_score(row: dict) -> float | None:
+    """Highest score the hook compared with its threshold for this prompt.
+
+    The hook injects when *any* hit clears the threshold (``select`` in
+    ``recall_hook.py``); ``best`` is only the cosine of the hit the hybrid
+    ranking put first, which is often lower. Since ADR 0011 the hook compares
+    ``adj`` (cosine minus the hub prior); older entries only have ``scores``
+    (raw cosines of every hit, k=8) or, older still, ``best``. The two scales
+    are not comparable: calibrate with ``--since`` the date the prior went in
+    (``adjusted`` in the summary counts the entries on the new scale).
+    ``hub-pending`` entries (prior not loaded yet) have no comparable score.
+    """
+    if row.get("decision") == "hub-pending":
+        return None
+    for key in ("adj", "scores"):
+        nums = _finite(row.get(key))
+        if nums:
+            return max(nums)
+    best = _finite([row.get("best")])
+    return best[0] if best else None
+
+
 def summarize(rows: list[dict]) -> dict:
-    scored = [r for r in rows if isinstance(r.get("best"), (int, float))]
-    ms = [r["ms"] for r in rows if isinstance(r.get("ms"), (int, float)) and r.get("best") is not None]
-    best = sorted(r["best"] for r in scored)
+    scored = [r for r in rows if top_score(r) is not None]
+    ms = [r["ms"] for r in scored if isinstance(r.get("ms"), (int, float))]
+    best = sorted(top_score(r) for r in scored)
     return {
         "total": len(rows),
         "decisions": dict(Counter(r.get("decision", "?") for r in rows).most_common()),
         "searched": len(scored),
+        "adjusted": sum(1 for r in scored if _finite(r.get("adj"))),
         "latency_ms": {"p50": statistics.median(ms), "p95": sorted(ms)[int(0.95 * (len(ms) - 1))], "max": max(ms)}
         if ms
         else None,

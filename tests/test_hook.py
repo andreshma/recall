@@ -229,7 +229,7 @@ def test_hook_uses_only_stdlib():
         "sys",
         "threading",
         "time",
-        "urllib",
+        "socket",
     }, imports
 
 

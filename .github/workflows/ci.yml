@@ -15,12 +15,19 @@ concurrency:
 # Actions are pinned by commit SHA; the comment records the tag. Every checkout
 # drops the job token from .git/config (persist-credentials: false): no job
 # pushes. Python tools come from requirements-dev.lock (versions and hashes).
+#
+# Windows jobs run their steps in bash (-eo pipefail): the runner's default
+# pwsh judges a multi-line step only by its LAST command, so a failing pytest
+# followed by a passing `coverage report` left the job green (2026-11-13).
 
 jobs:
   test:
     name: unit tests (windows · py3.12 · locked)
     # requirements.lock is resolved for win/amd64 (onnxruntime-directml).
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -115,6 +122,9 @@ jobs:
     runs-on: windows-latest
     # Advisory: surfaces known vulnerabilities without blocking unrelated changes.
     continue-on-error: true
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

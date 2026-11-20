@@ -278,7 +278,14 @@ $py = 'C:\Users\<user>\source\repos\recall\.venv\Scripts\python.exe'
   chunking). Indexing or searching with a different identity fails with
   `ModelMismatchError` instead of returning wrong results; changing model or
   chunking requires `--rebuild` (or a separate home, §13).
-- **DirectML adapter.** The default providers are `DmlExecutionProvider`
+- **One input shape per DirectML query session**
+  ([ADR 0010](adr/0010-directml-one-query-shape.md)). A DirectML session is
+  fast only for the first tensor shape it runs; after a second shape every
+  call took 1–3.6 s. On DirectML each query text is therefore embedded alone
+  and padded to exactly `search.query_window_tokens` tokens
+  (`model.query_max_tokens` if windows are off). ~90 ms per window on the
+  development laptop, against ~0.8 s on CPU. On CPU all windows go in one call.
+- **DirectML adapter.** The default index providers are `DmlExecutionProvider`
   (no adapter number: DXGI adapter 0 is tried first) then
   `CPUExecutionProvider`. `DmlExecutionProvider:N` in `model.index_providers`
   / `model.query_providers` (or `--dml-device N` for one run) puts adapter N
@@ -312,7 +319,7 @@ port. It writes the port, token and pid to `%LOCALAPPDATA%\recall\service.json`
 | Endpoint | Token | What it does |
 |---|---|---|
 | `GET /proof?nonce=<n>` | no | Server proof. `<n>` is 16–128 characters of `[A-Za-z0-9_-]`; the answer is `{"proof": "<hex HMAC-SHA256(token, "recall-proof:<n>:<port>")>"}`. Loopback and `Host` checks still apply. |
-| `GET /health` | yes | `ok`, `chunks`, `generation`, `pid`, `engine_rebuilds`, `providers`, `device_id`, `meta_error`, `load_error`, plus model information. **503** when the engine guard gave up or the index identity changed under the running service (`load_error`). |
+| `GET /health` | yes | `ok`, `chunks`, `generation`, `pid`, `engine_rebuilds`, `providers`, `device_id`, `meta_error`, `load_error`, `hub_ready`, plus model information. **503** when the engine guard gave up or the index identity changed under the running service (`load_error`). |
 | `POST /search` | yes | `queries[]`, `k`, `collections`, optional filters, `snippet_chars`, `snippet_top`, `budget_ms`. 400 for malformed input (including queries that are not valid UTF-8 text, such as a lone surrogate, non-finite numbers and deeply nested JSON), 413 over 64 KiB, **503** `index identity changed` if the index was rebuilt with another model or chunking. |
 
 Clients (the hook, the `recall search`/MCP client and `start-recall.ps1`)
@@ -499,7 +506,11 @@ Get-Content "$env:USERPROFILE\.claude\settings.json" -Raw | ConvertFrom-Json | O
   or "continue") and mechanical requests (git, file operations, edits; see
   `MECHANICAL` in `recall_hook.py`).
 - Injects up to `max_snippets` passages of `max_chars`, one per file, only when
-  the best cosine clears `threshold`. Each passage is the window of the chunk
+  some hit's `cos - hub_weight * hub` clears `threshold`. `hub` is how close
+  the chunk is to generic coding prompts (ADR 0011): chapters that match almost
+  any prompt about agents, hooks or services are penalized, and the ranking is
+  untouched. Until the service has loaded it (~15 s on the first start with a
+  model, then cached) the hook logs `hub-pending` and does not inject. Each passage is the window of the chunk
   that shares the most terms with the prompt, with its citation (book — chapter
   — section, library-relative path `book-id/file.md`:lines, page when known).
   Passages are wrapped in a `<recall_books>` block marked as data; in every
@@ -557,9 +568,12 @@ Review it after a few days:
 ```
 
 The report reads `shadow.log` and its rotations and prints decision counts,
-latency (p50/p95/max), quantiles of the best cosine, how many searched prompts
-would have been injected at each candidate threshold, and the most frequent
-paths. Since only a hash of the prompt is logged, false positives are reviewed
+latency (p50/p95/max), quantiles of the highest score per prompt (the adjusted
+`adj` when logged, else the raw cosine), how many searched prompts would have
+been injected at each candidate threshold, and the most frequent paths.
+`adjusted` counts the entries on the adjusted scale; the two scales are not
+comparable, so after enabling the hub prior use `--since` its date. Each entry
+also records the chunk ids of the hits. Since only a hash of the prompt is logged, false positives are reviewed
 through those paths.
 
 Switch to **active** (the next hook invocation reads it; nothing to restart):
@@ -626,26 +640,28 @@ value and record it on the next `recall index`.
 | `model` | `onnx_file` | `onnx/model_quantized.onnx` | ONNX file inside the snapshot. |
 | `model` | `dim` | 768 | Embedding dimension. |
 | `model` | `doc_max_tokens`, `query_max_tokens` | 320, 256 | Truncation. Raise `doc_max_tokens` with larger chunks (~1 token per 3–4 characters). |
-| `model` | `index_providers`, `query_providers` | `DmlExecutionProvider`, `CPUExecutionProvider` | ONNX Runtime providers, in order. `DmlExecutionProvider:N` puts DXGI adapter N first; other adapters (0–3) and then CPU are tried if it cannot start (§5). |
+| `model` | `index_providers`, `query_providers` | index: `DmlExecutionProvider`, `CPUExecutionProvider`; query: same (one fixed shape on DirectML, ADR 0010) | ONNX Runtime providers, in order. `DmlExecutionProvider:N` puts DXGI adapter N first; other adapters (0–3) and then CPU are tried if it cannot start (§5). |
 | `model` | `batch_size` | 32 | Indexing batch. |
 | `search` | `fts_weight_same_lang`, `fts_weight_cross_lang` | 0.25, 0.02 | Lexical weight in RRF when query and chunk share a language / don't. |
 | `search` | `rrf_k`, `vec_weight`, `candidates`, `min_reload_s` | 60, 1.0, 100, 30 | Fusion and reload tuning. |
 | `search` | `query_window_tokens`, `query_max_windows`, `query_window_overlap` | 0 (off), 6, 5 | Split a longer query into windows of at most N tokens, one model call each, fused by sum (ADR 0008). Use 32 with embeddinggemma-2 on DirectML. |
+| `search` | `hub_prior` | true | Compute the per-chunk hub prior and return it as `hub` on every hit (ADR 0011). |
 | `hook` | `mode` | `shadow` | `shadow`, `active` or `off`. |
-| `hook` | `threshold` | 0.58 | Minimum cosine to inject. Model-specific (§13). |
+| `hook` | `threshold` | 0.58 | Minimum `cos - hub_weight * hub` to inject. Model-specific (§13); 0.74 for the production configuration. |
+| `hook` | `hub_weight` | 1.0 | Weight of the hub prior; 0 compares the raw cosine. |
 | `hook` | `max_snippets`, `max_chars` | 3, 700 | Passages injected and characters per passage. |
 | `hook` | `budget_s` | 1.5 | Total time budget of the hook. |
 | `hook` | `min_prompt_chars` | 20 | Shorter prompts are skipped. |
 
 The production configuration (embeddinggemma-2, ~3,500-character chunks,
-threshold 0.75) is `experiments/configs/e5-gemma2-chunk3500.json` plus a
+threshold 0.74 on the adjusted score) is `experiments/configs/e5-gemma2-chunk3500.json` plus a
 `hook` section:
 
 ```json
 {"chunking": {"target": 3200, "max_chars": 3500, "min_chars": 1500, "overlap": 400},
  "model": {"snapshot": "~/.cache/recall-models/onnx-community--embeddinggemma-2-ONNX/<revision>",
            "name": "onnx-community/embeddinggemma-2-ONNX", "doc_max_tokens": 1100, "batch_size": 8},
- "hook": {"mode": "shadow", "threshold": 0.75}}
+ "hook": {"mode": "shadow", "threshold": 0.74}}
 ```
 
 Environment variables:

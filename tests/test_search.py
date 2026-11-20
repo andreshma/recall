@@ -184,3 +184,11 @@ def test_identity_change_seen_by_background_reload_is_visible(indexed):
     Indexer(db, emb, quiet=True).run({"books": {"roots": [str(lib)]}}, rebuild=True)
     s.background_reload = False
     assert s.search("error budget") and s.load_error is None
+
+
+def test_read_connections_use_memory_mapped_io(indexed):
+    """FTS5 ranking re-read its pages through read() calls; mmap made it ~4x faster."""
+    db, _, emb = indexed
+    con = store.open_ro(db)
+    assert con.execute("pragma mmap_size").fetchone()[0] == store.RO_MMAP_BYTES
+    assert Searcher(db, emb)._conn().execute("pragma mmap_size").fetchone()[0] == store.RO_MMAP_BYTES
