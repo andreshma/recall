@@ -59,6 +59,8 @@ DEFAULTS: dict[str, Any] = {
         # adapters per machine. "DmlExecutionProvider:N" in config.json picks
         # adapter N (e.g. a discrete GPU); if it cannot start, the others are
         # tried before CPU and the choice is logged (embedder.open_session).
+        # Queries on DirectML run at one fixed shape (ADR 0010): a DirectML
+        # session that has seen several shapes stalls for seconds on every call.
         "index_providers": ["DmlExecutionProvider", "CPUExecutionProvider"],
         "query_providers": ["DmlExecutionProvider", "CPUExecutionProvider"],
         "batch_size": 32,
@@ -73,6 +75,10 @@ DEFAULTS: dict[str, Any] = {
         "candidates": 100,
         # The service reloads the index at most every N s (see search.py).
         "min_reload_s": 30.0,
+        # Per-chunk "hub" prior (recall.hub, ADR 0011): each hit carries how
+        # close the chunk is to generic coding prompts, and the hook subtracts
+        # it from the cosine before applying its threshold. Ranking unchanged.
+        "hub_prior": True,
     },
     "hook": {
         # "shadow": logs what it would have injected and injects nothing.
@@ -88,6 +94,9 @@ DEFAULTS: dict[str, Any] = {
         "budget_s": 1.5,
         "min_prompt_chars": 20,
         "collections": ["books"],
+        # The threshold applies to cos - hub_weight * hub (recall.hub, ADR 0011);
+        # 0 compares the raw cosine.
+        "hub_weight": 1.0,
     },
 }
 

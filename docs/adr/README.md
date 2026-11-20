@@ -14,6 +14,9 @@ We record significant, hard-to-reverse decisions as ADRs in the
 | [0006](0006-local-onnx-directml-offline.md) | Local ONNX model on DirectML, fully offline | Accepted |
 | [0007](0007-e5-gemma2-large-chunks.md) | Production configuration E5: embeddinggemma-2 with ~3,500-character chunks | Accepted (supersedes the baseline configuration in 0006) |
 | [0008](0008-query-windows-for-long-prompts.md) | Split long prompts into ≤32-token query windows | Accepted |
+| [0009](0009-queries-on-cpu.md) | Embed queries on CPU, index on DirectML | Superseded by 0010 |
+| [0010](0010-directml-one-query-shape.md) | Queries on DirectML at one fixed input shape | Accepted (supersedes 0009) |
+| [0011](0011-hub-prior-for-the-hook-threshold.md) | Subtract a per-chunk hub prior before the hook threshold | Accepted (refines 0002) |
 
 To add one, copy [`template.md`](template.md), take the next number, and add a
 row above.

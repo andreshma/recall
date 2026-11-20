@@ -31,6 +31,7 @@ from pathlib import Path
 
 import numpy as np
 
+from . import hub as hubmod
 from . import metadata, store
 from .embedder import Embedder, format_query, index_identity, query_windows
 from .textutil import detect_lang, fts_query
@@ -205,6 +206,11 @@ class Searcher:
         self.load_error: Exception | None = None
         self.ids = np.zeros(0, dtype=np.int64)
         self.sha = np.zeros(0, dtype=np.uint64)
+        #: Per-chunk hub prior aligned with ``V`` (:mod:`recall.hub`), or None
+        #: until :meth:`set_hub_reference` is called. Each hit then carries
+        #: ``hub``; the ranking never uses it.
+        self.hub: np.ndarray | None = None
+        self._hub_ref: list[np.ndarray] | None = None
         self.V = np.zeros((0, embedder.dim), dtype=np.float32)
         self.load()
         self._reload_meta()  # so that ``meta_error`` is known before the first search
@@ -231,7 +237,9 @@ class Searcher:
         for i, r in enumerate(rows):
             V[i] = np.frombuffer(r[3], dtype=np.float32, count=d)
         ids = np.fromiter((r[0] for r in rows), dtype=np.int64, count=n)
+        ref = self._hub_ref
         return {
+            "hub": None if ref is None else hubmod.prior(V, ref),
             "V": V,
             "ids": ids,
             "gen": gen,
@@ -243,7 +251,10 @@ class Searcher:
         }
 
     def _install(self, snap: dict) -> None:
+        if snap.get("hub") is None and self._hub_ref is not None:
+            snap["hub"] = hubmod.prior(snap["V"], self._hub_ref)
         with self._lock:
+            self.hub = snap.get("hub")
             self.V, self.ids, self.coll, self.lang, self.pos, self.book, self.sha = (
                 snap["V"],
                 snap["ids"],
@@ -310,6 +321,24 @@ class Searcher:
             self._loading = True
         threading.Thread(target=self._background_load, daemon=True).start()
         return True
+
+    def set_hub_reference(self, ref: list[np.ndarray]) -> None:
+        """Install the reference vectors of :mod:`recall.hub` and compute the
+        prior for the loaded snapshot (and for every later reload)."""
+        while True:
+            with self._lock:
+                V = self.V
+                self._hub_ref = ref
+            h = hubmod.prior(V, ref)
+            with self._lock:
+                if self.V is V:  # no reload swapped the matrix meanwhile
+                    self.hub = h
+                    return
+
+    @property
+    def hub_ready(self) -> bool:
+        """True once every hit carries ``hub``."""
+        return self.hub is not None
 
     @property
     def size(self) -> int:
@@ -420,10 +449,16 @@ class Searcher:
             if self.load_error is not None:
                 raise self.load_error
             V, ids, coll, lang, pos, book, sha = self.V, self.ids, self.coll, self.lang, self.pos, self.book, self.sha
+            hub = self.hub if self.hub is not None and len(self.hub) == len(ids) else None
         if not len(ids):
             return []
-        # One at a time: on DirectML a batch of 2-4 queries is a new tensor shape
-        # (seconds of compilation); batch-1 shapes are warmed up by the service.
+        # How windows reach the model depends on where queries run: on CPU all
+        # windows go in ONE call, 2-3x faster than one call per window (measured
+        # 2026-11-13, identical vectors, ADR 0009); on DirectML each window is
+        # its own call at the one pinned shape (ADR 0010), so the deadline can
+        # stop between them.
+        provs = getattr(self.emb, "providers", None) or ["CPUExecutionProvider"]
+        batched = provs[0] == "CPUExecutionProvider"
         full = qs
         wt, wn = int(self.cfg["query_window_tokens"]), int(self.cfg["query_max_windows"])
         ov = int(self.cfg["query_window_overlap"])
@@ -432,13 +467,18 @@ class Searcher:
         per = [query_windows(self.emb, q, wt, wn, ov) for q in full]
         wins = [(g, ws[i]) for i in range(max(map(len, per))) for g, ws in enumerate(per) if i < len(ws)]
         wins = wins[: max(wn, len(full))]
-        vecs: list[np.ndarray] = []
-        for _g, w in wins:
-            if vecs and deadline is not None and time.perf_counter() > deadline:
-                break
-            vecs.append(self.emb.embed([format_query(self.emb, w)], "query"))
-        wins = wins[: len(vecs)]
-        qv = np.vstack(vecs)
+        if batched:
+            if deadline is not None and time.perf_counter() > deadline:
+                wins = wins[:1]  # out of time already: the first window only
+            qv = self.emb.embed([format_query(self.emb, w) for _g, w in wins], "query")
+        else:
+            vecs: list[np.ndarray] = []
+            for _g, w in wins:
+                if vecs and deadline is not None and time.perf_counter() > deadline:
+                    break
+                vecs.append(self.emb.embed([format_query(self.emb, w)], "query"))
+            wins = wins[: len(vecs)]
+            qv = np.vstack(vecs)
         with self._lock:
             cos_all = V @ qv.T  # n x windows
             mask = None
@@ -529,6 +569,7 @@ class Searcher:
                         "text": row[9],
                         "cos": round(float(best_cos[p]), 4),
                         "score": round(best_score[p], 6),
+                        **({"hub": round(float(hub[p]), 4)} if hub is not None else {}),
                         "via": sorted(via.get(p, ())),
                         **metadata.describe(self.meta.get(row[2])),
                         **self._page(row[0], row[6]),
