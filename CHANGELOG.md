@@ -14,6 +14,9 @@ version is 0.x, a minor release may contain breaking changes; they are marked
   0.74 starting point). Four days of shadow log with the prior: 1.7 % of
   searched prompts inject, 8 distinct chapters, none of the former hubs; see
   the calibration section of ADR 0011.
+- Dependencies: numpy 2.5.5; dev tools ruff 0.17.5 and coverage 7.17.3.
+  `onnxruntime` (non-Windows) stays at 1.24.4, the version of
+  `onnxruntime-directml`, instead of the 1.32.0 Dependabot proposed.
 
 ## [0.4.0] - 2026-11-20
 

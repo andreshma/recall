@@ -23,7 +23,7 @@ classifiers = [
 ]
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "numpy==2.5.4",
+    "numpy==2.5.5",
     # recall runs on Windows (DirectML; the lock is win/amd64). Other OSes get
     # the CPU runtime only so that the unit suite and static checks can run
     # there; they are not a supported runtime platform.
@@ -45,7 +45,7 @@ recall = "recall.cli:main"
 [dependency-groups]
 # Same pins as requirements-dev.in (hash-locked in requirements-dev.lock, which
 # is what CI installs); pytest itself is in requirements.lock.
-dev = ["pytest==9.2.0", "ruff==0.17.4", "mypy==2.4.1", "coverage==7.17.2", "pip-audit==2.10.1"]
+dev = ["pytest==9.2.0", "ruff==0.17.5", "mypy==2.4.1", "coverage==7.17.3", "pip-audit==2.10.1"]
 
 [build-system]
 requires = ["hatchling"]
