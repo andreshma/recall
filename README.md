@@ -162,7 +162,7 @@ unrelated prompt; 1.0 means a threshold exists that accepts all of them and
 rejects every negative. Production started with a threshold of 0.75 (96.7 % of
 relevant queries pass and none of the negatives); real prompts in shadow mode
 then showed a few generic chapters matching almost everything, so the hook now
-subtracts a per-chunk hub prior first and starts at 0.74 on that adjusted score
+subtracts a per-chunk hub prior first and uses 0.75 on that adjusted score
 ([ADR 0011](docs/adr/0011-hub-prior-for-the-hook-threshold.md)). Search latency is ~0.13 s (median) and
 the full hook round trip 0.4–0.6 s.
 
@@ -200,7 +200,7 @@ State lives in `%LOCALAPPDATA%\recall` (override with `RECALL_HOME`): the index,
   "model": {"name": "onnx-community/embeddinggemma-2-ONNX", "snapshot": "<local snapshot dir>",
             "doc_max_tokens": 1100, "batch_size": 8},
   "search": {"query_window_tokens": 32},
-  "hook": {"mode": "shadow", "threshold": 0.74}
+  "hook": {"mode": "shadow", "threshold": 0.75}
 }
 ```
 

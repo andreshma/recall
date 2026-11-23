@@ -8,6 +8,13 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Changed
+
+- Production threshold for the hook: 0.75 on the hub-adjusted score (was a
+  0.74 starting point). Four days of shadow log with the prior: 1.7 % of
+  searched prompts inject, 8 distinct chapters, none of the former hubs; see
+  the calibration section of ADR 0011.
+
 ## [0.4.0] - 2026-11-20
 
 **Breaking:** `hook.threshold` now applies to the hub-adjusted score
