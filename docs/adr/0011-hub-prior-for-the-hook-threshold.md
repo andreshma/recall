@@ -105,3 +105,22 @@ right passage first.
   `hub_prompts.json` changes the prior and invalidates the calibration.
 - Negative: the first start with a new model spends ~15 s of model time in
   the background, during which the hook does not inject.
+
+## Calibration (2026-11-23)
+
+Shadow log with the prior, 2026-11-19 18:22 → 11-23 (467 distinct searched
+prompts):
+
+| Adjusted threshold | Prompts that would inject | Distinct chapters | Hubs from the context section among them |
+|---|---|---|---|
+| 0.72 | 12.8 % | 44 of 60 | 10 |
+| 0.73 | 7.5 % | 27 of 35 | 4 |
+| 0.74 | 3.9 % | 16 of 18 | 0 |
+| 0.75 | 1.7 % | 8 of 8 | 0 |
+
+The passages that enter only between 0.74 and 0.75 were mostly generic (Git
+server setup, IPython shortcuts, an introduction chapter, a book's front
+matter). The hook was switched to `active` at **0.75**. The prior also lifts
+chunks below the median (negative `hub`), so several injections at 0.74 had
+a raw cosine of 0.715–0.73; a penalty-only variant (`max(hub, 0)`) is not
+measured yet.
