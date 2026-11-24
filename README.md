@@ -36,7 +36,7 @@ study behind the current configuration is in the **[paper](docs/paper.md)**.
 
 - [Why](#why) · [Quickstart](#quickstart) · [How it works](#how-it-works)
 - [Components](#components) · [Results](#results) · [Commands](#command-reference)
-- [Configuration](#configuration) · [Security model](#security-model)
+- [Configuration](#configuration) · [Security model](#security-model) · [Testing](#testing)
 - [Status](#status) · [Documentation](#documentation) · [Community](#community) · [License](#license)
 
 ## Why
@@ -127,6 +127,146 @@ Three principles keep it useful and out of the way:
 3. **The index knows its model.** Model files, prefixes and chunking are part
    of the index identity. Searching with a different model is an explicit
    error, never silently wrong results.
+
+### Indexing pipeline
+
+Markdown chapters become chunks, chunks become vectors, and both land in one
+SQLite file together with the FTS5 rows (`src/recall/indexer.py`,
+`chunking.py`, `store.py`).
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant CLI as recall index
+    participant FS as Library roots
+    participant E as Embedder
+    participant DB as index.sqlite3
+
+    CLI->>DB: open_rw, check model identity
+    alt identity differs
+        DB-->>CLI: ModelMismatchError (use --rebuild)
+    end
+    CLI->>FS: discover chapters
+    loop each file
+        CLI->>CLI: size+mtime equal? skip : compare sha256
+    end
+    loop each group (~512 chunks)
+        CLI->>CLI: chunk changed files by section (book, chapter, section, lines, language)
+        CLI->>DB: reuse vectors for identical inputs
+        CLI->>E: embed the rest
+        CLI->>DB: one transaction: files + chunks + FTS
+    end
+    CLI->>DB: apply deletions, bump generation
+```
+
+### Search inside the service
+
+Every search — from the hook, the MCP server or `recall search` — is one
+`POST /search` to `recall serve` (`src/recall/service.py`, `search.py`).
+
+```mermaid
+flowchart TD
+    req["POST /search<br/>queries, k, collections, filters,<br/>snippet_chars, budget_ms"]
+    gate{"Loopback peer, valid Host,<br/>Bearer token?"}
+    deny["403 / 401"]
+    parse{"Body within 64 KiB<br/>and well-formed?"}
+    bad["413 / 400"]
+    win["Split long queries into windows<br/>(search.query_window_tokens)"]
+    emb["Embed each window with the query prefix<br/>warm model, stops at the budget_ms deadline"]
+    vec["Cosine against every vector<br/>in-memory float32 matrix"]
+    fts["FTS5 (BM25) candidates<br/>index.sqlite3, mode=ro"]
+    rrf["Reciprocal rank fusion<br/>FTS weight 0.25 same language, 0.02 across"]
+    rows["Read each hit by id, check input_sha,<br/>deduplicate by file + section, keep k"]
+    meta["Attach cos, hub, book metadata<br/>and page (pages.sqlite3)"]
+    snip["Optional snippet: the window sharing<br/>the most terms with the query"]
+    ok["200 hits"]
+    err["503 index identity changed<br/>500 any other error"]
+
+    req --> gate
+    gate -- no --> deny
+    gate -- yes --> parse
+    parse -- no --> bad
+    parse -- yes --> win
+    win --> emb
+    emb --> vec
+    win --> fts
+    vec --> rrf
+    fts --> rrf
+    rrf --> rows
+    rows --> meta
+    meta --> snip
+    snip --> ok
+    win -. "exception while searching" .-> err
+```
+
+### Automatic injection (hook)
+
+`recall_hook.py` either adds passages or leaves the prompt alone; every other
+outcome is exit 0 with no output. The threshold applies to the cosine minus
+the hub prior ([ADR 0011](docs/adr/0011-hub-prior-for-the-hook-threshold.md)).
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant CC as Claude Code
+    participant H as recall_hook.py
+    participant S as recall serve
+    participant L as shadow.log
+
+    CC->>H: stdin JSON {prompt, cwd, ...}
+    H->>H: skip trivial / command / mechanical?
+    alt skipped
+        H->>L: {hash, decision: skip-*}
+        H-->>CC: exit 0, no output
+    else candidate
+        H->>S: GET /proof?nonce=n (no token)
+        S-->>H: HMAC(token, n:port)
+        H->>H: proof matches service.json token?
+        H->>S: POST /search (Bearer, snippet_chars) within 1.5 s budget
+        alt unavailable / bad proof / timeout / error
+            H->>L: {hash, decision: service-unavailable}
+            H-->>CC: exit 0, no output (fail-open)
+        else hits
+            S-->>H: hits with cosine and hub prior
+            H->>H: keep cos - hub_weight * hub ≥ threshold, ≤ 3, one per file
+            alt hub prior not loaded / nothing clears the threshold / budget exceeded
+                H->>L: {hash, scores, decision: hub-pending / below-threshold / over-budget}
+                H-->>CC: exit 0, no output
+            else shadow mode
+                H->>L: {hash, scores, paths, decision: would-inject}
+                H-->>CC: exit 0, no output
+            else active mode
+                H->>L: {hash, decision: inject}
+                H-->>CC: additionalContext (ASCII JSON, cited passages)
+            end
+        end
+    end
+```
+
+### Explicit search (MCP)
+
+`recall mcp` (`src/recall/mcp_server.py`) asks the same service and falls back
+to an in-process searcher when it is not running.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant A as Assistant
+    participant M as recall mcp (stdio)
+    participant S as recall serve
+    participant DB as index.sqlite3
+
+    A->>M: tools/call recall_books_search {queries: [ES, EN], k, domains?, year_min?}
+    M->>M: validate filters and queries
+    M->>S: GET /proof, then POST /search (Bearer)
+    alt service up
+        S-->>M: hits
+    else service unavailable
+        M->>DB: load in-process searcher (first call only)
+        DB-->>M: hits
+    end
+    M-->>A: formatted passages with book, chapter, page, path:lines
+```
 
 More diagrams (sequences, trust boundaries): [docs/DIAGRAMS.md](docs/DIAGRAMS.md).
 
@@ -242,6 +382,17 @@ reference: [User Manual](docs/USAGE.md).
 Full analysis: [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md). **Found a
 vulnerability?** Report it privately — see [SECURITY.md](SECURITY.md).
 
+## Testing
+
+```powershell
+.venv\Scripts\python.exe -I -m pytest            # unit suite (default; excludes `model`)
+.venv\Scripts\python.exe -I -m pytest -m model   # model suite (real model + real index)
+```
+
+The unit suite needs no model and runs in CI; the model suite and the index
+integrity check (`tools\verify_index.py`) run locally. Suites, fixtures, CI
+jobs and lint commands: [docs/TESTING.md](docs/TESTING.md).
+
 ## Status
 
 **Alpha**, in daily use on one machine (Windows 11, DirectML). The index,
@@ -262,6 +413,7 @@ numbers — see [docs/TESTING.md](docs/TESTING.md).
 - [Architecture Decision Records](docs/adr/README.md)
 - [Threat model](docs/THREAT_MODEL.md) — STRIDE analysis
 - [Testing](docs/TESTING.md) — unit suite, model regression, integrity checks
+- [Runbook](docs/runbook.md) — operations, symptoms and recovery, by task
 - [Adversarial review](docs/ADVERSARIAL_REVIEW.md) — red-team pass
 - Audit reports: [`audits/`](audits/README.md)
 - [How to cite](CITATION.cff)

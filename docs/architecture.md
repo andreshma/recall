@@ -112,8 +112,9 @@ honoring `RECALL_HOME`.
 ### Automatic injection
 
 The hook skips short, command-like, confirmation and mechanical prompts,
-queries the service within its time budget, keeps hits at or above the
-threshold (at most 3, one per file, 700 characters each), and either injects
+queries the service within its time budget, keeps hits whose
+`cos - hub_weight * hub` is at or above the threshold (at most 3, one per
+file, 700 characters each), and either injects
 them as `additionalContext` (active) or only logs the decision (shadow).
 
 ## Configuration
@@ -161,8 +162,11 @@ chunking are part of the index identity, so changing them requires
    prompt to a server that has not passed the `/proof` check.
 6. **Read-only serving.** The service and MCP open the index with `mode=ro`.
 7. **Absolute cosine threshold.** Injection is decided by raw cosine, which is
-   comparable across queries; RRF scores are used only for ranking. The
-   threshold is per model and must be recalibrated when the model changes.
+   comparable across queries; RRF scores are used only for ranking. Since
+   [ADR-0011](adr/0011-hub-prior-for-the-hook-threshold.md) the hook subtracts
+   the per-chunk hub prior from that cosine before comparing
+   (`cos - hub_weight * hub`; `hook.hub_weight: 0` compares the raw cosine).
+   The threshold is per model and must be recalibrated when the model changes.
 8. **Injected text is data.** Passages are wrapped in a `<recall_books>` block
    (hook) or `<<<data>>>`/`<<<passage n>>>` delimiters (MCP) that tell the
    assistant they are reference data, not instructions. In every field taken
@@ -179,5 +183,6 @@ chunking are part of the index identity, so changing them requires
 ## Where decisions are recorded
 
 Architecture Decision Records live in [`docs/adr/`](adr/). Start with
-[the index](adr/README.md). Diagrams: [DIAGRAMS.md](DIAGRAMS.md). Threats:
+[the index](adr/README.md). Diagrams: [DIAGRAMS.md](DIAGRAMS.md). Operations:
+[runbook.md](runbook.md). Threats:
 [THREAT_MODEL.md](THREAT_MODEL.md).
