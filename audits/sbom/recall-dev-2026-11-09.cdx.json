@@ -22,7 +22,7 @@
     "component": {
       "bom-ref": "2aac90bd-5f4d-41a0-b5dd-46e1bd2e971c",
       "type": "application",
-      "name": "C:/Users/ANDRES~1.MAR/AppData/Local/Temp/claude/29c407faaef2a75d/3a7b015a-1375-4d72-8ed9-0d882ffadcc5/scratchpad/sbomwork/recall-dev",
+      "name": "recall-dev",
       "properties": [
         {
           "name": "aquasecurity:trivy:SchemaVersion",
