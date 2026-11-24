@@ -6,6 +6,18 @@ model and the real production index. On top of that, two tools check an index
 directly: `tools/verify_index.py` (integrity) and `experiments/evaluate.py`
 (retrieval quality across configurations).
 
+## Contents
+
+- [Commands](#commands)
+- [What the suites cover](#what-the-suites-cover)
+- [What is not covered](#what-is-not-covered)
+- [Static checks](#static-checks)
+- [Continuous integration](#continuous-integration)
+- [Manual checks](#manual-checks)
+- [Before opening a pull request](#before-opening-a-pull-request)
+
+## Commands
+
 ```powershell
 .venv\Scripts\python.exe -I -m pytest            # unit suite (default; excludes `model`)
 .venv\Scripts\python.exe -I -m pytest -m model   # model suite (real model + real index)
@@ -17,20 +29,39 @@ plain `pytest` never runs the slow tests.
 The unit suite has 238 tests and the model suite 14 (measured with
 `pytest --collect-only`, Windows, all PowerShell editions installed; a few
 tests skip elsewhere). Both need recall importable under `python -I` (the
-editable install of [USAGE §3.1](USAGE.md#31-virtual-environment)).
+editable install of [USAGE §2.1](USAGE.md#21-virtual-environment)).
 
-CI also runs these; locally they need the dev tools, hash-locked in
-`requirements-dev.lock` (`uv pip install --require-hashes --no-deps --python .venv\Scripts\python.exe -r requirements-dev.lock`, or `make dev`):
+CI also runs the unit suite with coverage; locally that needs the dev tools, hash-locked in
+`requirements-dev.lock` (the install command is under [Static checks](#static-checks), or `make dev`):
 
 ```powershell
-.venv\Scripts\python.exe -m ruff format --check .        # formatting
-.venv\Scripts\python.exe -m ruff check .                 # lint (rules in pyproject.toml)
-.venv\Scripts\python.exe -m mypy --platform win32        # types
 .venv\Scripts\python.exe -I -m coverage run -m pytest -q  # unit suite with coverage
 .venv\Scripts\python.exe -m coverage report --fail-under=80
 ```
 
-## Unit suite
+The two index tools are run directly:
+
+```powershell
+.venv\Scripts\python.exe -I tools\verify_index.py [HOME ...] [--sample 30] [--sample-cpu] [--no-source]
+.venv\Scripts\python.exe -I experiments\evaluate.py [--queries FILE] [--only NAME ...]
+```
+
+The `Makefile` wraps the same commands (PowerShell or Git Bash with uv on `PATH`):
+
+| Target | What it runs |
+|---|---|
+| `make install` | The README quickstart: locked environment, then the package itself (editable). |
+| `make dev` | `install`, then the dev tools from `requirements-dev.lock`. |
+| `make test` | The unit suite (`pytest -q`). |
+| `make test-model` | The model suite (`pytest -q -m model`). |
+| `make lint` | `ruff format --check`, `ruff check`, `mypy --platform win32`. |
+| `make eval` | `experiments/evaluate.py`. |
+| `make verify` | `tools/verify_index.py --sample 30`. |
+| `make check` | `lint`, then `test`. |
+
+## What the suites cover
+
+### Unit suite
 
 The fixtures in `tests/conftest.py` keep every unit test hermetic:
 
@@ -66,7 +97,7 @@ The fixtures in `tests/conftest.py` keep every unit test hermetic:
 | `test_engine_guard.py` | The service recreates the model session on an ONNX Runtime error (or two failures in a row), retries once, rebuilds once under concurrent failures, gives up (503 on `/health`) when the rebuild fails or the model identity changes, never gives up on a request that fails deterministically, releases replaced sessions, and logs to `serve.log` without query text. |
 | `test_cli.py` | `recall index` (incremental, `--cpu`, `--dml-device`, `--limit-files`), `status`, `search` without the service and `eval` with an empty language group, all with the hash embedder. |
 
-## Model suite (`-m model`)
+### Model suite (`-m model`)
 
 These tests use the model configured in `%LOCALAPPDATA%\recall\config.json` and
 the real index at `%LOCALAPPDATA%\recall\index.sqlite3` (they ignore the unit
@@ -88,7 +119,7 @@ The floors are the measured values rounded down. The model, index and queries
 are deterministic, so any drop is a regression, not noise. When the production
 model or chunking changes, re-measure and update the floors in the same commit.
 
-## Index integrity — `tools/verify_index.py`
+### Index integrity (`tools/verify_index.py`)
 
 ```powershell
 .venv\Scripts\python.exe -I tools\verify_index.py [HOME ...] [--sample 30] [--sample-cpu] [--no-source]
@@ -102,7 +133,7 @@ requires cosine ≥ 0.99 with the stored vector; this is what catches a model
 whose output depends on the batch it is embedded in. Exits 1 on any failure.
 Run it after every full index and before promoting an experiment.
 
-## Retrieval comparison — `experiments/evaluate.py`
+### Retrieval comparison (`experiments/evaluate.py`)
 
 ```powershell
 .venv\Scripts\python.exe -I experiments\evaluate.py [--queries FILE] [--only NAME ...]
@@ -115,9 +146,35 @@ threshold separation against the negative prompts in
 `src/recall/evaluation.py`, and latency. `recall eval --queries FILE` gives the
 same metrics for the production index alone.
 
+## What is not covered
+
+What CI **cannot** cover: anything under the `model` marker. It has no model
+snapshot, no GPU and no library, so retrieval quality, the threshold,
+DirectML/CPU agreement and real latency are checked only locally with
+`pytest -m model`, `tools/verify_index.py` and `experiments/evaluate.py`.
+
+The ONNX path of `embedder.py` needs the model, so the unit suite does not exercise it and the 80 %
+coverage floor is on the total.
+
+## Static checks
+
+CI runs these on every change; locally they need the dev tools, hash-locked in `requirements-dev.lock`:
+
+```powershell
+uv pip install --require-hashes --no-deps --python .venv\Scripts\python.exe -r requirements-dev.lock
+```
+
+`make dev` runs the same install.
+
+```powershell
+.venv\Scripts\python.exe -m ruff format --check .        # formatting
+.venv\Scripts\python.exe -m ruff check .                 # lint (rules in pyproject.toml)
+.venv\Scripts\python.exe -m mypy --platform win32        # types
+```
+
 ## Continuous integration
 
-CI (`.github/workflows/ci.yml`) runs on every push to `main` and every pull
+CI (`.github/workflows/ci.yml`) runs on every push to `main` or `develop` and every pull
 request:
 
 - **test** (`windows-latest`, Python 3.12): installs exactly what the lock
@@ -142,14 +199,23 @@ request:
 `.github/workflows/codeql.yml` runs CodeQL for Python and GitHub Actions on
 pushes, pull requests and weekly.
 
-What CI **cannot** cover: anything under the `model` marker. It has no model
-snapshot, no GPU and no library, so retrieval quality, the threshold,
-DirectML/CPU agreement and real latency are checked only locally with
-`pytest -m model`, `tools/verify_index.py` and `experiments/evaluate.py`.
-
-## Manual check
+## Manual checks
 
 After installing or changing the setup, follow the end-to-end check in
-[USAGE.md §14](USAGE.md#14-troubleshooting): start the service, run
+[USAGE.md §15](USAGE.md#15-troubleshooting): start the service, run
 `recall status`, pipe a sample prompt to `recall_hook.py`, and confirm a new
 `shadow.log` line.
+
+## Before opening a pull request
+
+The pull-request template (`.github/PULL_REQUEST_TEMPLATE.md`) asks for these checks:
+
+1. `python -I -m pytest` passes.
+2. `ruff format --check .`, `ruff check .` and `mypy --platform win32` pass.
+3. User-visible changes are under `[Unreleased]` in `CHANGELOG.md`, and the docs (README, `docs/USAGE.md`)
+   match the new behavior.
+4. If retrieval changed: `python -I -m pytest -m model` passes against a full local index, and the new
+   numbers are recorded in the pull request.
+
+Add a test for anything that touches the hook, the service auth, or the model identity
+([CONTRIBUTING.md](../CONTRIBUTING.md#workflow)).

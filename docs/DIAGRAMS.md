@@ -1,65 +1,133 @@
 # Diagrams
 
-Rendered by GitHub automatically (Mermaid). They complement the prose in
-[architecture.md](architecture.md).
+Every diagram of the repository in one place. GitHub renders them automatically (Mermaid). They complement the
+prose in [architecture.md](architecture.md).
 
-The indexing, search, hook and MCP diagrams are repeated in the
-[README](../README.md#how-it-works); keep both copies identical when one
-changes.
+Each diagram is repeated unchanged from the document that explains it: the context, components and flow
+diagrams from [architecture.md](architecture.md), the overview from the [README](../README.md#how-it-works),
+the trust boundaries from [THREAT_MODEL.md](THREAT_MODEL.md#trust-boundaries) and Figure 1 from the
+[paper](paper.md#figure-1-data-flow). Keep both copies identical when one changes.
+
+## Contents
+
+- [System context (C4 level 1)](#system-context-c4-level-1)
+- [Components (C4 level 2)](#components-c4-level-2)
+- [Sequences](#sequences)
+- [State and lifecycle](#state-and-lifecycle)
+- [Trust boundaries](#trust-boundaries)
 
 ## System context (C4 level 1)
 
+The diagram shows who uses recall and what it depends on; everything inside the box runs on one machine.
+
 ```mermaid
 flowchart TB
-    user(["User"])
+    user(["User<br/>writes prompts in Spanish or English"])
     subgraph host["This machine"]
-        assistant["Claude Code / Claude Desktop"]
+        assistant["Coding assistant<br/>Claude Code / Claude Desktop"]
         recall["recall<br/>service · hook · MCP · index"]
-        library[("Markdown library<br/>148 books")]
-        gpu["GPU (DirectML)<br/>CPU fallback"]
+        library[("Technical library<br/>Markdown per chapter · 148 books")]
+        gpu["Local GPU (DirectML)<br/>CPU fallback"]
     end
 
     user -- "prompt (ES / EN)" --> assistant
     assistant -- "UserPromptSubmit hook" --> recall
     assistant -- "MCP tool call" --> recall
-    recall -- "cited passages" --> assistant
-    recall -- "index" --> library
-    recall -- "embeddings" --> gpu
+    recall -- "passages with citations" --> assistant
+    recall -- "reads and indexes" --> library
+    recall -- "embeds on" --> gpu
 ```
 
 ## Components (C4 level 2)
 
+The diagram shows the processes of recall and the files they share.
+
 ```mermaid
 flowchart TB
-    start["start-recall.ps1<br/>SessionStart · always exit 0"]
-    hook["recall_hook.py<br/>filters · threshold · shadow/active"]
-    mcp["recall mcp<br/>recall_books_search"]
-    svc["recall serve<br/>Searcher + warm model<br/>127.0.0.1 · token"]
-    idx["recall index<br/>incremental"]
-    db[("index.sqlite3<br/>vectors + FTS5 + identity")]
-    pages[("pages.sqlite3")]
-    state[("%LOCALAPPDATA%\\recall<br/>service.json · config.json · shadow.log")]
+    subgraph procs["recall processes"]
+        start["start-recall.ps1<br/>SessionStart · always exit 0"]
+        hook["Hook · recall_hook.py<br/>UserPromptSubmit · stdlib only<br/>filters · threshold · shadow/active"]
+        mcp["MCP server · recall mcp<br/>mcp_server.py · stdio JSON-RPC<br/>recall_books_search"]
+        svc["Service · recall serve<br/>service.py · search.py<br/>Searcher + warm model<br/>127.0.0.1:ephemeral + Bearer token"]
+        idx["Indexer · recall index<br/>indexer.py · chunking.py<br/>incremental"]
+    end
+    subgraph files["State directory · %LOCALAPPDATA%\\recall"]
+        db[("index.sqlite3 (WAL)<br/>files · chunks (f32 vectors) · FTS5 · meta (identity)")]
+        pages[("pages.sqlite3<br/>line → printed page (optional)")]
+        state[("service.json · config.json · shadow.log")]
+    end
 
-    start --> svc
+    start -- "launch detached if unhealthy" --> svc
     hook -- "token from service.json" --> state
-    hook -- "POST /search" --> svc
-    mcp -- "POST /search" --> svc
-    mcp -. "fallback" .-> db
-    svc -- "mode=ro" --> db
-    svc --> pages
+    hook -- "HTTP POST /search" --> svc
+    mcp -- "HTTP POST /search" --> svc
+    mcp -. "fallback: in-process searcher" .-> db
+    svc -- "read-only (mode=ro)" --> db
+    svc -- "read-only" --> pages
     idx -- "read-write" --> db
     hook -- "log" --> state
 ```
 
-## Search inside the service
+Solid arrows are the normal path; the dotted arrow is the fallback the MCP server uses when the service is
+down.
 
-What `recall serve` does with one `POST /search`, whoever sent it (hook, MCP
-server or `recall search`). The ranking uses the fused score; `cos` is the raw
-cosine returned next to it, and `hub` the per-chunk prior of
-[ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md).
+## Sequences
+
+### A book becomes passages for the assistant (overview)
+
+The flowchart follows a book from its Markdown chapters to the passages the assistant receives.
 
 ```mermaid
-flowchart TD
+flowchart LR
+    L["PDF/EPUB books"] --> M["Markdown per chapter"]
+    M --> I["recall index<br/>incremental, atomic batches"]
+    I --> DB[("SQLite WAL<br/>float32 vectors + FTS5")]
+    P[("Page map")] --> S
+    DB --> S["recall serve<br/>127.0.0.1 + Bearer token<br/>model kept warm"]
+    U["User prompt"] --> H["Hook<br/>threshold · 1.5 s budget · fail-open"]
+    H -->|HTTP| S
+    H -->|passages + citation| A["Assistant"]
+    A -->|recall_books_search| MCP["MCP server · stdio"]
+    MCP --> S
+```
+
+### The indexer adds changed chapters (incremental indexing)
+
+The sequence shows one `recall index` run: only changed files are chunked, and identical inputs reuse their
+vector.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant CLI as recall index
+    participant FS as Library roots
+    participant E as Embedder
+    participant DB as index.sqlite3
+
+    CLI->>DB: open_rw, check model identity
+    alt identity differs
+        DB-->>CLI: ModelMismatchError (use --rebuild)
+    end
+    CLI->>FS: discover chapters
+    loop each file
+        CLI->>CLI: size+mtime equal? skip : compare sha256
+    end
+    loop each group (~512 chunks)
+        CLI->>CLI: chunk changed files by section (book, chapter, section, lines, language)
+        CLI->>DB: reuse vectors for identical inputs
+        CLI->>E: embed the rest
+        CLI->>DB: one transaction: files + chunks + FTS
+    end
+    CLI->>DB: apply deletions, bump generation
+```
+
+### The service answers one search
+
+The flowchart shows what `recall serve` does with one `POST /search`, whoever sent it (hook, MCP server or
+`recall search`).
+
+```mermaid
+flowchart TB
     req["POST /search<br/>queries, k, collections, filters,<br/>snippet_chars, budget_ms"]
     gate{"Loopback peer, valid Host,<br/>Bearer token?"}
     deny["403 / 401"]
@@ -93,12 +161,13 @@ flowchart TD
     win -. "exception while searching" .-> err
 ```
 
-## Sequence — automatic injection (hook)
+The ranking uses the fused score; `cos` is the raw cosine returned next to it, and `hub` the per-chunk prior
+of [ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md).
 
-With `hook.mode` set to `off` the hook exits before any of this. The
-threshold applies to `cos - hub_weight * hub`
-([ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md)); with
-`hook.hub_weight: 0` it is the raw cosine.
+### The hook injects passages into a prompt (automatic injection)
+
+The sequence shows what `recall_hook.py` does with one prompt; with `hook.mode` set to `off` the hook exits
+before any of this.
 
 ```mermaid
 sequenceDiagram
@@ -138,7 +207,13 @@ sequenceDiagram
     end
 ```
 
-## Sequence — explicit search (MCP)
+The threshold applies to `cos - hub_weight * hub`
+([ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md)); with
+`hook.hub_weight: 0` it is the raw cosine.
+
+### The assistant searches through the MCP tool (explicit search)
+
+The sequence shows one `recall_books_search` call, including the fallback when the service is not running.
 
 ```mermaid
 sequenceDiagram
@@ -160,42 +235,43 @@ sequenceDiagram
     M-->>A: formatted passages with book, chapter, page, path:lines
 ```
 
-## Sequence — incremental indexing
+### Data flow at the time of the study (paper, Figure 1)
+
+The flowchart is Figure 1 of the [paper](paper.md#figure-1-data-flow), a dated snapshot of 2026-11-05.
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    participant CLI as recall index
-    participant FS as Library roots
-    participant E as Embedder
-    participant DB as index.sqlite3
-
-    CLI->>DB: open_rw, check model identity
-    alt identity differs
-        DB-->>CLI: ModelMismatchError (use --rebuild)
-    end
-    CLI->>FS: discover chapters
-    loop each file
-        CLI->>CLI: size+mtime equal? skip : compare sha256
-    end
-    loop each group (~512 chunks)
-        CLI->>CLI: chunk changed files by section (book, chapter, section, lines, language)
-        CLI->>DB: reuse vectors for identical inputs
-        CLI->>E: embed the rest
-        CLI->>DB: one transaction: files + chunks + FTS
-    end
-    CLI->>DB: apply deletions, bump generation
+flowchart LR
+    L["PDF/EPUB books"] --> M["Markdown per chapter"]
+    M --> I["Incremental indexer"]
+    I --> DB[("SQLite: vectors + FTS5")]
+    P["Page map"] --> S
+    DB --> S["Local service<br/>127.0.0.1 + token"]
+    U["User prompt"] --> H["Hook<br/>threshold + 1.5 s budget"]
+    H -->|HTTP| S
+    H -->|context with citation| A["Assistant"]
+    A -->|recall_books_search| MCP["MCP server"]
+    MCP --> DB
 ```
 
+## State and lifecycle
+
+Not applicable: the repository has no state diagram. The hook mode (`off`, `shadow`, `active`) is a
+configuration value that you set, not a lifecycle the system drives; see
+[USAGE §9](USAGE.md#9-from-shadow-mode-to-active).
+
 ## Trust boundaries
+
+The diagram shows where untrusted input meets recall and which check guards each crossing.
 
 ```mermaid
 flowchart LR
     subgraph user_session["User's assistant session"]
         prompt["Prompt"]
+        hook["Hook"]
+        mcp["MCP server (stdio)"]
         ctx["Assistant context"]
     end
-    subgraph loopback["Loopback boundary · 127.0.0.1 + Host check · /proof before Bearer"]
+    subgraph loopback["Loopback boundary · 127.0.0.1 only + Host check · /proof before Bearer · 64 KiB cap"]
         svc["recall serve"]
     end
     subgraph data["Data at rest · %LOCALAPPDATA%\\recall (user ACL)"]
@@ -203,10 +279,23 @@ flowchart LR
         tok[("service.json · token")]
     end
     books[("Book text<br/>UNTRUSTED content")]
+    other(["Other local process / browser"])
 
-    prompt --> hook["hook"] --> svc
-    svc --> db
+    prompt --> hook
+    hook -- "Bearer token" --> svc
+    mcp -- "Bearer token" --> svc
+    svc -- "mode=ro" --> db
     books -- "indexed as data" --> db
-    svc -- "passages wrapped as DATA" --> hook --> ctx
+    svc -- "passages" --> hook
+    svc -- "passages" --> mcp
+    hook -- "wrapped as DATA" --> ctx
+    mcp -- "wrapped as DATA" --> ctx
     hook -. "reads token" .-> tok
+    other -. "no token / wrong Host: 401/403" .-> svc
+
+    classDef untrusted stroke-dasharray: 5 5
+    class books,other untrusted
 ```
+
+Dashed outlines mark what recall does not trust. Book text is treated as untrusted content: it is retrieved
+and shown, never executed or obeyed.

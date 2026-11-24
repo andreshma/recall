@@ -1,6 +1,6 @@
-# recall — User Manual
+# Usage
 
-A step-by-step guide to installing recall, indexing a library of technical
+The recall user manual: a step-by-step guide to installing recall, indexing a library of technical
 books, and connecting it to Claude Code and Claude Desktop. For the design
 rationale see [architecture.md](architecture.md); for the evaluation study see
 [paper.md](paper.md); for the test suite see [TESTING.md](TESTING.md).
@@ -12,28 +12,6 @@ name so the paths match:
 ```powershell
 git clone https://github.com/andreshma/recall.git C:\Users\<user>\source\repos\recall
 ```
-
-## Contents
-
-1. [What it does](#1-what-it-does)
-2. [Requirements](#2-requirements)
-3. [Install](#3-install)
-4. [Prepare the library](#4-prepare-the-library)
-5. [Index](#5-index)
-6. [The local service](#6-the-local-service)
-7. [Connect Claude Code](#7-connect-claude-code)
-8. [Connect Claude Desktop](#8-connect-claude-desktop)
-9. [Shadow mode → active](#9-shadow-mode--active)
-10. [Command reference](#10-command-reference)
-11. [Configuration (`config.json`)](#11-configuration-configjson)
-12. [Maintenance tools](#12-maintenance-tools)
-13. [Changing the model or chunking](#13-changing-the-model-or-chunking)
-14. [Troubleshooting](#14-troubleshooting)
-15. [Rollback and uninstall](#15-rollback-and-uninstall)
-
----
-
-## 1. What it does
 
 recall indexes a folder of Markdown books (one file per chapter) into a local
 SQLite file with vectors and full text, and makes it searchable from Claude in
@@ -57,17 +35,26 @@ the repository. What recall *returns* — passages, citations and, from the MCP
 tool, absolute file paths — becomes part of your conversation and so reaches
 whatever provider runs your assistant.
 
-### 1.1 What it does not do
+## Contents
 
-- It does not convert PDF/EPUB to Markdown. It expects the library already
-  converted, one file per chapter (§4).
-- It does not download models at run time. The ONNX snapshot must already be on
-  disk (§3.2).
-- The hook does not inject anything until you switch it to `active` (§9).
+1. [Requirements](#1-requirements)
+2. [Install](#2-install)
+3. [First run](#3-first-run)
+4. [Prepare the library](#4-prepare-the-library)
+5. [Index](#5-index)
+6. [The local service](#6-the-local-service)
+7. [Connect Claude Code](#7-connect-claude-code)
+8. [Connect Claude Desktop](#8-connect-claude-desktop)
+9. [From shadow mode to active](#9-from-shadow-mode-to-active)
+10. [Configuration](#10-configuration)
+11. [Maintenance tools](#11-maintenance-tools)
+12. [Changing the model or chunking](#12-changing-the-model-or-chunking)
+13. [Rollback and uninstall](#13-rollback-and-uninstall)
+14. [Command reference](#14-command-reference)
+15. [Troubleshooting](#15-troubleshooting)
+16. [Known limitations](#16-known-limitations)
 
----
-
-## 2. Requirements
+## 1. Requirements
 
 | Requirement | Notes |
 |---|---|
@@ -83,11 +70,9 @@ Runtime dependencies (pinned with hashes in `requirements.lock`): `numpy`,
 `editables` for the tests and the editable install. Dev tools (ruff, mypy,
 coverage, pip-audit) are hash-locked in `requirements-dev.lock`.
 
----
+## 2. Install
 
-## 3. Install
-
-### 3.1 Virtual environment
+### 2.1 Virtual environment
 
 ```powershell
 cd C:\Users\<user>\source\repos\recall
@@ -131,13 +116,18 @@ non-Windows install of `pyproject.toml` gets; recall itself runs on Windows)
 on the same version as `onnxruntime-directml`: Dependabot proposes moving only
 the non-Windows one, and DirectML releases lag behind, so the two would drift.
 
-### 3.2 Embedding model
+### 2.2 Embedding model
 
 recall loads a quantized ONNX model from a local snapshot directory. The code
 default is `onnx-community/embeddinggemma-300m-ONNX` in the Hugging Face cache
-(`%USERPROFILE%\.cache\huggingface\hub\models--onnx-community--embeddinggemma-300m-ONNX\snapshots\<revision>`).
-The production configuration uses `onnx-community/embeddinggemma-2-ONNX` (§11,
-§13).
+(the path is below).
+
+```text
+%USERPROFILE%\.cache\huggingface\hub\models--onnx-community--embeddinggemma-300m-ONNX\snapshots\<revision>
+```
+
+The production configuration uses `onnx-community/embeddinggemma-2-ONNX` (§10,
+§12).
 
 **recall never downloads a model** (and `huggingface-hub` is deliberately not
 installed in its environment). Get the snapshot once, by any means you prefer
@@ -165,7 +155,7 @@ in the index identity, so keep it stable (renaming it later makes the index
 refuse to mix vectors). `model.snapshot` accepts `~` (expanded to your profile
 directory).
 
-### 3.3 Run the tests
+### 2.3 Run the tests
 
 ```powershell
 .venv\Scripts\python.exe -I -m pytest            # unit tests (no model)
@@ -174,7 +164,28 @@ directory).
 
 See [TESTING.md](TESTING.md).
 
----
+## 3. First run
+
+With the environment installed (§2.1) and the model snapshot on disk (§2.2), the first run takes four steps:
+
+1. Point `model.snapshot` in `%LOCALAPPDATA%\recall\config.json` at the snapshot folder (§2.2). To use the
+   recommended configuration instead of the code defaults, start from `config.example.json` (§10).
+2. Put the library where recall looks for it: the default root is `%USERPROFILE%\books\md`; set
+   `collections.books.roots` in the same `config.json` to use another folder (§4).
+3. Index, search and check:
+
+   ```powershell
+   $py = 'C:\Users\<user>\source\repos\recall\.venv\Scripts\python.exe'
+   & $py -I -m recall index     # incremental; the first full run takes hours
+   & $py -I -m recall search "tasa de consumo del presupuesto de errores" "error budget burn rate" --text
+   & $py -I -m recall status
+   ```
+
+4. Connect Claude Code (§7) and, if you use it, Claude Desktop (§8). The hook starts in shadow mode and
+   injects nothing until you switch it to `active` (§9).
+
+The first full index of a ~3,000-chapter library takes hours on a GPU (§5). `recall search` works without the
+service: it uses the service if it is alive, else an in-process searcher (§14).
 
 ## 4. Prepare the library
 
@@ -184,7 +195,7 @@ output follows this **Markdown input contract**.
 **Layout.** One directory per book under a library root, one UTF-8 `.md` file
 per chapter:
 
-```
+```text
 <root>\<book-id>\NN-<slug>.md
 ```
 
@@ -252,9 +263,7 @@ missing or invalid, any filter returns nothing and the cause is reported on
 stderr and as `meta_error` in `/health`, instead of failing silently. Another
 file can be used with `metadata_file` in `config.json`. The file carries no
 source file names: the PDF location of each book, needed only for page
-numbers (§12.2), lives in the git-ignored `data/books_sources.local.json`.
-
----
+numbers (§11.2), lives in the git-ignored `data/books_sources.local.json`.
 
 ## 5. Index
 
@@ -277,7 +286,7 @@ $py = 'C:\Users\<user>\source\repos\recall\.venv\Scripts\python.exe'
   revision, sha256 of the ONNX and tokenizer files, dimension, prefixes,
   chunking). Indexing or searching with a different identity fails with
   `ModelMismatchError` instead of returning wrong results; changing model or
-  chunking requires `--rebuild` (or a separate home, §13).
+  chunking requires `--rebuild` (or a separate home, §12).
 - **One input shape per DirectML query session**
   ([ADR 0010](adr/0010-directml-one-query-shape.md)). A DirectML session is
   fast only for the first tensor shape it runs; after a second shape every
@@ -302,8 +311,6 @@ $py = 'C:\Users\<user>\source\repos\recall\.venv\Scripts\python.exe'
 
 The first full index of a ~3,000-chapter library takes hours on a GPU; later
 runs are incremental (a no-change pass takes well under a second of work).
-
----
 
 ## 6. The local service
 
@@ -340,7 +347,8 @@ Claude Code `SessionStart` hook (§7.3). The script:
 1. Does nothing if `service.json` points to a live process that passes the
    `/proof` check and whose `/health` answers with the token. The token is
    never sent to a process that has not proved it.
-2. Otherwise launches `.venv\Scripts\pythonw.exe -I -c "...main(['serve'])" <statedir>`
+2. Otherwise launches
+   `.venv\Scripts\pythonw.exe -I -c "...main(['serve'])" <statedir>`
    hidden and **detached** from the session (via `Win32_Process.Create`), so
    Claude Code does not kill it when the hook ends. The state directory is
    passed on the command line, so a `RECALL_HOME` set for the script reaches
@@ -367,8 +375,11 @@ Stop-Process -Id $svc.pid
 ```
 
 If `service.json` is already gone, stop the `pythonw.exe` process whose
-command line contains `recall` (Task Manager → Details, or
-`Get-CimInstance Win32_Process -Filter "Name='pythonw.exe'" | Select-Object ProcessId, CommandLine`).
+command line contains `recall` (Task Manager → Details, or the command below).
+
+```powershell
+Get-CimInstance Win32_Process -Filter "Name='pythonw.exe'" | Select-Object ProcessId, CommandLine
+```
 
 The service itself logs search errors (exception type, never the query) to
 `%LOCALAPPDATA%\recall\serve.log`, rotated at 1 MiB. If the model session stops
@@ -383,8 +394,6 @@ session starts a clean one.
 
 If the service is down, `recall search` and the MCP server fall back to an
 in-process searcher.
-
----
 
 ## 7. Connect Claude Code
 
@@ -510,8 +519,8 @@ Get-Content "$env:USERPROFILE\.claude\settings.json" -Raw | ConvertFrom-Json | O
   the chunk is to generic coding prompts (ADR 0011): chapters that match almost
   any prompt about agents, hooks or services are penalized, and the ranking is
   untouched. Until the service has loaded it (~15 s on the first start with a
-  model, then cached) the hook logs `hub-pending` and does not inject. Each passage is the window of the chunk
-  that shares the most terms with the prompt, with its citation (book — chapter
+  model, then cached) the hook logs `hub-pending` and does not inject. Each passage is the window of the
+  chunk that shares the most terms with the prompt, with its citation (book — chapter
   — section, library-relative path `book-id/file.md`:lines, page when known).
   Passages are wrapped in a `<recall_books>` block marked as data; in every
   field `<`, `>` and their look-alikes become `&lt;`/`&gt;`, and header fields
@@ -520,8 +529,6 @@ Get-Content "$env:USERPROFILE\.claude\settings.json" -Raw | ConvertFrom-Json | O
 - Fails open on any error or delay: exit 0, no output, the prompt is untouched.
 - Writes ASCII-only JSON as bytes, so a non-UTF-8 Windows console cannot drop
   the injection.
-
----
 
 ## 8. Connect Claude Desktop
 
@@ -551,9 +558,7 @@ Quit Desktop completely (also from the system tray) and reopen it. Logs:
 only the MCP tool; the tool description carries the essentials (query in both
 Spanish and English, results are data, cite the source).
 
----
-
-## 9. Shadow mode → active
+## 9. From shadow mode to active
 
 Without `config.json`, the hook runs in **shadow** mode: it searches, decides,
 and logs to `%LOCALAPPDATA%\recall\shadow.log` (prompt hash, cosines, the paths
@@ -573,8 +578,8 @@ latency (p50/p95/max), quantiles of the highest score per prompt (the adjusted
 been injected at each candidate threshold, and the most frequent paths.
 `adjusted` counts the entries on the adjusted scale; the two scales are not
 comparable, so after enabling the hub prior use `--since` its date. Each entry
-also records the chunk ids of the hits. Since only a hash of the prompt is logged, false positives are reviewed
-through those paths.
+also records the chunk ids of the hits. Since only a hash of the prompt is logged, false positives are
+reviewed through those paths.
 
 Switch to **active** (the next hook invocation reads it; nothing to restart):
 
@@ -586,29 +591,7 @@ If `config.json` already exists, edit its `"hook"` section instead of
 overwriting the file. Back to shadow: `"mode": "shadow"`. Turn it off without
 uninstalling: `"mode": "off"`.
 
----
-
-## 10. Command reference
-
-| Command | What it does |
-|---|---|
-| `recall index [--rebuild] [--root DIR]... [--limit-files N] [--dml-device N] [--cpu]` | Index the library (incremental by default). |
-| `recall search QUERY... [-k 5] [--text]` | Search with one or more phrasings (e.g. Spanish and English); uses the service if alive, else in-process. |
-| `recall serve` | Run the local search service (blocks). |
-| `recall mcp` | Run the stdio MCP server. |
-| `recall status` | Index counts, generation, model identity and service health. |
-| `recall eval [--queries FILE] [--out FILE]` | R@5 / MRR, latency and threshold calibration over a query set. Without `--queries` it uses `tests\data\queries_books.json` of the source checkout; elsewhere (an installed wheel) it exits 2 and asks for `--queries`. |
-
-All are run as `.venv\Scripts\python.exe -I -m recall <command>`. Examples:
-
-```powershell
-& $py -I -m recall search "tasa de consumo del presupuesto de errores" "error budget burn rate" --text
-& $py -I -m recall eval --queries tests\data\queries_books_80.json
-```
-
----
-
-## 11. Configuration (`config.json`)
+## 10. Configuration
 
 `%LOCALAPPDATA%\recall\config.json` (or `$RECALL_HOME\config.json`) is optional
 and merged section by section over the code defaults, so you only write what
@@ -647,7 +630,7 @@ value and record it on the next `recall index`.
 | `search` | `query_window_tokens`, `query_max_windows`, `query_window_overlap` | 0 (off), 6, 5 | Split a longer query into windows of at most N tokens, one model call each, fused by sum (ADR 0008). Use 32 with embeddinggemma-2 on DirectML. |
 | `search` | `hub_prior` | true | Compute the per-chunk hub prior and return it as `hub` on every hit (ADR 0011). |
 | `hook` | `mode` | `shadow` | `shadow`, `active` or `off`. |
-| `hook` | `threshold` | 0.58 | Minimum `cos - hub_weight * hub` to inject. Model-specific (§13); 0.75 for the production configuration. |
+| `hook` | `threshold` | 0.58 | Minimum `cos - hub_weight * hub` to inject. Model-specific (§12); 0.75 for the production configuration. |
 | `hook` | `hub_weight` | 1.0 | Weight of the hub prior; 0 compares the raw cosine. |
 | `hook` | `max_snippets`, `max_chars` | 3, 700 | Passages injected and characters per passage. |
 | `hook` | `budget_s` | 1.5 | Total time budget of the hook. |
@@ -671,11 +654,9 @@ Environment variables:
 | `RECALL_HOME` | State directory instead of `%LOCALAPPDATA%\recall` (the tests use it). `start-recall.ps1` honors it and passes it to the service it starts. |
 | `HF_HUB_OFFLINE` | Set to `1` by the package on import; also set in the MCP entries. |
 
----
+## 11. Maintenance tools
 
-## 12. Maintenance tools
-
-### 12.1 Verify an index — `tools/verify_index.py`
+### 11.1 Verify an index — `tools/verify_index.py`
 
 Read-only integrity check. `HOME` is a directory with `index.sqlite3` and,
 optionally, `config.json`; the default is `%LOCALAPPDATA%\recall`.
@@ -693,7 +674,7 @@ indexed and unchanged (skip with `--no-source`); and with `--sample N`,
 re-embeds N random chunks and requires cosine ≥ 0.99 with the stored vector
 (`--sample-cpu` forces CPU). Exits 1 if any check fails.
 
-### 12.2 Page map — `tools/build_pages.py`
+### 11.2 Page map — `tools/build_pages.py`
 
 Builds `pages.sqlite3` (default in `%LOCALAPPDATA%\recall`), a map from each
 Markdown line to its PDF page, used to cite the printed page number. It needs
@@ -727,7 +708,7 @@ defines one. EPUBs have no fixed pages and are cited by chapter. The map is
 independent of the index (any model or chunking) and optional. Regenerate it
 after re-converting books.
 
-### 12.3 Experiments — `experiments/`
+### 11.3 Experiments — `experiments/`
 
 ```powershell
 pwsh -File experiments\run.ps1                                # every config, in series
@@ -745,9 +726,7 @@ Progress goes to `<home>\index.log`, a summary to
 R@5, threshold separation and latency over the 80-query set
 (`--queries` to use another).
 
----
-
-## 13. Changing the model or chunking
+## 12. Changing the model or chunking
 
 `config.json` can change `model` (name, snapshot, prefixes, pooling
 `sentence_embedding`/`mean`/`last`, padding side, EOS) and `chunking`. Both are
@@ -770,9 +749,50 @@ Recommended procedure:
    separation reported by `evaluate.py` for a starting value, then the shadow
    log. Archive the old `shadow.log`: its cosines are on another scale.
 
----
+## 13. Rollback and uninstall
 
-## 14. Troubleshooting
+**Roll back a model change:** stop the service, move the backed-up index files
+and `shadow.log` back into `%LOCALAPPDATA%\recall`, and restore (or delete) the
+previous `config.json`.
+
+**Uninstall:**
+
+```powershell
+claude mcp remove --scope user recall
+```
+
+- Desktop: delete the `"recall"` entry from `mcpServers` in
+  `claude_desktop_config.json` and restart Desktop.
+- `settings.json`: remove the `"SessionStart"` element that calls
+  `start-recall.ps1` and the whole `"UserPromptSubmit"` entry for recall, or
+  restore the backup from §7.1.
+- Stop the service and delete all state (including the index):
+
+```powershell
+$svc = Get-Content "$env:LOCALAPPDATA\recall\service.json" -Raw | ConvertFrom-Json
+Stop-Process -Id $svc.pid -Force
+Remove-Item "$env:LOCALAPPDATA\recall" -Recurse -Force
+```
+
+## 14. Command reference
+
+| Command | What it does |
+|---|---|
+| `recall index [--rebuild] [--root DIR]... [--limit-files N] [--dml-device N] [--cpu]` | Index the library (incremental by default). |
+| `recall search QUERY... [-k 5] [--text]` | Search with one or more phrasings (e.g. Spanish and English); uses the service if alive, else in-process. |
+| `recall serve` | Run the local search service (blocks). |
+| `recall mcp` | Run the stdio MCP server. |
+| `recall status` | Index counts, generation, model identity and service health. |
+| `recall eval [--queries FILE] [--out FILE]` | R@5 / MRR, latency and threshold calibration over a query set. Without `--queries` it uses `tests\data\queries_books.json` of the source checkout; elsewhere (an installed wheel) it exits 2 and asks for `--queries`. |
+
+All are run as `.venv\Scripts\python.exe -I -m recall <command>`. Examples:
+
+```powershell
+& $py -I -m recall search "tasa de consumo del presupuesto de errores" "error budget burn rate" --text
+& $py -I -m recall eval --queries tests\data\queries_books_80.json
+```
+
+## 15. Troubleshooting
 
 | Symptom | Likely cause / fix |
 |---|---|
@@ -806,29 +826,18 @@ as *"what is a bounded context according to the books?"* should cite book and
 chapter. In shadow mode, `shadow.log` gains a `would-inject` line per relevant
 prompt.
 
----
+## 16. Known limitations
 
-## 15. Rollback and uninstall
-
-**Roll back a model change:** stop the service, move the backed-up index files
-and `shadow.log` back into `%LOCALAPPDATA%\recall`, and restore (or delete) the
-previous `config.json`.
-
-**Uninstall:**
-
-```powershell
-claude mcp remove --scope user recall
-```
-
-- Desktop: delete the `"recall"` entry from `mcpServers` in
-  `claude_desktop_config.json` and restart Desktop.
-- `settings.json`: remove the `"SessionStart"` element that calls
-  `start-recall.ps1` and the whole `"UserPromptSubmit"` entry for recall, or
-  restore the backup from §7.1.
-- Stop the service and delete all state (including the index):
-
-```powershell
-$svc = Get-Content "$env:LOCALAPPDATA\recall\service.json" -Raw | ConvertFrom-Json
-Stop-Process -Id $svc.pid -Force
-Remove-Item "$env:LOCALAPPDATA\recall" -Recurse -Force
-```
+- It does not convert PDF/EPUB to Markdown. It expects the library already
+  converted, one file per chapter (§4).
+- It does not download models at run time. The ONNX snapshot must already be on
+  disk (§2.2).
+- The hook does not inject anything until you switch it to `active` (§9).
+- Windows 10/11 x64 only: the lock file is resolved for `x86_64-pc-windows-msvc` (§1).
+- The first prompt of a session may get no context, because the launcher does not wait for the model to
+  load; later prompts do (§6).
+- EPUBs have no fixed pages and are cited by chapter; a PDF paragraph that is not found is cited as
+  approximate (`p. ~N`) (§11.2).
+- A book without a verified year is left as `null` and never passes a year filter (§4).
+- What recall returns — passages, citations and, from the MCP tool, absolute file paths — reaches whatever
+  provider runs your assistant (§7.2).

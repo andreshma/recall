@@ -16,7 +16,7 @@ It works in two ways: a **hook** that quietly adds the relevant passages to a
 prompt when — and only when — they clear a similarity threshold, and an **MCP
 tool** the assistant calls when it wants to search on its own.
 
-> 🔒 **Local retrieval.** Indexing and search never touch the network: the
+> **Local retrieval.** Indexing and search never touch the network: the
 > embedding model runs from a local snapshot on your GPU, `HF_HUB_OFFLINE=1` is
 > set on import, and `huggingface-hub` is not even installed. The search
 > service listens only on `127.0.0.1` behind a random token. **The passages
@@ -24,20 +24,29 @@ tool** the assistant calls when it wants to search on its own.
 > provider runs your assistant — index only documents you are willing to
 > share with it.
 >
-> 📚 **Bring your own books.** The repository contains no book content — only
+> **Bring your own books.** The repository contains no book content — only
 > the code, bibliographic metadata and the evaluation queries. You index your
 > own Markdown-converted library.
 
-📖 **New here? Start with the [User Manual](docs/USAGE.md)**: setup, indexing,
+**New here? Start with the [User Manual](docs/USAGE.md)**: setup, indexing,
 connecting Claude Code and Desktop, configuration and troubleshooting. The
 study behind the current configuration is in the **[paper](docs/paper.md)**.
 
 ## Contents
 
-- [Why](#why) · [Quickstart](#quickstart) · [How it works](#how-it-works)
-- [Components](#components) · [Results](#results) · [Commands](#command-reference)
-- [Configuration](#configuration) · [Security model](#security-model) · [Testing](#testing)
-- [Status](#status) · [Documentation](#documentation) · [Community](#community) · [License](#license)
+- [Why](#why)
+- [Quickstart](#quickstart)
+- [How it works](#how-it-works)
+- [Components](#components)
+- [Usage](#usage)
+- [Results](#results)
+- [Configuration](#configuration)
+- [Security model](#security-model)
+- [Testing](#testing)
+- [Status](#status)
+- [Documentation](#documentation)
+- [Community](#community)
+- [License](#license)
 
 ## Why
 
@@ -53,9 +62,11 @@ enough", not just a ranking. recall is built around that score.
 Windows 10/11 x64, Python 3.12 and [uv](https://docs.astral.sh/uv/), in
 PowerShell (Windows PowerShell 5.1 or pwsh 7).
 
-**1. Install** — the locked environment (every package hash-pinned) plus
-recall itself, so that `python -I -m recall` works. CI runs this block
-verbatim on every push.
+### 1. Install
+
+Install the locked environment (every package hash-pinned) plus recall itself,
+so that `python -I -m recall` works. CI runs the second block verbatim on every
+push.
 
 ```powershell
 git clone https://github.com/andreshma/recall.git
@@ -73,22 +84,26 @@ uv pip install --no-deps --no-build-isolation --python .venv\Scripts\python.exe 
 Run the `uv pip install ... -e .` line again after any later `uv pip sync`
 (sync removes packages that are not in the lock, recall included).
 
-**2. Get the embedding model.** recall never downloads anything. Fetch an
+### 2. Get the embedding model
+
+recall never downloads anything. Fetch an
 ONNX snapshot once, with any tool you like and outside recall's environment —
 for example `git clone https://huggingface.co/onnx-community/embeddinggemma-300m-ONNX`
 with Git LFS installed (accept the model's license on its page first; the
 Gemma models are gated). The folder must contain `onnx/model_quantized.onnx`
 (plus its `.onnx_data`, if any) and `tokenizer.json`; its name is recorded as
 the revision. Point `model.snapshot` in `%LOCALAPPDATA%\recall\config.json` at
-it ([USAGE §3.2](docs/USAGE.md#32-embedding-model)); the recommended model and
+it ([USAGE §2.2](docs/USAGE.md#22-embedding-model)); the recommended model and
 settings are in [`config.example.json`](config.example.json).
 
-**3. Point recall at your library** — Markdown, one file per chapter, one
+### 3. Point recall at your library
+
+The library is Markdown, one file per chapter, one
 folder per book ([input contract](docs/USAGE.md#4-prepare-the-library)). The
 default root is `%USERPROFILE%\books\md`; set `collections.books.roots` in the
 same `config.json` to use another folder.
 
-**4. Index, search, check:**
+### 4. Index, search, check
 
 ```powershell
 .venv\Scripts\python.exe -I -m recall index     # incremental; the first full run takes hours
@@ -101,17 +116,19 @@ Then wire it into Claude Code and Desktop (MCP server + hooks) following the
 
 ## How it works
 
+The diagram follows a book from its Markdown chapters to the passages the assistant receives.
+
 ```mermaid
 flowchart LR
-    L[PDF/EPUB books] --> M[Markdown per chapter]
-    M --> I[recall index<br/>incremental, atomic batches]
-    I --> DB[(SQLite WAL<br/>float32 vectors + FTS5)]
-    P[(Page map)] --> S
-    DB --> S[recall serve<br/>127.0.0.1 + Bearer token<br/>model kept warm]
-    U[User prompt] --> H[Hook<br/>threshold · 1.5 s budget · fail-open]
+    L["PDF/EPUB books"] --> M["Markdown per chapter"]
+    M --> I["recall index<br/>incremental, atomic batches"]
+    I --> DB[("SQLite WAL<br/>float32 vectors + FTS5")]
+    P[("Page map")] --> S
+    DB --> S["recall serve<br/>127.0.0.1 + Bearer token<br/>model kept warm"]
+    U["User prompt"] --> H["Hook<br/>threshold · 1.5 s budget · fail-open"]
     H -->|HTTP| S
-    H -->|passages + citation| A[Assistant]
-    A -->|recall_books_search| MCP[MCP server · stdio]
+    H -->|passages + citation| A["Assistant"]
+    A -->|recall_books_search| MCP["MCP server · stdio"]
     MCP --> S
 ```
 
@@ -128,162 +145,44 @@ Three principles keep it useful and out of the way:
    of the index identity. Searching with a different model is an explicit
    error, never silently wrong results.
 
-### Indexing pipeline
-
-Markdown chapters become chunks, chunks become vectors, and both land in one
-SQLite file together with the FTS5 rows (`src/recall/indexer.py`,
-`chunking.py`, `store.py`).
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant CLI as recall index
-    participant FS as Library roots
-    participant E as Embedder
-    participant DB as index.sqlite3
-
-    CLI->>DB: open_rw, check model identity
-    alt identity differs
-        DB-->>CLI: ModelMismatchError (use --rebuild)
-    end
-    CLI->>FS: discover chapters
-    loop each file
-        CLI->>CLI: size+mtime equal? skip : compare sha256
-    end
-    loop each group (~512 chunks)
-        CLI->>CLI: chunk changed files by section (book, chapter, section, lines, language)
-        CLI->>DB: reuse vectors for identical inputs
-        CLI->>E: embed the rest
-        CLI->>DB: one transaction: files + chunks + FTS
-    end
-    CLI->>DB: apply deletions, bump generation
-```
-
-### Search inside the service
-
-Every search — from the hook, the MCP server or `recall search` — is one
-`POST /search` to `recall serve` (`src/recall/service.py`, `search.py`).
-
-```mermaid
-flowchart TD
-    req["POST /search<br/>queries, k, collections, filters,<br/>snippet_chars, budget_ms"]
-    gate{"Loopback peer, valid Host,<br/>Bearer token?"}
-    deny["403 / 401"]
-    parse{"Body within 64 KiB<br/>and well-formed?"}
-    bad["413 / 400"]
-    win["Split long queries into windows<br/>(search.query_window_tokens)"]
-    emb["Embed each window with the query prefix<br/>warm model, stops at the budget_ms deadline"]
-    vec["Cosine against every vector<br/>in-memory float32 matrix"]
-    fts["FTS5 (BM25) candidates<br/>index.sqlite3, mode=ro"]
-    rrf["Reciprocal rank fusion<br/>FTS weight 0.25 same language, 0.02 across"]
-    rows["Read each hit by id, check input_sha,<br/>deduplicate by file + section, keep k"]
-    meta["Attach cos, hub, book metadata<br/>and page (pages.sqlite3)"]
-    snip["Optional snippet: the window sharing<br/>the most terms with the query"]
-    ok["200 hits"]
-    err["503 index identity changed<br/>500 any other error"]
-
-    req --> gate
-    gate -- no --> deny
-    gate -- yes --> parse
-    parse -- no --> bad
-    parse -- yes --> win
-    win --> emb
-    emb --> vec
-    win --> fts
-    vec --> rrf
-    fts --> rrf
-    rrf --> rows
-    rows --> meta
-    meta --> snip
-    snip --> ok
-    win -. "exception while searching" .-> err
-```
-
-### Automatic injection (hook)
-
-`recall_hook.py` either adds passages or leaves the prompt alone; every other
-outcome is exit 0 with no output. The threshold applies to the cosine minus
-the hub prior ([ADR 0011](docs/adr/0011-hub-prior-for-the-hook-threshold.md)).
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant CC as Claude Code
-    participant H as recall_hook.py
-    participant S as recall serve
-    participant L as shadow.log
-
-    CC->>H: stdin JSON {prompt, cwd, ...}
-    H->>H: skip trivial / command / mechanical?
-    alt skipped
-        H->>L: {hash, decision: skip-*}
-        H-->>CC: exit 0, no output
-    else candidate
-        H->>S: GET /proof?nonce=n (no token)
-        S-->>H: HMAC(token, n:port)
-        H->>H: proof matches service.json token?
-        H->>S: POST /search (Bearer, snippet_chars) within 1.5 s budget
-        alt unavailable / bad proof / timeout / error
-            H->>L: {hash, decision: service-unavailable}
-            H-->>CC: exit 0, no output (fail-open)
-        else hits
-            S-->>H: hits with cosine and hub prior
-            H->>H: keep cos - hub_weight * hub ≥ threshold, ≤ 3, one per file
-            alt hub prior not loaded / nothing clears the threshold / budget exceeded
-                H->>L: {hash, scores, decision: hub-pending / below-threshold / over-budget}
-                H-->>CC: exit 0, no output
-            else shadow mode
-                H->>L: {hash, scores, paths, decision: would-inject}
-                H-->>CC: exit 0, no output
-            else active mode
-                H->>L: {hash, decision: inject}
-                H-->>CC: additionalContext (ASCII JSON, cited passages)
-            end
-        end
-    end
-```
-
-### Explicit search (MCP)
-
-`recall mcp` (`src/recall/mcp_server.py`) asks the same service and falls back
-to an in-process searcher when it is not running.
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant A as Assistant
-    participant M as recall mcp (stdio)
-    participant S as recall serve
-    participant DB as index.sqlite3
-
-    A->>M: tools/call recall_books_search {queries: [ES, EN], k, domains?, year_min?}
-    M->>M: validate filters and queries
-    M->>S: GET /proof, then POST /search (Bearer)
-    alt service up
-        S-->>M: hits
-    else service unavailable
-        M->>DB: load in-process searcher (first call only)
-        DB-->>M: hits
-    end
-    M-->>A: formatted passages with book, chapter, page, path:lines
-```
-
-More diagrams (sequences, trust boundaries): [docs/DIAGRAMS.md](docs/DIAGRAMS.md).
+The four flows behind the diagram — the indexing pipeline, search inside the service, automatic injection
+(hook) and explicit search (MCP) — are described step by step, each with its diagram, in
+[docs/architecture.md](docs/architecture.md#flows). Every diagram of the project (context, components,
+sequences, trust boundaries) is in [docs/DIAGRAMS.md](docs/DIAGRAMS.md).
 
 ## Components
 
-| Piece | What it does |
+| Component | What it does | Where |
+|---|---|---|
+| `recall index` | Splits the Markdown chapters by section into chunks and stores text + vector in SQLite. Incremental: only changed chapters are reprocessed, and any already-embedded text reuses its vector. | `src/recall/indexer.py`, `chunking.py`, `store.py` |
+| `recall serve` | Local service with the model loaded (DirectML GPU, CPU fallback). Hybrid search: vector first, fused with FTS5 via RRF, deduplicated by section. | `src/recall/service.py`, `search.py` |
+| `recall_hook.py` | `UserPromptSubmit` hook. Skips trivial or mechanical prompts, searches, and injects up to 3 passages above the threshold, trimmed to the window that best matches the question. Standard library only. | `recall_hook.py` |
+| `recall mcp` | Dependency-free MCP server exposing `recall_books_search` (Spanish + English queries in one call, filters by topic domain and publication year). | `src/recall/mcp_server.py` |
+| `start-recall.ps1` | `SessionStart` hook: starts the service detached if it isn't healthy; always exits 0. | `start-recall.ps1` |
+| `data/books_meta.json` | Year (from the copyright page), edition, format and topic domains for each book; shipped inside the package too. | `data/books_meta.json` |
+| `tools/build_pages.py` | Maps each Markdown line to its printed PDF page, for citations like "p. 199". | `tools/build_pages.py` |
+| `tools/verify_index.py` | Read-only integrity verifier for any index. | `tools/verify_index.py` |
+| `tools/shadow_report.py` | Summarizes the shadow log: how many real prompts each candidate threshold would inject. | `tools/shadow_report.py` |
+| `experiments/` | Indexes another model or chunking into its own directory and compares it with production. | `experiments/run.ps1`, `experiments/evaluate.py`, `experiments/configs/` |
+
+## Usage
+
+| Command | What it does |
 |---|---|
-| `recall index` | Splits the Markdown chapters by section into chunks and stores text + vector in SQLite. Incremental: only changed chapters are reprocessed, and any already-embedded text reuses its vector. |
-| `recall serve` | Local service with the model loaded (DirectML GPU, CPU fallback). Hybrid search: vector first, fused with FTS5 via RRF, deduplicated by section. |
-| `recall_hook.py` | `UserPromptSubmit` hook. Skips trivial or mechanical prompts, searches, and injects up to 3 passages above the threshold, trimmed to the window that best matches the question. Standard library only. |
-| `recall mcp` | Dependency-free MCP server exposing `recall_books_search` (Spanish + English queries in one call, filters by topic domain and publication year). |
-| `start-recall.ps1` | `SessionStart` hook: starts the service detached if it isn't healthy; always exits 0. |
-| `data/books_meta.json` | Year (from the copyright page), edition, format and topic domains for each book; shipped inside the package too. |
-| `tools/build_pages.py` | Maps each Markdown line to its printed PDF page, for citations like "p. 199". |
-| `tools/verify_index.py` | Read-only integrity verifier for any index. |
-| `tools/shadow_report.py` | Summarizes the shadow log: how many real prompts each candidate threshold would inject. |
-| `experiments/` | Indexes another model or chunking into its own directory and compares it with production. |
+| `recall index [--rebuild] [--root DIR] [--dml-device N] [--cpu]` | Index the library (incremental). |
+| `recall search QUERY... [-k N] [--text]` | Search with one or more phrasings. |
+| `recall serve` | Run the local search service. |
+| `recall mcp` | Run the MCP server over stdio. |
+| `recall status` | Show index and service state. |
+| `recall eval [--queries FILE] [--out FILE]` | Regression metrics (R@5, MRR@10). |
+| `tools\verify_index.py [HOME...] [--sample N] [--sample-cpu] [--no-source]` | Verify index integrity, read-only. |
+| `tools\shadow_report.py [--log FILE] [--since DATE]` | Shadow-mode summary for threshold calibration. |
+| `experiments\run.ps1 [-Only NAME...]` | Build experiment indexes without touching production. |
+| `experiments\evaluate.py` | Compare production and experiments on the 80 queries. |
+
+Run everything with the project interpreter in isolated mode:
+`.venv\Scripts\python.exe -I -m recall …`. The full guide, from install to uninstall, is the
+[User Manual](docs/USAGE.md).
 
 ## Results
 
@@ -310,24 +209,6 @@ The study also documents that the quantized ONNX export of Qwen3-Embedding-0.6B
 is **not padding-invariant** — a vector changes with whatever else shares its
 batch — which the integrity verifier caught before evaluation.
 
-## Command reference
-
-| Command | What it does |
-|---|---|
-| `recall index [--rebuild] [--root DIR] [--dml-device N] [--cpu]` | Index the library (incremental). |
-| `recall search QUERY... [-k N] [--text]` | Search with one or more phrasings. |
-| `recall serve` | Run the local search service. |
-| `recall mcp` | Run the MCP server over stdio. |
-| `recall status` | Show index and service state. |
-| `recall eval [--queries FILE] [--out FILE]` | Regression metrics (R@5, MRR@10). |
-| `tools\verify_index.py [HOME...] [--sample N] [--sample-cpu] [--no-source]` | Verify index integrity, read-only. |
-| `tools\shadow_report.py [--log FILE] [--since DATE]` | Shadow-mode summary for threshold calibration. |
-| `experiments\run.ps1 [-Only NAME...]` | Build experiment indexes without touching production. |
-| `experiments\evaluate.py` | Compare production and experiments on the 80 queries. |
-
-Run everything with the project interpreter in isolated mode:
-`.venv\Scripts\python.exe -I -m recall …`.
-
 ## Configuration
 
 State lives in `%LOCALAPPDATA%\recall` (override with `RECALL_HOME`): the index,
@@ -344,7 +225,7 @@ State lives in `%LOCALAPPDATA%\recall` (override with `RECALL_HOME`): the index,
 }
 ```
 
-| Key | Default | Purpose |
+| Setting | Default | Meaning |
 |---|---|---|
 | `collections.books.roots` | `~\books\md` | Library roots, in precedence order (a book in an earlier root replaces the same book in a later one). A configured root that does not exist is reported as an error; its books stay indexed. |
 | `chunking` | ~900 chars | Chunk target, limits and overlap. Part of the index identity. |
@@ -359,7 +240,7 @@ keep working. To use the configuration measured as best (E5), start from
 embeddinggemma-2 download, and run `recall index --rebuild`.
 
 Changing `chunking` or `model` requires `recall index --rebuild`. Full
-reference: [User Manual](docs/USAGE.md).
+reference: [User Manual §10](docs/USAGE.md#10-configuration).
 
 ## Security model
 
@@ -404,20 +285,32 @@ model suite (`pytest -m model`, 14 tests) needs the real model and a
 full index and runs locally, with floors set to the measured production
 numbers — see [docs/TESTING.md](docs/TESTING.md).
 
+Known limits are listed in [USAGE §16](docs/USAGE.md#16-known-limitations); open items of the study
+(more negative prompts, a second labeler, an automatic batch-invariance check) are in
+[docs/paper.md](docs/paper.md#7-decision-and-future-work) and
+[CONTRIBUTING.md](CONTRIBUTING.md#good-first-contributions).
+
 ## Documentation
 
-- [User Manual](docs/USAGE.md) — setup, indexing, Claude Code/Desktop, configuration, troubleshooting
-- [Paper](docs/paper.md) — chunking and model study, evaluation, rollout
-- [Architecture](docs/architecture.md) — components, data flow, invariants
-- [Diagrams](docs/DIAGRAMS.md) — context, sequences, trust boundaries
-- [Architecture Decision Records](docs/adr/README.md)
-- [Threat model](docs/THREAT_MODEL.md) — STRIDE analysis
-- [Testing](docs/TESTING.md) — unit suite, model regression, integrity checks
-- [Runbook](docs/runbook.md) — operations, symptoms and recovery, by task
-- [Adversarial review](docs/ADVERSARIAL_REVIEW.md) — red-team pass
-- Audit reports: [`audits/`](audits/README.md)
-- [How to cite](CITATION.cff)
-- [Changelog](CHANGELOG.md)
+| Document | What it answers |
+|---|---|
+| [User Manual](docs/USAGE.md) | Setup, indexing, Claude Code/Desktop, configuration, troubleshooting. |
+| [Architecture](docs/architecture.md) | Context, components, flows, state, invariants. |
+| [Diagrams](docs/DIAGRAMS.md) | Every diagram in one place: context, components, sequences, trust boundaries. |
+| [Testing](docs/TESTING.md) | Unit suite, model regression, integrity checks, CI. |
+| [Threat model](docs/THREAT_MODEL.md) | STRIDE analysis, supply chain, accepted risks. |
+| [Runbook](docs/runbook.md) | Operations, symptoms and recovery, by task. |
+| [Architecture Decision Records](docs/adr/README.md) | Why each significant decision was taken. |
+| [Paper](docs/paper.md) | Chunking and model study, evaluation, rollout. |
+| [Adversarial review](docs/ADVERSARIAL_REVIEW.md) | Red-team passes and their findings. |
+| [Audit reports](audits/README.md) | Dated 360° audits, summaries and SBOMs. |
+| [Changelog](CHANGELOG.md) | What changed in each release, with upgrade notes. |
+| [How to cite](CITATION.cff) | Citation metadata. |
+| [Contributing](CONTRIBUTING.md) | Ground rules, dev setup, workflow, commits. |
+| [Code of Conduct](CODE_OF_CONDUCT.md) | Expected behavior and how to report a problem. |
+| [Governance](GOVERNANCE.md) | Roles, how decisions are made, merging, releases. |
+| [Security policy](SECURITY.md) | Supported versions, private reporting, security model. |
+| [Support](SUPPORT.md) | Which channel to use for which question. |
 
 ## Community
 

@@ -1,6 +1,6 @@
 # 0011. Subtract a per-chunk hub prior before the hook threshold
 
-- Status: Accepted (refines [0002](0002-cosine-absolute-threshold.md))
+- Status: Accepted
 - Date: 2026-11-19
 
 ## Context and problem statement
@@ -106,7 +106,11 @@ right passage first.
 - Negative: the first start with a new model spends ~15 s of model time in
   the background, during which the hook does not inject.
 
-## Calibration (2026-11-23)
+### Related decisions
+
+Refines [0002](0002-cosine-absolute-threshold.md).
+
+### Calibration (2026-11-23)
 
 Shadow log with the prior, 2026-11-19 18:22 → 11-23 (467 distinct searched
 prompts):

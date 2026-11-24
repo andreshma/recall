@@ -6,20 +6,37 @@ searches over loopback; two thin clients (a Claude Code hook and an MCP server)
 query it. Every component can fail without breaking the assistant session that
 uses it.
 
-## C4 — Context
+## Contents
+
+- [Context](#context)
+- [Components](#components)
+- [Service protocol](#service-protocol)
+- [Configuration](#configuration)
+- [Flows](#flows)
+- [State](#state)
+- [Design patterns](#design-patterns)
+- [Invariants](#invariants)
+- [Decisions](#decisions)
+
+## Context
+
+The diagram shows who uses recall and what it depends on; everything inside the box runs on one machine.
 
 ```mermaid
-flowchart TD
-    user([User — writes prompts in Spanish or English])
-    assistant["Coding assistant<br/>Claude Code / Claude Desktop"]
-    recall["recall<br/>(this machine only)"]
-    books[("Technical library<br/>Markdown per chapter")]
-    gpu["Local GPU<br/>DirectML (CPU fallback)"]
+flowchart TB
+    user(["User<br/>writes prompts in Spanish or English"])
+    subgraph host["This machine"]
+        assistant["Coding assistant<br/>Claude Code / Claude Desktop"]
+        recall["recall<br/>service · hook · MCP · index"]
+        library[("Technical library<br/>Markdown per chapter · 148 books")]
+        gpu["Local GPU (DirectML)<br/>CPU fallback"]
+    end
 
-    user -- "prompt" --> assistant
-    assistant -- "hook / MCP tool call" --> recall
+    user -- "prompt (ES / EN)" --> assistant
+    assistant -- "UserPromptSubmit hook" --> recall
+    assistant -- "MCP tool call" --> recall
     recall -- "passages with citations" --> assistant
-    recall -- "reads" --> books
+    recall -- "reads and indexes" --> library
     recall -- "embeds on" --> gpu
 ```
 
@@ -30,26 +47,38 @@ does cross it: the passages and citations it hands to the assistant (and, from
 the MCP tool, absolute file paths) become part of the prompt sent to the
 assistant's provider.
 
-## C4 — Containers
+## Components
+
+The diagram shows the processes of recall and the files they share.
 
 ```mermaid
-flowchart TD
-    idx["Indexer · recall index<br/>indexer.py · chunking.py"]
-    db[("index.sqlite3 (WAL)<br/>files · chunks (f32 vectors) · FTS5 · meta")]
-    pages[("pages.sqlite3<br/>line → printed page (optional)")]
-    svc["Service · recall serve<br/>service.py · search.py<br/>127.0.0.1:ephemeral + Bearer token"]
-    hook["Hook · recall_hook.py<br/>UserPromptSubmit · stdlib only"]
-    mcp["MCP server · recall mcp<br/>mcp_server.py · stdio JSON-RPC"]
-    start["start-recall.ps1<br/>SessionStart"]
+flowchart TB
+    subgraph procs["recall processes"]
+        start["start-recall.ps1<br/>SessionStart · always exit 0"]
+        hook["Hook · recall_hook.py<br/>UserPromptSubmit · stdlib only<br/>filters · threshold · shadow/active"]
+        mcp["MCP server · recall mcp<br/>mcp_server.py · stdio JSON-RPC<br/>recall_books_search"]
+        svc["Service · recall serve<br/>service.py · search.py<br/>Searcher + warm model<br/>127.0.0.1:ephemeral + Bearer token"]
+        idx["Indexer · recall index<br/>indexer.py · chunking.py<br/>incremental"]
+    end
+    subgraph files["State directory · %LOCALAPPDATA%\\recall"]
+        db[("index.sqlite3 (WAL)<br/>files · chunks (f32 vectors) · FTS5 · meta (identity)")]
+        pages[("pages.sqlite3<br/>line → printed page (optional)")]
+        state[("service.json · config.json · shadow.log")]
+    end
 
-    idx -- "read-write" --> db
-    svc -- "read-only (mode=ro)" --> db
-    svc -- "read-only" --> pages
+    start -- "launch detached if unhealthy" --> svc
+    hook -- "token from service.json" --> state
     hook -- "HTTP POST /search" --> svc
     mcp -- "HTTP POST /search" --> svc
     mcp -. "fallback: in-process searcher" .-> db
-    start -- "launch detached if unhealthy" --> svc
+    svc -- "read-only (mode=ro)" --> db
+    svc -- "read-only" --> pages
+    idx -- "read-write" --> db
+    hook -- "log" --> state
 ```
+
+Solid arrows are the normal path; the dotted arrow is the fallback the MCP server uses when the service is
+down.
 
 | Component | Module | Responsibility |
 |---|---|---|
@@ -64,9 +93,67 @@ flowchart TD
 | Metadata | `metadata.py`, `data/books_meta.json` | Year, edition, format and topic domains per book. |
 | Tools | `tools/verify_index.py`, `tools/shadow_report.py`, `tools/build_pages.py` | Integrity check, shadow-log calibration report, page map. |
 
-## Data flow
+## Service protocol
+
+`service.json` (user-only ACL) holds `port`, `token` and `pid`; every reader
+(service, client, hook, launcher) validates it the same way — integer port
+1–65535, integer pid > 0, printable ASCII token without spaces, at most 512
+characters — and treats anything else as "no service". Before sending the
+token or a prompt, a client calls `GET /proof?nonce=<n>` (no token; `<n>` is
+16–128 characters of `[A-Za-z0-9_-]`) and checks the answer,
+`HMAC-SHA256(token, "recall-proof:<n>:<port>")`. `GET /health` (token) reports
+`ok`, counts, `providers`, `device_id`, `meta_error` and `load_error`, and
+answers 503 when the engine guard gave up or the index identity changed;
+`POST /search` (token) answers 503 `index identity changed` in the latter
+case. `start-recall.ps1` launches
+`.venv\Scripts\pythonw.exe -I -c "...main(['serve'])" <statedir>` detached,
+honoring `RECALL_HOME`.
+
+## Configuration
+
+`%LOCALAPPDATA%\recall\config.json` (optional) overrides `config.DEFAULTS`:
+collections and roots, `model` (snapshot, prefixes, pooling, padding),
+`chunking`, `search` weights and `hook` (`mode`, `threshold`, limits). Model and
+chunking are part of the index identity, so changing them requires
+`recall index --rebuild`. Production runs configuration E5 (see
+[ADR-0007](adr/0007-e5-gemma2-large-chunks.md) and [the paper](paper.md)). The key-by-key reference is in
+[USAGE §10](USAGE.md#10-configuration).
+
+## Flows
 
 ### Indexing
+
+Markdown chapters become chunks, chunks become vectors, and both land in one
+SQLite file together with the FTS5 rows (`src/recall/indexer.py`,
+`chunking.py`, `store.py`).
+
+The sequence shows one `recall index` run: only changed files are chunked, and identical inputs reuse their
+vector.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant CLI as recall index
+    participant FS as Library roots
+    participant E as Embedder
+    participant DB as index.sqlite3
+
+    CLI->>DB: open_rw, check model identity
+    alt identity differs
+        DB-->>CLI: ModelMismatchError (use --rebuild)
+    end
+    CLI->>FS: discover chapters
+    loop each file
+        CLI->>CLI: size+mtime equal? skip : compare sha256
+    end
+    loop each group (~512 chunks)
+        CLI->>CLI: chunk changed files by section (book, chapter, section, lines, language)
+        CLI->>DB: reuse vectors for identical inputs
+        CLI->>E: embed the rest
+        CLI->>DB: one transaction: files + chunks + FTS
+    end
+    CLI->>DB: apply deletions, bump generation
+```
 
 1. `discover()` walks the configured roots (earlier roots override later ones
    per book), skips front matter by anchored file name, and ignores links,
@@ -83,6 +170,50 @@ flowchart TD
 
 ### Search
 
+Every search — from the hook, the MCP server or `recall search` — is one
+`POST /search` to `recall serve` (`src/recall/service.py`, `search.py`).
+
+The flowchart shows what `recall serve` does with one `POST /search`, whoever sent it (hook, MCP server or
+`recall search`).
+
+```mermaid
+flowchart TB
+    req["POST /search<br/>queries, k, collections, filters,<br/>snippet_chars, budget_ms"]
+    gate{"Loopback peer, valid Host,<br/>Bearer token?"}
+    deny["403 / 401"]
+    parse{"Body within 64 KiB<br/>and well-formed?"}
+    bad["413 / 400"]
+    win["Split long queries into windows<br/>(search.query_window_tokens)"]
+    emb["Embed each window with the query prefix<br/>warm model, stops at the budget_ms deadline"]
+    vec["Cosine against every vector<br/>in-memory float32 matrix"]
+    fts["FTS5 (BM25) candidates<br/>index.sqlite3, mode=ro"]
+    rrf["Reciprocal rank fusion<br/>FTS weight 0.25 same language, 0.02 across"]
+    rows["Read each hit by id, check input_sha,<br/>deduplicate by file + section, keep k"]
+    meta["Attach cos, hub, book metadata<br/>and page (pages.sqlite3)"]
+    snip["Optional snippet: the window sharing<br/>the most terms with the query"]
+    ok["200 hits"]
+    err["503 index identity changed<br/>500 any other error"]
+
+    req --> gate
+    gate -- no --> deny
+    gate -- yes --> parse
+    parse -- no --> bad
+    parse -- yes --> win
+    win --> emb
+    emb --> vec
+    win --> fts
+    vec --> rrf
+    fts --> rrf
+    rrf --> rows
+    rows --> meta
+    meta --> snip
+    snip --> ok
+    win -. "exception while searching" .-> err
+```
+
+The ranking uses the fused score; `cos` is the raw cosine returned next to it, and `hub` the per-chunk prior
+of [ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md).
+
 1. The query is embedded as `task: search result | query: <q>` (one or several
    queries, e.g. Spanish and English).
 2. Full scan of the in-memory vector matrix (dot product on unit vectors).
@@ -93,23 +224,56 @@ flowchart TD
 5. Optionally (`snippet_chars`), each of the top results is trimmed to the
    sentence window that shares the most terms with the query.
 
-### Service protocol
-
-`service.json` (user-only ACL) holds `port`, `token` and `pid`; every reader
-(service, client, hook, launcher) validates it the same way — integer port
-1–65535, integer pid > 0, printable ASCII token without spaces, at most 512
-characters — and treats anything else as "no service". Before sending the
-token or a prompt, a client calls `GET /proof?nonce=<n>` (no token; `<n>` is
-16–128 characters of `[A-Za-z0-9_-]`) and checks the answer,
-`HMAC-SHA256(token, "recall-proof:<n>:<port>")`. `GET /health` (token) reports
-`ok`, counts, `providers`, `device_id`, `meta_error` and `load_error`, and
-answers 503 when the engine guard gave up or the index identity changed;
-`POST /search` (token) answers 503 `index identity changed` in the latter
-case. `start-recall.ps1` launches
-`.venv\Scripts\pythonw.exe -I -c "...main(['serve'])" <statedir>` detached,
-honoring `RECALL_HOME`.
-
 ### Automatic injection
+
+`recall_hook.py` either adds passages or leaves the prompt alone; every other
+outcome is exit 0 with no output. The threshold applies to the cosine minus
+the hub prior ([ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md)).
+
+The sequence shows what `recall_hook.py` does with one prompt; with `hook.mode` set to `off` the hook exits
+before any of this.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant CC as Claude Code
+    participant H as recall_hook.py
+    participant S as recall serve
+    participant L as shadow.log
+
+    CC->>H: stdin JSON {prompt, cwd, ...}
+    H->>H: skip trivial / command / mechanical?
+    alt skipped
+        H->>L: {hash, decision: skip-*}
+        H-->>CC: exit 0, no output
+    else candidate
+        H->>S: GET /proof?nonce=n (no token)
+        S-->>H: HMAC(token, n:port)
+        H->>H: proof matches service.json token?
+        H->>S: POST /search (Bearer, snippet_chars) within 1.5 s budget
+        alt unavailable / bad proof / timeout / error
+            H->>L: {hash, decision: service-unavailable}
+            H-->>CC: exit 0, no output (fail-open)
+        else hits
+            S-->>H: hits with cosine and hub prior
+            H->>H: keep cos - hub_weight * hub ≥ threshold, ≤ 3, one per file
+            alt hub prior not loaded / nothing clears the threshold / budget exceeded
+                H->>L: {hash, scores, decision: hub-pending / below-threshold / over-budget}
+                H-->>CC: exit 0, no output
+            else shadow mode
+                H->>L: {hash, scores, paths, decision: would-inject}
+                H-->>CC: exit 0, no output
+            else active mode
+                H->>L: {hash, decision: inject}
+                H-->>CC: additionalContext (ASCII JSON, cited passages)
+            end
+        end
+    end
+```
+
+The threshold applies to `cos - hub_weight * hub`
+([ADR 0011](adr/0011-hub-prior-for-the-hook-threshold.md)); with
+`hook.hub_weight: 0` it is the raw cosine.
 
 The hook skips short, command-like, confirmation and mechanical prompts,
 queries the service within its time budget, keeps hits whose
@@ -117,16 +281,57 @@ queries the service within its time budget, keeps hits whose
 file, 700 characters each), and either injects
 them as `additionalContext` (active) or only logs the decision (shadow).
 
-## Configuration
+### Explicit search (MCP)
 
-`%LOCALAPPDATA%\recall\config.json` (optional) overrides `config.DEFAULTS`:
-collections and roots, `model` (snapshot, prefixes, pooling, padding),
-`chunking`, `search` weights and `hook` (`mode`, `threshold`, limits). Model and
-chunking are part of the index identity, so changing them requires
-`recall index --rebuild`. Production runs configuration E5 (see
-[ADR-0007](adr/0007-e5-gemma2-large-chunks.md) and [the paper](paper.md)).
+`recall mcp` (`src/recall/mcp_server.py`) asks the same service and falls back
+to an in-process searcher when it is not running.
 
-## Design patterns used
+The sequence shows one `recall_books_search` call, including the fallback when the service is not running.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant A as Assistant
+    participant M as recall mcp (stdio)
+    participant S as recall serve
+    participant DB as index.sqlite3
+
+    A->>M: tools/call recall_books_search {queries: [ES, EN], k, domains?, year_min?}
+    M->>M: validate filters and queries
+    M->>S: GET /proof, then POST /search (Bearer)
+    alt service up
+        S-->>M: hits
+    else service unavailable
+        M->>DB: load in-process searcher (first call only)
+        DB-->>M: hits
+    end
+    M-->>A: formatted passages with book, chapter, page, path:lines
+```
+
+## State
+
+All run-time state lives in `%LOCALAPPDATA%\recall` (or `RECALL_HOME`), never in the repository.
+
+| What | Where | Format | Lifetime |
+|---|---|---|---|
+| The index: files, chunks, vectors, FTS5, model identity | `index.sqlite3` (+ `-wal`, `-shm`) | SQLite in WAL mode; vectors as float32 blobs; tables `meta`, `files`, `chunks`, `fts` | Updated by each `recall index`; dropped and rebuilt by `--rebuild`. |
+| Overrides of the code defaults | `config.json` | JSON, merged section by section | Optional; written by you; read on every start and by every hook call. |
+| Port, token and pid of the running service | `service.json` | JSON, user-only ACL | Written by `recall serve` at start; the token is random per start. |
+| Start-up lock of the service | `serve.lock` | Lock file | Held while a `recall serve` runs; the OS releases it if the process dies. |
+| Why the service was or was not started | `start.log` | Text | Appended by `start-recall.ps1`; rotated at 1 MiB. |
+| Search errors by exception type (never the query), engine rebuilds | `serve.log` | Text | Appended by `recall serve`; rotated at 1 MiB. |
+| One line per prompt: hash, scores, decision (never the prompt text) | `shadow.log` (+ `.1`…) | JSON lines | Appended by `recall_hook.py`; rotated at 5 MiB, 3 copies kept. |
+| Key of the prompt hash in `shadow.log` | `log.key` | 32 random bytes | Created by the hook on first use; per install. |
+| sha256 of the model files, keyed by path, size and mtime | `model_digest.json` | JSON | Cache; the service deletes it at start so the files are hashed again. |
+| Reference vectors of the hub prior (ADR 0011) | `hub_ref.npz` | NumPy archive | Cache written by `recall serve`; recomputed when it does not match. |
+| Line → printed page map | `pages.sqlite3` | SQLite; tables `pages`, `books` | Optional; built by `tools/build_pages.py`; regenerate after re-converting books. |
+| Experiment indexes | `%LOCALAPPDATA%\recall-exp\<name>` | Same layout as the state directory | Written by `experiments\run.ps1`; never touches production. |
+
+Two data files live in the repository instead: `data/books_meta.json` (bibliographic metadata, also shipped
+in the package) and the git-ignored `data/books_sources.local.json` (local map of book ids to PDF paths, used
+only by `tools/build_pages.py`).
+
+## Design patterns
 
 - **Single warm process.** Loading the model costs seconds and the hook has
   1.5 s; one service pays it once and is shared by every session.
@@ -140,7 +345,9 @@ chunking are part of the index identity, so changing them requires
 - **Shadow before active.** Behavior that changes prompts is observed on real
   usage before it is enabled.
 
-## Key invariants (do not break)
+## Invariants
+
+Do not break these rules.
 
 1. **Model identity guard.** The index stores the model identity (name,
    revision, sha256 of weights and tokenizer, dimension, prefixes, pooling,
@@ -180,9 +387,23 @@ chunking are part of the index identity, so changing them requires
    rebuild. Each fetched row is checked against the snapshot's `input_sha`; a
    mismatching row is never returned and triggers a reload.
 
-## Where decisions are recorded
+## Decisions
 
 Architecture Decision Records live in [`docs/adr/`](adr/). Start with
 [the index](adr/README.md). Diagrams: [DIAGRAMS.md](DIAGRAMS.md). Operations:
 [runbook.md](runbook.md). Threats:
 [THREAT_MODEL.md](THREAT_MODEL.md).
+
+| ADR | Decision |
+|---|---|
+| [0001](adr/0001-sqlite-brute-force-vectors.md) | SQLite with brute-force vectors and FTS5, no vector database |
+| [0002](adr/0002-cosine-absolute-threshold.md) | Raw cosine with an absolute threshold for automatic injection |
+| [0003](adr/0003-fail-open-hook-budget.md) | Fail-open hook with a 1.5 s time budget |
+| [0004](adr/0004-shadow-mode-before-activation.md) | Shadow mode before activating injection |
+| [0005](adr/0005-model-identity-guard.md) | Model identity guard in the index |
+| [0006](adr/0006-local-onnx-directml-offline.md) | Local ONNX model on DirectML, fully offline |
+| [0007](adr/0007-e5-gemma2-large-chunks.md) | Production configuration E5: embeddinggemma-2 with ~3,500-character chunks |
+| [0008](adr/0008-query-windows-for-long-prompts.md) | Split long prompts into ≤32-token query windows |
+| [0009](adr/0009-queries-on-cpu.md) | Embed queries on CPU, index on DirectML (superseded by 0010) |
+| [0010](adr/0010-directml-one-query-shape.md) | Queries on DirectML at one fixed input shape |
+| [0011](adr/0011-hub-prior-for-the-hook-threshold.md) | Subtract a per-chunk hub prior before the hook threshold |
