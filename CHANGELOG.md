@@ -8,6 +8,13 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-24
+
+### Added
+
+- Operations runbook (`docs/runbook.md`), more diagrams in `docs/DIAGRAMS.md`
+  and a testing section in the README.
+
 ### Changed
 
 - Production threshold for the hook: 0.75 on the hub-adjusted score (was a
@@ -344,7 +351,8 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/andreshma/recall/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/andreshma/recall/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/andreshma/recall/releases/tag/v0.3.0
