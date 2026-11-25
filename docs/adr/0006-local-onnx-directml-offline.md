@@ -1,6 +1,6 @@
 # 0006. Local ONNX model on DirectML, fully offline
 
-- Status: Accepted (baseline model and chunking superseded by [0007](0007-e5-gemma2-large-chunks.md))
+- Status: Accepted
 - Date: 2026-10-27
 
 ## Context and problem statement
@@ -47,3 +47,7 @@ identity.
 - Negative: tied to Windows and DirectML for acceleration; other platforms run on CPU.
 - Negative: some ONNX exports behave differently on DirectML (see the
   Qwen3-Embedding finding in [the paper](../paper.md)).
+
+### Related decisions
+
+The baseline model and chunking of this ADR are superseded by [0007](0007-e5-gemma2-large-chunks.md).

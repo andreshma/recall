@@ -1,6 +1,6 @@
 # 0007. Production configuration E5: embeddinggemma-2 with ~3,500-character chunks
 
-- Status: Accepted (supersedes the baseline model and chunking of [0006](0006-local-onnx-directml-offline.md))
+- Status: Accepted
 - Date: 2026-11-05
 
 ## Context and problem statement
@@ -49,3 +49,7 @@ re-embedding windows cost ~2 s per hit on DirectML).
   are on a different scale.
 - Rollback: the previous index is kept as a backup; restoring it and removing
   the production `config.json` returns to the baseline.
+
+### Related decisions
+
+Supersedes the baseline model and chunking of [0006](0006-local-onnx-directml-offline.md).

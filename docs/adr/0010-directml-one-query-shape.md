@@ -1,6 +1,6 @@
 # 0010. Queries on DirectML at one fixed input shape
 
-- Status: Accepted (supersedes [0009](0009-queries-on-cpu.md))
+- Status: Accepted
 - Date: 2026-11-17
 
 ## Context and problem statement
@@ -85,3 +85,7 @@ has the pinned shape and that the vectors match CPU.
   scan) still runs on the CPU and still swings with machine load.
 - Indexing on DirectML sees many shapes too; whether it gains from the same
   treatment is not measured yet.
+
+### Related decisions
+
+Supersedes [0009](0009-queries-on-cpu.md).

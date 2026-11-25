@@ -6,7 +6,25 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html). While the
 version is 0.x, a minor release may contain breaking changes; they are marked
 **Breaking** and come with an upgrade note.
 
+## Contents
+
+- [Unreleased](#unreleased)
+- [0.4.1 - 2026-11-24](#041---2026-11-24)
+- [0.4.0 - 2026-11-20](#040---2026-11-20)
+- [0.3.1 - 2026-11-09](#031---2026-11-09)
+- [0.3.0 - 2026-11-09](#030---2026-11-09)
+- [0.2.0 - 2026-11-05](#020---2026-11-05)
+- [0.1.1 - 2026-11-03](#011---2026-11-03)
+- [0.1.0 - 2026-10-27](#010---2026-10-27)
+
 ## [Unreleased]
+
+## [0.4.1] - 2026-11-24
+
+### Added
+
+- Operations runbook (`docs/runbook.md`), more diagrams in `docs/DIAGRAMS.md`
+  and a testing section in the README.
 
 ### Changed
 
@@ -17,6 +35,10 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 - Dependencies: numpy 2.5.5; dev tools ruff 0.17.5 and coverage 7.17.3.
   `onnxruntime` (non-Windows) stays at 1.24.4, the version of
   `onnxruntime-directml`, instead of the 1.32.0 Dependabot proposed.
+- Documentation restructured to the shared documentation standard: the same
+  files, sections and order as the owner's other repositories, with every
+  diagram catalogued in `docs/DIAGRAMS.md`.
+- Dependabot opens one pull request for all action updates.
 
 ## [0.4.0] - 2026-11-20
 
@@ -309,6 +331,7 @@ translation of the code to English, and the fixes from the
 ## [0.2.0] - 2026-11-05
 
 ### Added
+
 - Chunking and model experiments (`experiments/`), the 80-query evaluation set
   and the study in [docs/paper.md](docs/paper.md).
 - `tools/verify_index.py`: read-only integrity verifier (SQLite check, chunk
@@ -320,16 +343,19 @@ translation of the code to English, and the fixes from the
   the most terms with the question (`snippet_chars`, `snippet_top`).
 
 ### Changed
+
 - Production configuration E5: embeddinggemma-2 with ~3,500-character chunks
   (34,721 chunks, R@5 0.988 on 80 queries); hook threshold 0.75.
 
 ### Found
+
 - The quantized ONNX export of Qwen3-Embedding-0.6B is not padding-invariant
   (cosine 0.92–0.96 against the unpadded vector); not used.
 
 ## [0.1.1] - 2026-11-03
 
 ### Added
+
 - Topic-domain and publication-year filters (`data/books_meta.json`).
 - Page citations for PDFs via `tools/build_pages.py` (96.1 % exact).
 - Configurable model and chunking, part of the index identity.
@@ -337,6 +363,7 @@ translation of the code to English, and the fixes from the
 ## [0.1.0] - 2026-10-27
 
 ### Added
+
 - Hybrid index (SQLite, float32 vectors + FTS5, RRF), incremental indexing with
   atomic batch writes and model identity guard.
 - Local service (`recall serve`, 127.0.0.1 + Bearer token), fail-open
@@ -344,7 +371,8 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/andreshma/recall/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/andreshma/recall/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/andreshma/recall/releases/tag/v0.3.0

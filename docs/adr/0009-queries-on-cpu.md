@@ -1,6 +1,6 @@
 # 0009. Embed queries on CPU, index on DirectML
 
-- Status: Superseded by [0010](0010-directml-one-query-shape.md): the stalls came from the session seeing several input shapes, not from DirectML itself
+- Status: Superseded by [0010](0010-directml-one-query-shape.md)
 - Date: 2026-11-13
 
 ## Context and problem statement
@@ -77,3 +77,8 @@ R@5 1.00 / MRR 0.93, max negative cosine 0.743 (threshold 0.75).
   `"query_providers": ["DmlExecutionProvider:N", "CPUExecutionProvider"]`.
 - The shadow log after this change is the data for calibrating the threshold
   (the earlier week under-counts prompts that timed out).
+
+### Why it was superseded
+
+The stalls came from the session seeing several input shapes, not from DirectML itself
+([0010](0010-directml-one-query-shape.md)).

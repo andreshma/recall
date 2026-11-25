@@ -1,4 +1,4 @@
-# Security Policy
+# Security policy
 
 recall runs a local search service and a hook that adds text to every prompt a
 coding assistant receives. This document explains the security model and how to
