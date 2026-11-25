@@ -6,7 +6,116 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html). While the
 version is 0.x, a minor release may contain breaking changes; they are marked
 **Breaking** and come with an upgrade note.
 
+## Contents
+
+- [Unreleased](#unreleased)
+- [0.4.1 - 2026-11-24](#041---2026-11-24)
+- [0.4.0 - 2026-11-20](#040---2026-11-20)
+- [0.3.1 - 2026-11-09](#031---2026-11-09)
+- [0.3.0 - 2026-11-09](#030---2026-11-09)
+- [0.2.0 - 2026-11-05](#020---2026-11-05)
+- [0.1.1 - 2026-11-03](#011---2026-11-03)
+- [0.1.0 - 2026-10-27](#010---2026-10-27)
+
 ## [Unreleased]
+
+## [0.4.1] - 2026-11-24
+
+### Added
+
+- Operations runbook (`docs/runbook.md`), more diagrams in `docs/DIAGRAMS.md`
+  and a testing section in the README.
+
+### Changed
+
+- Production threshold for the hook: 0.75 on the hub-adjusted score (was a
+  0.74 starting point). Four days of shadow log with the prior: 1.7 % of
+  searched prompts inject, 8 distinct chapters, none of the former hubs; see
+  the calibration section of ADR 0011.
+- Dependencies: numpy 2.5.5; dev tools ruff 0.17.5 and coverage 7.17.3.
+  `onnxruntime` (non-Windows) stays at 1.24.4, the version of
+  `onnxruntime-directml`, instead of the 1.32.0 Dependabot proposed.
+- Documentation restructured to the shared documentation standard: the same
+  files, sections and order as the owner's other repositories, with every
+  diagram catalogued in `docs/DIAGRAMS.md`.
+- Dependabot opens one pull request for all action updates.
+
+## [0.4.0] - 2026-11-20
+
+**Breaking:** `hook.threshold` now applies to the hub-adjusted score
+(`cos - hook.hub_weight * hub`), not to the raw cosine. **Upgrade note:** after
+upgrading, restart the service; with E5 start at `hook.threshold: 0.74` and
+recalibrate with `tools/shadow_report.py --since <upgrade date>`. To keep the
+old behavior, set `hook.hub_weight: 0`. Explicit search (`recall search`, MCP)
+and its ranking are unchanged; no re-index is needed.
+
+### Added
+
+- **Hub prior for the hook threshold** (ADR 0011). Two weeks of shadow log
+  showed the hook would inject on 26 % of real prompts at 0.75, mostly the
+  same few chapters (agent frameworks, *Zero Trust Networks* "context-aware
+  agents"), which are close to almost any prompt about agents, hooks or
+  services. `recall.hub` measures, per chunk, how close it is to 90 synthetic
+  operational prompts (`hub_prompts.json`); every hit carries it as `hub` and
+  the hook compares `cos - hook.hub_weight * hub` with its threshold. The
+  ranking is unchanged. Held-out, at the same 7 % of negatives injected:
+  positives with the right passage 72 % → 77 %. The service computes it in
+  the background (~15 s on the first start with a model, then cached in
+  `hub_ref.npz`); until then the hook logs `hub-pending` and does not inject.
+  `/health` reports `hub_ready`. **Recalibrate:** the threshold now applies to
+  the adjusted score; for the production configuration start at 0.74 and use
+  `tools/shadow_report.py --since` the upgrade date.
+- The shadow log records the chunk ids and the adjusted scores (`adj`) of the
+  hits, so a later prior or threshold can be replayed over it.
+
+### Changed
+
+- On CPU, all query windows of a prompt are embedded in one call (2–3× faster
+  than one call per window, identical vectors).
+- Read-only index connections use memory-mapped I/O (`pragma mmap_size`, 1 GiB
+  cap). The FTS5 query of each window ranked its matches by re-reading pages
+  through `read()` calls; with the map it is ~4x faster (183 real windows:
+  p90 147 -> ~40 ms), and the slowest searches lost up to ~1 s of SQLite time.
+  It uses the OS file cache, so it adds no private memory. Results unchanged.
+- The hook talks to the service over a plain loopback socket instead of
+  `urllib.request`, whose import cost ~200 ms of the budget on every prompt.
+
+### Fixed
+
+- `tools/shadow_report.py` counted would-inject prompts by `best`, the cosine
+  of the first hit in the hybrid ranking, while the hook injects when any hit
+  clears the threshold. It now uses the highest logged score (`best` for old
+  entries without `scores`) and matches the hook's decisions exactly; on real
+  logs the old count was about half (89 vs 162 at 0.75).
+- **DirectML query stalls.** A week of shadow logs showed 24 % of searched
+  prompts timing out because about one DirectML call in ten took seconds. The
+  cause: a DirectML session is fast only for the first input shape it runs,
+  and the service's warm-up fed it seven widths at start. Query sessions on
+  DirectML now run every text at one fixed shape, `(1, query_window_tokens)`:
+  ~90 ms per window, max ~180 ms, against 0.8 s median on CPU; vectors
+  unchanged. See ADR 0010 (supersedes 0009, which had moved queries to CPU).
+- CI: Windows jobs judged multi-line steps only by their last command, so a
+  failing `pytest` followed by a passing `coverage report` left the job green.
+  They now run in bash (`-eo pipefail`).
+- `recall.__version__` and `CITATION.cff` said 0.3.0 in the 0.3.1 release
+  (the version test was failing unnoticed because of the CI bug above).
+
+## [0.3.1] - 2026-11-09
+
+### Changed
+
+- The CPU fallback no longer inherits the DirectML-tuned session options. The
+  memory pattern (a CPU speed-up ONNX Runtime enables by default, but which
+  DirectML does not support) now stays on when inference runs on CPU, and the
+  Run lock that serializes DirectML — which cannot run concurrent calls — is
+  skipped on CPU, where ONNX Runtime allows concurrent `Run`, so the
+  multithreaded service parallelizes embeddings under load. Embedding output is
+  unchanged; no re-index is needed.
+
+### Fixed
+
+- The shared tokenizer is now guarded while its truncation/padding is mutated,
+  so concurrent requests cannot corrupt each other's encoding.
 
 ## [0.3.0] - 2026-11-09
 
@@ -222,6 +331,7 @@ translation of the code to English, and the fixes from the
 ## [0.2.0] - 2026-11-05
 
 ### Added
+
 - Chunking and model experiments (`experiments/`), the 80-query evaluation set
   and the study in [docs/paper.md](docs/paper.md).
 - `tools/verify_index.py`: read-only integrity verifier (SQLite check, chunk
@@ -233,16 +343,19 @@ translation of the code to English, and the fixes from the
   the most terms with the question (`snippet_chars`, `snippet_top`).
 
 ### Changed
+
 - Production configuration E5: embeddinggemma-2 with ~3,500-character chunks
   (34,721 chunks, R@5 0.988 on 80 queries); hook threshold 0.75.
 
 ### Found
+
 - The quantized ONNX export of Qwen3-Embedding-0.6B is not padding-invariant
   (cosine 0.92–0.96 against the unpadded vector); not used.
 
 ## [0.1.1] - 2026-11-03
 
 ### Added
+
 - Topic-domain and publication-year filters (`data/books_meta.json`).
 - Page citations for PDFs via `tools/build_pages.py` (96.1 % exact).
 - Configurable model and chunking, part of the index identity.
@@ -250,6 +363,7 @@ translation of the code to English, and the fixes from the
 ## [0.1.0] - 2026-10-27
 
 ### Added
+
 - Hybrid index (SQLite, float32 vectors + FTS5, RRF), incremental indexing with
   atomic batch writes and model identity guard.
 - Local service (`recall serve`, 127.0.0.1 + Bearer token), fail-open
@@ -257,5 +371,8 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/andreshma/recall/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/andreshma/recall/compare/v0.3.1...v0.4.0
+[0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/andreshma/recall/releases/tag/v0.3.0

@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import sys
 import threading
+import time
 from pathlib import Path
 
 import pytest
@@ -165,6 +166,12 @@ def service(indexed):
     )
     t.start()
     assert ready.wait(60), "the service did not start"
+    # The hub prior loads in the background (ADR 0011); until then the hook
+    # logs "hub-pending" and never injects.
+    deadline = time.monotonic() + 60
+    while not searcher.hub_ready and time.monotonic() < deadline:
+        time.sleep(0.05)
+    assert searcher.hub_ready, "the hub prior did not load"
     svc = json.loads(config.service_file().read_text(encoding="utf-8"))
     yield svc
     box[0].shutdown()

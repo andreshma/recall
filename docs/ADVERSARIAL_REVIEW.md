@@ -1,4 +1,4 @@
-# Adversarial Review
+# Adversarial review
 
 Red-team passes over recall. Instead of checking that the happy path works,
 each scenario assumes an attacker and asks *what could go wrong, and does the
@@ -24,6 +24,16 @@ established:
 > A self-run red team is not a substitute for an independent audit. Treat this
 > as a list of known weak spots, not a certificate.
 
+## Contents
+
+- [Attacker model](#attacker-model)
+- [Scenarios](#scenarios)
+- [Findings](#findings)
+- [Remediation status](#remediation-status)
+- [What held](#what-held)
+- [Suggested order](#suggested-order)
+- [Review of 2026-11-09](#review-of-2026-11-09)
+
 ## Attacker model
 
 - **Hostile book content.** A book in the library, or a chapter converted from
@@ -47,9 +57,11 @@ established:
 ## Scenarios
 
 ### 1. Book text closes the `<recall_books>` block and speaks as the system — **OPEN (AR-01, AR-02)**
+
 The hook wraps injected passages in `<recall_books>…</recall_books>` and tells
 the assistant they are data. It strips tags from the passage **text** with one
 regex pass (`recall_hook.py:210`):
+
 - **Overlapping tag (AR-02).** `</recall_</recall_books>libros>` becomes
   `</recall_books>` after the pass. Probe: 1 reconstructed closing tag.
 - **Unsanitized header (AR-01).** The `where` header line (book — chapter —
@@ -60,9 +72,11 @@ regex pass (`recall_hook.py:210`):
   the Markdown (`section` field confirmed in the probe).
 
 ### 2. Same attack through the MCP tool result — **OPEN (AR-03)**
+
 `format_hits` neutralizes `<<<fragmento …>>>` / `<<<datos>>>` fences inside
 the passage text (`mcp_server.py:87`), and the overlap trick fails there
 because the replacement is non-empty (probe: holds). But:
+
 - **Unsanitized header.** The header line (`mcp_server.py:112`) is not run
   through `_FENCE`. A heading containing `<<</datos>>>` closes the data block.
   Probe: 2 `<<</datos>>>` instead of 1.
@@ -70,6 +84,7 @@ because the replacement is non-empty (probe: holds). But:
   `<<< /fragmento 1>>>` survives intact (probe).
 
 ### 3. Hook blows its 1.5 s budget and delays the prompt — **OPEN (AR-04)**
+
 The hook passes the *remaining budget* as the urllib socket timeout
 (`recall_hook.py:167`). That timeout applies to each socket operation, not to
 the whole request. Probe: a fake service that sends headers and then one byte
@@ -80,7 +95,9 @@ headers, for example on a GPU hang. Exit code and output stay correct (fail-open
 holds); only the time bound does not.
 
 ### 4. Silent mixing of incompatible vectors — **OPEN (AR-05, AR-14)**
+
 The model identity guard is the defense against "silently wrong results".
+
 - **`doc_max_tokens` and `query_max_tokens` are not part of the identity
   (AR-05).** `embedder.py:212` lists `model`, `revision`, `files`, `dim`,
   prefixes, `pooling` and `normalized`. Probe: two embedders with
@@ -98,10 +115,12 @@ The model identity guard is the defense against "silently wrong results".
   `ModelMismatchError` (probe).
 
 ### 5. Threshold bypass with a non-finite score — **OPEN (AR-07)**
+
 `select()` does `if cos < threshold: skip` (`recall_hook.py:183`). Every
 comparison with NaN is false, so a NaN score **passes any threshold**; so do
 `inf` and the string `"NaN"` (probe: all three selected at 0.75).
 End-to-end probe:
+
 1. Write a NaN vector into an index chunk.
 2. The vector path skips that chunk, but FTS still returns it, carrying
    `cos = NaN` (`search.py:307,354`).
@@ -113,6 +132,7 @@ It needs a corrupted index (or a runtime that emits NaN). `tools/verify_index.py
 flags non-finite vectors, but nothing at runtime does.
 
 ### 6. Unauthenticated local client or web page calls the service — **HOLDS**
+
 - **No token → 401; wrong `Host` → 403** (probes). This includes
   `evil.example` and a rebinding-style `attacker.localhost:<port>`.
 - **Non-loopback peers → 403** (`service.py`, and the unit suite covers a
@@ -126,12 +146,15 @@ flags non-finite vectors, but nothing at runtime does.
   exception type, and `start.log` never records the token.
 
 ### 7. Malformed or oversized requests crash the service — **HOLDS with a caveat (AR-10, AR-11)**
+
 **Holds:**
+
 - **Body over 64 KiB** gets 413, including a 100 KB nested-array body (probe).
 - **Non-object JSON** gets 400.
 - **Search exceptions** become a 500 with only the exception type.
 
 **Caveats:**
+
 - **`k` or `snippet_chars` set to `1e400` or `Infinity` (AR-11).** These
   parse as float infinity, and `int()` raises `OverflowError`, which the
   `except (ValueError, TypeError, AttributeError)` at `service.py:149` does
@@ -144,6 +167,7 @@ flags non-finite vectors, but nothing at runtime does.
   grows memory without bound.
 
 ### 8. FTS5 / SQL injection through the query — **HOLDS**
+
 - **FTS5 operators are inert.** `fts_query` keeps only letter runs, quotes
   each term and joins them with `OR` (`textutil.py`). Probe: `NEAR(...)`,
   `text:bounded`, a lone `"`, `bounded*`, `^bounded`, `a" OR "b` and
@@ -154,7 +178,9 @@ flags non-finite vectors, but nothing at runtime does.
   against stored labels: `["../../etc", "books"]` filtered normally (probe).
 
 ### 9. MCP server robustness — **HOLDS with a caveat (AR-13, AR-16)**
+
 **Holds** (probes):
+
 - **Malformed requests:** non-object messages and a missing `jsonrpc` field
   get -32600; `params` or `arguments` sent as a list get -32603.
 - **Unknown methods** get -32601.
@@ -166,6 +192,7 @@ flags non-finite vectors, but nothing at runtime does.
   the instructions are 2,247 characters long.
 
 **Caveats:**
+
 - **Stale score guidance (AR-13).** The instructions still tell the model that
   `cos >= 0.58` is "almost always relevant" (`mcp_server.py:41`). That was
   calibrated for embeddinggemma-300m. Under E5 every negative scores up to
@@ -174,6 +201,7 @@ flags non-finite vectors, but nothing at runtime does.
   (`mcp_server.py:211`), which can carry local paths.
 
 ### 10. Shadow log leaks prompts — **HOLDS with a caveat (AR-12)**
+
 **Holds:** the hook logs a hash, never the text (probe: the prompt text is
 absent from `shadow.log`).
 **Caveat:** the hash is an unsalted SHA-256 truncated to 64 bits
@@ -181,6 +209,7 @@ absent from `shadow.log`).
 prompt. Probe: the exact guess matched; near-misses did not.
 
 ### 11. Stale `service.json` and start-up races — **OPEN (AR-08, AR-09)**
+
 - **Reused PID (AR-08).** If the PID recorded in a stale `service.json` now
   belongs to an unrelated process, `running_service()` reports a live service
   (probe: `True`). `recall serve` then exits 0 without starting, and
@@ -198,6 +227,7 @@ prompt. Probe: the exact guess matched; near-misses did not.
   wrong PID cannot be terminated.
 
 ### 12. "Nothing leaves your machine" — **OPEN (AR-06)**
+
 Retrieval is local, but the point of the hook and the MCP tool is to put book
 passages into the assistant's context. With a hosted assistant, those passages
 — up to 3 × 700 characters per prompt, plus the absolute local path of each
@@ -207,7 +237,9 @@ and CONTRIBUTING overstate this. A user could index confidential documents
 believing they stay local.
 
 ### 13. Supply chain and offline posture — **HOLDS with a caveat**
+
 **Holds:**
+
 - **No Hugging Face client.** `huggingface_hub` is not importable in the
   project environment (probe), `HF_HUB_OFFLINE` and `TRANSFORMERS_OFFLINE`
   are set on import, the tokenizer loads with `Tokenizer.from_file`, and
@@ -301,6 +333,7 @@ network). The fixes and the tests that guard them are in the
 the scenarios.
 
 ### A. A repeated bad query shuts the service down — **FIXED (ADV-1)**
+
 `EngineGuard` treated any non-ONNX Runtime error as an engine failure on the
 second one in a row, rebuilt the session, and gave up after `max_rebuilds`
 rebuilds without a success. A query with a lone surrogate (`"\ud800"`: valid
@@ -312,6 +345,7 @@ a non-engine error rebuilds at most once per run of failures and never counts
 toward giving up; replaced sessions are released (F-18).
 
 ### B. A process on a stale port gets the token and the prompt — **FIXED (ADV-2)**
+
 After the service died without cleanup (`taskkill /F`, a crash, a power loss),
 `service.json` still named its port. The hook and the client sent the bearer
 token and up to 1,000 characters of the prompt to whatever process listened
@@ -325,6 +359,7 @@ proven server reports. *Residual:* a few milliseconds between the proof and the
 request; `/proof` is unauthenticated (loopback only, `Host`-validated).
 
 ### C. ReDoS in the heading parser — **FIXED (ADV-3)**
+
 `^(#{1,6})\s+(.+?)\s*#*\s*$` backtracked quadratically: `"# a" + " " * n + "b"`
 took 0.18 s at n = 500, 10.5 s at 2,000 and more than 90 s at 4,000. PDF/EPUB
 converters emit long runs of spaces, so one heading could stall indexing for
@@ -332,12 +367,14 @@ hours. *Now:* a linear hand-written parser, with a time-bounded regression
 test.
 
 ### D. Hostile `books_meta.json` — **FIXED (ADV-4)**
+
 Only the top-level object was checked: a non-object entry raised
 `AttributeError` for every search returning that book, and non-iterable
 `domains` raised `TypeError` in filtered searches (500s that also fed A).
 *Now:* entries are normalized on load.
 
 ### E. Header fields forge entries or close the block — **FIXED (ADV-5, ADV-7, ADV-11)**
+
 The hook did not defang `year`, so metadata could close `</recall_books>`
 (the MCP tool did). Newlines in book, chapter or section were not collapsed, so
 a field could forge an extra `[n] ...` entry in the hook block or a `source:`
@@ -347,17 +384,20 @@ field is collapsed to one line, and `<`, `>` and their look-alikes become
 `&lt;` / `&gt;`, in both renderers.
 
 ### F. Pre-auth slot exhaustion — **FIXED (ADV-6)**
+
 `_Handler.timeout = 10` applied per read: trickling one header byte every 5 s
 held a slot forever, and 32 such sockets denied service. *Now:* an absolute
 3 s deadline to receive the whole request.
 
 ### G. Junctions bring outside content into the library — **FIXED (ADV-8)**
+
 `discover()` followed directory junctions (`mklink /J`, no admin rights) and
 symlinks, so content outside the configured roots became indexable and then
 injectable. *Now:* links and junctions are ignored, and anything whose real
 path is not under the root's real path is skipped.
 
 ### H. Deep nesting — **FIXED (ADV-9, ADV-10)**
+
 The MCP stdio server exited on deeply nested JSON (uncaught `RecursionError`),
 and the service dropped the connection on a nested-array body under 64 KiB.
 *Now:* -32700 / 400, and both keep serving.

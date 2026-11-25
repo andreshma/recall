@@ -40,10 +40,10 @@ import math
 import os
 import re
 import secrets
+import socket
 import sys
 import threading
 import time
-import urllib.request
 
 DEFAULT_HOOK = {
     "mode": "shadow",
@@ -53,6 +53,9 @@ DEFAULT_HOOK = {
     "budget_s": 1.5,
     "min_prompt_chars": 20,
     "collections": ["books"],
+    # Weight of the per-chunk hub prior (ADR 0011): the threshold applies to
+    # cos - hub_weight * hub. 0 compares the raw cosine.
+    "hub_weight": 1.0,
 }
 
 TRIVIAL = re.compile(
@@ -191,6 +194,7 @@ def short_path(path: object) -> str:
 #: ~25 000 prompts: weeks of use, plenty to calibrate shadow mode.
 LOG_MAX_BYTES = 5 * 1024 * 1024
 LOG_KEEP = 3
+MAX_RESPONSE = 4 * 1024 * 1024  # bytes read from the service at most
 SHADOW_LOG = "shadow.log"
 
 
@@ -264,7 +268,41 @@ def server_proof(token: str, nonce: str, port: int) -> str:
     return hmac.new(token.encode("ascii"), msg, hashlib.sha256).hexdigest()
 
 
-def verify_server(opener, port: int, token: str, timeout: float) -> None:
+def http_request(
+    port: int, method: str, path: str, timeout: float, body: bytes = b"", headers: dict | None = None
+) -> bytes:
+    """Minimal HTTP/1.0 exchange with the loopback service; returns the body.
+
+    Plain ``socket`` instead of ``urllib.request``: importing urllib.request
+    (http.client, email, ssl) cost ~200 ms of the hook's 1.5 s budget on every
+    prompt (measured 2026-11-13), and a raw loopback socket never goes through
+    a proxy. The service answers HTTP/1.0 and closes the connection, so the
+    response is read until EOF. Raises on any non-200 status.
+    """
+    lines = [f"{method} {path} HTTP/1.0", f"Host: 127.0.0.1:{port}"]
+    lines += [f"{k}: {v}" for k, v in (headers or {}).items()]
+    if method == "POST":
+        lines.append(f"Content-Length: {len(body)}")
+    request = ("\r\n".join(lines) + "\r\n\r\n").encode("ascii") + body
+    chunks, size = [], 0
+    with socket.create_connection(("127.0.0.1", port), timeout=timeout) as conn:
+        conn.sendall(request)
+        while True:
+            chunk = conn.recv(65536)
+            if not chunk:
+                break
+            size += len(chunk)
+            if size > MAX_RESPONSE:
+                raise ValueError("response too large")
+            chunks.append(chunk)
+    head, sep, payload = b"".join(chunks).partition(b"\r\n\r\n")
+    status = head.split(b"\r\n", 1)[0].split()
+    if not sep or len(status) < 2 or status[1] != b"200":
+        raise ValueError("unexpected response from service")
+    return payload
+
+
+def verify_server(port: int, token: str, timeout: float) -> None:
     """Raise unless the process on ``port`` proves it knows ``token`` (ADV-2).
 
     Sent before the token and the prompt: after a crash ``service.json`` may
@@ -272,8 +310,7 @@ def verify_server(opener, port: int, token: str, timeout: float) -> None:
     random nonce.
     """
     nonce = secrets.token_urlsafe(24)
-    with opener.open(f"http://127.0.0.1:{port}/proof?nonce={nonce}", timeout=timeout) as r:
-        got = json.loads(r.read(4096)).get("proof")
+    got = json.loads(http_request(port, "GET", f"/proof?nonce={nonce}", timeout)).get("proof")
     if not isinstance(got, str) or not hmac.compare_digest(got.encode(), server_proof(token, nonce, port).encode()):
         raise ServerProofError("server proof failed")
 
@@ -302,25 +339,18 @@ def query_service(
             "budget_ms": max(50, int(timeout * 700)),
         }
     ).encode("utf-8")
-    req = urllib.request.Request(
-        f"http://127.0.0.1:{port}/search",
-        data=body,
-        method="POST",
-        headers={"Content-Type": "application/json", "Authorization": f"Bearer {token}"},
-    )
-    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))  # loopback, no proxy
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {token}"}
     timeout = max(0.05, timeout)
     box: dict = {}
 
     def fetch() -> None:
         try:
-            verify_server(opener, port, token, timeout)
-            with opener.open(req, timeout=timeout) as r:
-                box["hits"] = json.loads(r.read(4 * 1024 * 1024))["hits"]
+            verify_server(port, token, timeout)
+            box["hits"] = json.loads(http_request(port, "POST", "/search", timeout, body, headers))["hits"]
         except Exception as e:  # re-raised on the main thread
             box["err"] = e
 
-    # urllib's timeout is per socket operation, not total: a service that trickles
+    # The socket timeout is per operation, not total: a service that trickles
     # bytes stretches it without limit. The daemon thread bounds wall-clock time.
     th = threading.Thread(target=fetch, daemon=True)
     th.start()
@@ -335,16 +365,38 @@ def query_service(
     return hits
 
 
-def select(hits: list, threshold: float, max_snippets: int) -> list:
-    """Hits above the threshold, one per file, at most ``max_snippets``."""
+def _num(hit: object, key: str) -> float | None:
+    """``hit[key]`` as a finite float, or None."""
+    try:
+        v = float(hit[key])  # type: ignore[index]
+    except (TypeError, ValueError, KeyError, IndexError):
+        return None
+    return v if math.isfinite(v) else None
+
+
+def adjusted(hit: object, hub_weight: float) -> float | None:
+    """The score the threshold applies to: ``cos - hub_weight * hub`` (ADR 0011).
+
+    None when the cosine is missing, or when the weight is on and the service
+    sent no ``hub`` (an older service, or the prior is still loading).
+    """
+    c = _num(hit, "cos")
+    if c is None or not hub_weight:
+        return c
+    h = _num(hit, "hub")
+    return None if h is None else c - hub_weight * h
+
+
+def select(hits: list, threshold: float, max_snippets: int, hub_weight: float = 0.0) -> list:
+    """Hits whose adjusted score clears the threshold, one per file, at most ``max_snippets``."""
     good, seen = [], set()
     for h in hits:
         try:
-            cos = float(h.get("cos", 0))
             path = str(h["path"])
-        except (TypeError, ValueError, KeyError, AttributeError):
+        except (TypeError, KeyError, IndexError):
             continue
-        if not math.isfinite(cos) or cos < threshold or path.lower() in seen:
+        score = adjusted(h, hub_weight)
+        if score is None or score < threshold or path.lower() in seen:
             continue
         seen.add(path.lower())
         good.append(h)
@@ -382,11 +434,17 @@ def render(good: list, max_chars: int) -> str:
 
 def _score(hit: dict) -> float | None:
     """Rounded cosine for the log; None if it is not a finite number."""
+    c = _num(hit, "cos")
+    return None if c is None else round(c, 4)
+
+
+def hub_weight_of(cfg: dict) -> float:
+    """``hub_weight`` from the config; anything invalid or negative means 0 (raw cosine)."""
     try:
-        c = float(hit.get("cos", 0))
-    except (TypeError, ValueError, AttributeError):
-        return None
-    return round(c, 4) if math.isfinite(c) else None
+        w = float(cfg.get("hub_weight", DEFAULT_HOOK["hub_weight"]))
+    except (TypeError, ValueError):
+        return 0.0
+    return w if math.isfinite(w) and w > 0 else 0.0
 
 
 def emit(context: str, out=None) -> None:
@@ -443,7 +501,8 @@ def main(stdin=None, out=None) -> int:
             },
         )
         return 0
-    good = select(hits, float(cfg.get("threshold", DEFAULT_HOOK["threshold"])), int(cfg.get("max_snippets", 3)))
+    weight = hub_weight_of(cfg)
+    good = select(hits, float(cfg.get("threshold", DEFAULT_HOOK["threshold"])), int(cfg.get("max_snippets", 3)), weight)
     ms = int((time.perf_counter() - t0) * 1000)
     entry = {
         "h": h,
@@ -452,7 +511,16 @@ def main(stdin=None, out=None) -> int:
         "best": _score(hits[0]) if hits else None,
         "scores": [_score(x) for x in hits[:8]],
         "paths": [x.get("path") for x in good],
+        # Chunk ids (not text) so that a later prior or threshold can be
+        # replayed over the log; "adj" is what the threshold compared.
+        "ids": [x.get("id") if isinstance(x, dict) and isinstance(x.get("id"), int) else None for x in hits[:8]],
     }
+    if weight:
+        adj = [adjusted(x, weight) for x in hits[:8]]
+        entry["adj"] = [None if a is None else round(a, 4) for a in adj]
+        if hits and any(a is None and _num(x, "cos") is not None for a, x in zip(adj, hits[:8], strict=True)):
+            log(state, SHADOW_LOG, {**entry, "decision": "hub-pending"})
+            return 0
     if not good:
         log(state, SHADOW_LOG, {**entry, "decision": "below-threshold"})
         return 0

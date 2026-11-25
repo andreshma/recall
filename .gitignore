@@ -15,3 +15,7 @@ service.json
 htmlcov/
 # Local map of book id -> PDF path for tools/build_pages.py (never published).
 data/*.local.json
+
+# Local assistant configuration (never published)
+.claude/
+CLAUDE.md

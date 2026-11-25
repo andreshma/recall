@@ -3,7 +3,7 @@
 import pytest
 
 from recall import config
-from recall.embedder import open_session, provider_attempts
+from recall.embedder import _session_options, open_session, provider_attempts
 
 AVAIL = ["DmlExecutionProvider", "CPUExecutionProvider"]
 
@@ -38,8 +38,9 @@ class FakeOrt:
 
 
 def test_defaults_name_no_adapter():
-    for role in ("index_providers", "query_providers"):
-        assert config.DEFAULTS["model"][role] == ["DmlExecutionProvider", "CPUExecutionProvider"]
+    assert config.DEFAULTS["model"]["index_providers"] == ["DmlExecutionProvider", "CPUExecutionProvider"]
+    # ADR 0010: queries are back on DirectML, at one pinned shape.
+    assert config.DEFAULTS["model"]["query_providers"] == ["DmlExecutionProvider", "CPUExecutionProvider"]
 
 
 def test_attempt_order():
@@ -82,3 +83,31 @@ def test_cpu_failure_is_not_hidden():
 
     with pytest.raises(RuntimeError, match="bad model"):
         open_session(Broken(adapters={0}), "m.onnx", None, ["CPUExecutionProvider"], lambda m: None)
+
+
+def test_session_options_keep_mem_pattern_on_cpu_only():
+    """The CPU fallback must not inherit DirectML's disabled memory pattern."""
+    import onnxruntime as ort
+
+    assert _session_options(ort, dml=False).enable_mem_pattern is True
+    assert _session_options(ort, dml=True).enable_mem_pattern is False
+
+
+def test_open_session_builds_cpu_options_on_fallback():
+    """With no DirectML adapter, the factory is asked for CPU (dml=False) options."""
+    calls = []
+
+    def factory(is_dml):
+        calls.append(is_dml)
+        return object()  # FakeOrt ignores the options object
+
+    _sess, dev = open_session(
+        FakeOrt(adapters=set()),
+        "m.onnx",
+        factory,
+        ["DmlExecutionProvider", "CPUExecutionProvider"],
+        lambda m: None,
+    )
+    assert dev is None  # ended on CPU
+    assert calls[-1] is False  # the CPU attempt was built with dml=False
+    assert True in calls  # the DirectML attempts were built with dml=True

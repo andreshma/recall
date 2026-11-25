@@ -618,6 +618,7 @@ class _Handler(BaseHTTPRequestHandler):
                 "providers": None if providers is None else [str(x) for x in providers],
                 "device_id": getattr(emb, "device_id", None),
                 "meta_error": getattr(self.searcher, "meta_error", None),
+                "hub_ready": bool(getattr(self.searcher, "hub_ready", False)),
                 **self.info,
             },
         )
@@ -682,10 +683,12 @@ def make_handler(searcher, token: str, port_ref: list, info: dict, guard: Engine
 def warm_up(searcher) -> None:
     """Embed queries of several lengths before announcing the service.
 
-    DirectML compiles the graph for each new tensor shape (queries are padded
-    to multiples of 32 tokens): without this, the first queries of each length
-    exhausted the hook's 1.5 s budget (measured in the 2026-10-27 e2e: 5 of 5
-    ``service-unavailable`` right after start).
+    The first DirectML call pays the graph compilation; without a warm-up the
+    first queries exhausted the hook's 1.5 s budget (2026-10-27 e2e: 5 of 5
+    ``service-unavailable`` right after start). On DirectML every query runs
+    at the one pinned shape (``OnnxEmbedder.query_shape``, ADR 0010), so these
+    lengths all compile that same shape and never a second one; on CPU they
+    are cheap.
     """
     from .embedder import format_query
 
@@ -694,6 +697,28 @@ def warm_up(searcher) -> None:
             searcher.emb.embed([format_query(searcher.emb, " ".join(["architecture"] * words))], "query")
         except Exception:
             return
+
+
+def load_hub(searcher, cache_dir: Path | None, attempts: int = 3, wait_s: float = 30.0) -> bool:
+    """Compute the hub prior (ADR 0011) in the background; True if installed.
+
+    The first start with a model embeds ~90 reference prompts (~15 s), one
+    prompt per call so that hook queries interleave; later starts read them
+    from ``hub_ref.npz``. Until it is installed hits carry no ``hub`` and the
+    hook does not inject. An engine failure here is retried with the
+    embedder the guard may have rebuilt meanwhile.
+    """
+    from . import hub
+
+    for i in range(attempts):
+        try:
+            searcher.set_hub_reference(hub.reference(searcher.emb, searcher.cfg, cache_dir))
+            return True
+        except Exception as e:
+            log_error("hub", e)
+            if i + 1 < attempts:
+                time.sleep(wait_s)
+    return False
 
 
 def running_service() -> dict | None:
@@ -743,6 +768,8 @@ def serve(
         )
     searcher.background_reload = True
     warm_up(searcher)
+    if cfg.get("search", {}).get("hub_prior", True) and hasattr(searcher, "set_hub_reference"):
+        threading.Thread(target=load_hub, args=(searcher, config.home()), daemon=True).start()
     token = secrets.token_urlsafe(32)
     port_ref = [0]
     info = {"model": searcher.emb.identity.get("model"), "dim": searcher.emb.dim}

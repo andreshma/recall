@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
 
 permissions:
@@ -15,12 +15,19 @@ concurrency:
 # Actions are pinned by commit SHA; the comment records the tag. Every checkout
 # drops the job token from .git/config (persist-credentials: false): no job
 # pushes. Python tools come from requirements-dev.lock (versions and hashes).
+#
+# Windows jobs run their steps in bash (-eo pipefail): the runner's default
+# pwsh judges a multi-line step only by its LAST command, so a failing pytest
+# followed by a passing `coverage report` left the job green (2026-11-13).
 
 jobs:
   test:
     name: unit tests (windows · py3.12 · locked)
     # requirements.lock is resolved for win/amd64 (onnxruntime-directml).
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -67,7 +74,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           version: "0.11.7"
 
@@ -115,6 +122,9 @@ jobs:
     runs-on: windows-latest
     # Advisory: surfaces known vulnerabilities without blocking unrelated changes.
     continue-on-error: true
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
