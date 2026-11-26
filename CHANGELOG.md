@@ -19,6 +19,11 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Added
+
+- Library metadata for 77 more books (AI and LLM engineering, security
+  operations and threat intelligence, UX and accessibility); 225 in total.
+
 ## [0.4.1] - 2026-11-24
 
 ### Added
