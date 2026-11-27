@@ -630,21 +630,21 @@ value and record it on the next `recall index`.
 | `search` | `query_window_tokens`, `query_max_windows`, `query_window_overlap` | 0 (off), 6, 5 | Split a longer query into windows of at most N tokens, one model call each, fused by sum (ADR 0008). Use 32 with embeddinggemma-2 on DirectML. |
 | `search` | `hub_prior` | true | Compute the per-chunk hub prior and return it as `hub` on every hit (ADR 0011). |
 | `hook` | `mode` | `shadow` | `shadow`, `active` or `off`. |
-| `hook` | `threshold` | 0.58 | Minimum `cos - hub_weight * hub` to inject. Model-specific (§12); 0.75 for the production configuration. |
+| `hook` | `threshold` | 0.58 | Minimum `cos - hub_weight * hub` to inject. Model-specific (§12); 0.76 for the production configuration. |
 | `hook` | `hub_weight` | 1.0 | Weight of the hub prior; 0 compares the raw cosine. |
 | `hook` | `max_snippets`, `max_chars` | 3, 700 | Passages injected and characters per passage. |
 | `hook` | `budget_s` | 1.5 | Total time budget of the hook. |
 | `hook` | `min_prompt_chars` | 20 | Shorter prompts are skipped. |
 
 The production configuration (embeddinggemma-2, ~3,500-character chunks,
-threshold 0.75 on the adjusted score) is `experiments/configs/e5-gemma2-chunk3500.json` plus a
+threshold 0.76 on the adjusted score) is `experiments/configs/e5-gemma2-chunk3500.json` plus a
 `hook` section:
 
 ```json
 {"chunking": {"target": 3200, "max_chars": 3500, "min_chars": 1500, "overlap": 400},
  "model": {"snapshot": "~/.cache/recall-models/onnx-community--embeddinggemma-2-ONNX/<revision>",
            "name": "onnx-community/embeddinggemma-2-ONNX", "doc_max_tokens": 1100, "batch_size": 8},
- "hook": {"mode": "shadow", "threshold": 0.75}}
+ "hook": {"mode": "shadow", "threshold": 0.76}}
 ```
 
 Environment variables:
