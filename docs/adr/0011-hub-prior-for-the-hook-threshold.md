@@ -128,3 +128,32 @@ matter). The hook was switched to `active` at **0.75**. The prior also lifts
 chunks below the median (negative `hub`), so several injections at 0.74 had
 a raw cosine of 0.715–0.73; a penalty-only variant (`max(hub, 0)`) is not
 measured yet.
+
+### Recalibration (2026-11-26, 225 books)
+
+The library grew from 148 to 225 books (41,741 → 65,064 chunks; most of the
+new ones are on AI and LLM engineering, security operations and UX). Measured
+on a copy of the new index with the prior built from 60 of the 90 reference
+prompts; negatives are the other 30 plus the evaluator's negative prompts the
+hook does not skip (38), positives the 120 labeled queries:
+
+| Adjusted threshold | Negatives injected | Positives injected | Positives with the right passage first |
+|---|---|---|---|
+| 0.75 | 7.9 % | 95.0 % | 80.0 % |
+| 0.755 | 7.9 % | 94.2 % | 79.2 % |
+| **0.76** | **5.3 %** | **91.7 %** | **78.3 %** |
+| 0.77 | 2.6 % | 88.3 % | 76.7 % |
+
+Before the new books, 0.75 gave 5.3 % / 95.8 % / 80.0 %. The relevant passage
+is in the top 8 for 97.5 % of the positives, as before. Four query pairs now
+also accept a chapter of a new book that answers them (checked by reading the
+passage: STRIDE, RTO/RPO, SBOM formats, prompt injection); without that, new
+books that rank first would count as misses. The threshold moved to **0.76**,
+which keeps the negative rate measured before the new books.
+
+**Penalty-only prior, measured.** Scoring with `cos - max(hub, 0)` instead of
+`cos - hub` reached the same share of right passages at the same negative
+rate (80.0 % at ≤ 8 % before the new books), only at a lower threshold. On
+the real log (1,018 distinct prompts) it did not reduce the share of generic
+passages at a comparable injection rate (20 % at 0.745 against 13 % for the
+symmetric prior at 0.755). The symmetric prior stays.

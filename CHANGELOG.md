@@ -19,6 +19,20 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 
 ## [Unreleased]
 
+### Added
+
+- Library metadata for 77 more books (AI and LLM engineering, security
+  operations and threat intelligence, UX and accessibility); 225 in total.
+
+### Changed
+
+- Production threshold for the hook: 0.76 on the hub-adjusted score (was
+  0.75), recalibrated on the 225-book index so the negative rate stays at the
+  level measured before (ADR 0011, recalibration section). A penalty-only
+  variant of the prior was measured and not adopted.
+- Labeled queries: four query pairs (STRIDE, RTO/RPO, SBOM formats, prompt
+  injection) also accept the chapter of a new book that answers them.
+
 ## [0.4.1] - 2026-11-24
 
 ### Added

@@ -288,12 +288,14 @@
   "rel": {
    "path": [
     "threat-modeling-tarandach[\\\\/]08-chapter-3",
-    "mastering-api-architecture[\\\\/]10-chapter-6"
+    "mastering-api-architecture[\\\\/]10-chapter-6",
+    "ai-under-attack-kimmerle[\\\\/]05-2-threat-modeling"
    ]
   },
   "book": [
    "threat-modeling-tarandach",
-   "mastering-api-architecture"
+   "mastering-api-architecture",
+   "ai-under-attack-kimmerle"
   ]
  },
  {
@@ -305,12 +307,14 @@
   "rel": {
    "path": [
     "threat-modeling-tarandach[\\\\/]08-chapter-3",
-    "mastering-api-architecture[\\\\/]10-chapter-6"
+    "mastering-api-architecture[\\\\/]10-chapter-6",
+    "ai-under-attack-kimmerle[\\\\/]05-2-threat-modeling"
    ]
   },
   "book": [
    "threat-modeling-tarandach",
-   "mastering-api-architecture"
+   "mastering-api-architecture",
+   "ai-under-attack-kimmerle"
   ]
  },
  {
@@ -1038,7 +1042,8 @@
     "software-architecture-metrics[\\\\/]08-chapter-7",
     "security-architecture-hybrid-cloud[\\\\/]09-chapter-artifacts",
     "learning-cloud-security[\\\\/]04-chapter-3",
-    "azure-cloud-native-mapbook[\\\\/]11-infrastructure"
+    "azure-cloud-native-mapbook[\\\\/]11-infrastructure",
+    "isc2-cc-exam-guide-doshi[\\\\/]04-2-business-continuity"
    ]
   },
   "book": [
@@ -1047,7 +1052,8 @@
    "software-architecture-metrics",
    "security-architecture-hybrid-cloud",
    "learning-cloud-security",
-   "azure-cloud-native-mapbook"
+   "azure-cloud-native-mapbook",
+   "isc2-cc-exam-guide-doshi"
   ]
  },
  {
@@ -1063,7 +1069,8 @@
     "software-architecture-metrics[\\\\/]08-chapter-7",
     "security-architecture-hybrid-cloud[\\\\/]09-chapter-artifacts",
     "learning-cloud-security[\\\\/]04-chapter-3",
-    "azure-cloud-native-mapbook[\\\\/]11-infrastructure"
+    "azure-cloud-native-mapbook[\\\\/]11-infrastructure",
+    "isc2-cc-exam-guide-doshi[\\\\/]04-2-business-continuity"
    ]
   },
   "book": [
@@ -1072,7 +1079,8 @@
    "software-architecture-metrics",
    "security-architecture-hybrid-cloud",
    "learning-cloud-security",
-   "azure-cloud-native-mapbook"
+   "azure-cloud-native-mapbook",
+   "isc2-cc-exam-guide-doshi"
   ]
  },
  {
@@ -1121,7 +1129,8 @@
     "llm-security-playbook-wilson[\\\\/]10-chapter-9",
     "identity-security-software-dev[\\\\/]10-chapter-9",
     "security-architecture-hybrid-cloud[\\\\/]23-chapter-artifacts",
-    "zero-trust-networks[\\\\/]08-chapter-7"
+    "zero-trust-networks[\\\\/]08-chapter-7",
+    "tprm-supply-chain-security-richardson[\\\\/]15-13-the-software-ingredient-list"
    ]
   },
   "book": [
@@ -1129,7 +1138,8 @@
    "llm-security-playbook-wilson",
    "identity-security-software-dev",
    "security-architecture-hybrid-cloud",
-   "zero-trust-networks"
+   "zero-trust-networks",
+   "tprm-supply-chain-security-richardson"
   ]
  },
  {
@@ -1144,7 +1154,8 @@
     "llm-security-playbook-wilson[\\\\/]10-chapter-9",
     "identity-security-software-dev[\\\\/]10-chapter-9",
     "security-architecture-hybrid-cloud[\\\\/]23-chapter-artifacts",
-    "zero-trust-networks[\\\\/]08-chapter-7"
+    "zero-trust-networks[\\\\/]08-chapter-7",
+    "tprm-supply-chain-security-richardson[\\\\/]15-13-the-software-ingredient-list"
    ]
   },
   "book": [
@@ -1152,7 +1163,8 @@
    "llm-security-playbook-wilson",
    "identity-security-software-dev",
    "security-architecture-hybrid-cloud",
-   "zero-trust-networks"
+   "zero-trust-networks",
+   "tprm-supply-chain-security-richardson"
   ]
  },
  {
@@ -1203,13 +1215,15 @@
    "path": [
     "llm-security-playbook-wilson[\\\\/]05-chapter-4",
     "ai-engineering-huyen[\\\\/]08-chapter-5",
-    "inside-cyber-warfare[\\\\/]08-chapter-7"
+    "inside-cyber-warfare[\\\\/]08-chapter-7",
+    "ai-product-development-lipenkova[\\\\/]16-11-ai-governance"
    ]
   },
   "book": [
    "llm-security-playbook-wilson",
    "ai-engineering-huyen",
-   "inside-cyber-warfare"
+   "inside-cyber-warfare",
+   "ai-product-development-lipenkova"
   ]
  },
  {
@@ -1222,13 +1236,15 @@
    "path": [
     "llm-security-playbook-wilson[\\\\/]05-chapter-4",
     "ai-engineering-huyen[\\\\/]08-chapter-5",
-    "inside-cyber-warfare[\\\\/]08-chapter-7"
+    "inside-cyber-warfare[\\\\/]08-chapter-7",
+    "ai-product-development-lipenkova[\\\\/]16-11-ai-governance"
    ]
   },
   "book": [
    "llm-security-playbook-wilson",
    "ai-engineering-huyen",
-   "inside-cyber-warfare"
+   "inside-cyber-warfare",
+   "ai-product-development-lipenkova"
   ]
  },
  {

@@ -37,6 +37,43 @@
     ],
     "lang": "en"
   },
+  "accessible-ux-research-williams": {
+    "title": "Accessible UX Research",
+    "author": "Williams",
+    "format": "pdf",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
+  "advanced-cti-hunting-tiepolo": {
+    "title": "Advanced Cyber Threat Intelligence and Hunting",
+    "author": "Tiepolo, Sorensen",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
+  "agentic-ai-offensive-security-yildirim": {
+    "title": "Agentic AI for Offensive Cybersecurity",
+    "author": "Yildirim",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "agentic-design-patterns-gulli": {
     "title": "Agentic Design Patterns",
     "author": "Gulli",
@@ -62,6 +99,30 @@
     ],
     "lang": "en"
   },
+  "ai-agents-applications-infante": {
+    "title": "AI Agents and Applications",
+    "author": "Infante",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-agents-in-action-2e-lanham": {
+    "title": "AI Agents in Action 2e",
+    "author": "Lanham",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "ai-agents-in-action-lanham": {
     "title": "AI Agents in Action",
     "author": "Lanham",
@@ -70,6 +131,32 @@
     "year_source": "copyright",
     "edition": null,
     "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-as-a-service-elger": {
+    "title": "AI as a Service",
+    "author": "Elger, Shanaghy",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "cloud"
+    ],
+    "lang": "en"
+  },
+  "ai-assisted-python-2e-porter": {
+    "title": "Learn AI-Assisted Python Programming 2e",
+    "author": "Porter, Zingaro",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "programming",
       "ai-ml"
     ],
     "lang": "en"
@@ -99,6 +186,96 @@
     ],
     "lang": "en"
   },
+  "ai-everyday-it-lemaire": {
+    "title": "AI for Everyday IT",
+    "author": "LeMaire, Abshire",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "ai-governance-practice-doshi": {
+    "title": "AI Governance in Practice",
+    "author": "Doshi",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "security"
+    ],
+    "lang": "en"
+  },
+  "ai-native-llm-security-malik": {
+    "title": "AI-Native LLM Security",
+    "author": "Malik, Huang, Dawson",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-pocket-book-maggiori": {
+    "title": "The AI Pocket Book",
+    "author": "Maggiori",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-powered-developer-crocker": {
+    "title": "AI-Powered Developer",
+    "author": "Crocker",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "ai-powered-search-grainger": {
+    "title": "AI-Powered Search",
+    "author": "Grainger, Turnbull, Irwin",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "ai-product-development-lipenkova": {
+    "title": "The Art of AI Product Development",
+    "author": "Lipenkova",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "product",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "ai-ready-data-blueprints-shukla": {
     "title": "AI-Ready Data Blueprints",
     "author": "Shukla, Pham, Sopirala, Tadiparthi",
@@ -108,6 +285,19 @@
     "edition": null,
     "domains": [
       "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ai-under-attack-kimmerle": {
+    "title": "AI Under Attack",
+    "author": "Kimmerle, Okeyode",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
       "ai-ml"
     ],
     "lang": "en"
@@ -133,6 +323,19 @@
     "edition": null,
     "domains": [
       "programming"
+    ],
+    "lang": "en"
+  },
+  "applied-ai-cti-fleurat": {
+    "title": "Applied AI in Cyber Threat Intelligence",
+    "author": "Fleurat, Nowak, Chow",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -201,6 +404,18 @@
     ],
     "lang": "en"
   },
+  "art-direction-web-clarke": {
+    "title": "Art Direction for the Web",
+    "author": "Clarke",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
   "art-of-agile-development-shore": {
     "title": "The Art of Agile Development 2e",
     "author": "Shore",
@@ -248,6 +463,42 @@
     "domains": [
       "architecture",
       "data"
+    ],
+    "lang": "en"
+  },
+  "build-ai-agent-hur": {
+    "title": "Build an AI Agent (From Scratch)",
+    "author": "Hur, Song",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "build-llm-from-scratch-raschka": {
+    "title": "Build a Large Language Model (From Scratch)",
+    "author": "Raschka",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "build-reasoning-model-raschka": {
+    "title": "Build a Reasoning Model (From Scratch)",
+    "author": "Raschka",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -313,6 +564,31 @@
     ],
     "lang": "en"
   },
+  "causal-ai-ness": {
+    "title": "Causal AI",
+    "author": "Ness",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "data"
+    ],
+    "lang": "en"
+  },
+  "causal-inference-ruiz-de-villa": {
+    "title": "Causal Inference for Data Science",
+    "author": "Ruiz de Villa",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data"
+    ],
+    "lang": "en"
+  },
   "chaos-engineering-rosenthal": {
     "title": "Chaos Engineering",
     "author": "Rosenthal, Jones",
@@ -351,6 +627,19 @@
     ],
     "lang": "en"
   },
+  "click-boag": {
+    "title": "Click! How to Encourage Clicks Without Shady Tricks",
+    "author": "Boag",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
+      "product"
+    ],
+    "lang": "en"
+  },
   "cloud-finops-storment": {
     "title": "Cloud FinOps",
     "author": "Storment, Fuller",
@@ -386,6 +675,31 @@
     "domains": [
       "security",
       "cloud"
+    ],
+    "lang": "en"
+  },
+  "coding-with-ai-morgan": {
+    "title": "Coding with AI",
+    "author": "Morgan",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "comptia-cysa-cs0-003-isley": {
+    "title": "CompTIA CySA+ (CS0-003) Certification Guide",
+    "author": "Isley",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
     ],
     "lang": "en"
   },
@@ -452,6 +766,19 @@
     ],
     "lang": "en"
   },
+  "cybersecurity-architects-handbook-2e-nichols": {
+    "title": "Cybersecurity Architect's Handbook 2e",
+    "author": "Nichols, Ball",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security",
+      "architecture"
+    ],
+    "lang": "en"
+  },
   "cybersecurity-ops-bash": {
     "title": "Cybersecurity Ops with bash",
     "author": "Troncone & Albing",
@@ -462,6 +789,32 @@
     "domains": [
       "security",
       "programming"
+    ],
+    "lang": "en"
+  },
+  "cybersecurity-strategy-ai-era-rains": {
+    "title": "Cybersecurity Strategy for the AI-Driven Era",
+    "author": "Rains, Jones",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "3a",
+    "domains": [
+      "security",
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "data-analytics-genai-python-guja": {
+    "title": "Starting Data Analytics with Generative AI and Python",
+    "author": "Guja, Siwiak, Siwiak",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -584,6 +937,19 @@
     ],
     "lang": "en"
   },
+  "data-storytelling-altair-lo-duca": {
+    "title": "Data Storytelling with Altair and AI",
+    "author": "Lo Duca",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "database-design-solutions-stephens": {
     "title": "Beginning Database Design Solutions 2e",
     "author": "Stephens",
@@ -647,6 +1013,19 @@
     ],
     "lang": "en"
   },
+  "defender-for-endpoint-2e-snow": {
+    "title": "Microsoft Defender for Endpoint in Depth 2e",
+    "author": "Snow, Campbell, Hoyle",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
   "defensive-security-handbook": {
     "title": "Defensive Security Handbook 2e",
     "author": "Brotherston et al.",
@@ -694,6 +1073,18 @@
     "domains": [
       "programming",
       "architecture"
+    ],
+    "lang": "en"
+  },
+  "design-systems-kholmatova": {
+    "title": "Design Systems",
+    "author": "Kholmatova",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
     ],
     "lang": "en"
   },
@@ -762,6 +1153,18 @@
     ],
     "lang": "en"
   },
+  "digital-forensics-cookbook-bounds": {
+    "title": "Digital Forensics Cookbook",
+    "author": "Bounds",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
   "distributed-transactional-apps-harrison": {
     "title": "Architecting Distributed Transactional Applications",
     "author": "Harrison et al.",
@@ -784,6 +1187,18 @@
     "edition": null,
     "domains": [
       "devops-cicd"
+    ],
+    "lang": "en"
+  },
+  "effective-conversational-ai-freed": {
+    "title": "Effective Conversational AI",
+    "author": "Freed, Jacobs, Rozsa",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -824,6 +1239,19 @@
     ],
     "lang": "en"
   },
+  "ethical-design-handbook-falbe": {
+    "title": "The Ethical Design Handbook",
+    "author": "Falbe, Andersen, Frederiksen",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
+      "product"
+    ],
+    "lang": "en"
+  },
   "evaluating-software-architectures-clements": {
     "title": "Evaluating Software Architectures: ATAM",
     "author": "Clements, Kazman, Klein",
@@ -846,6 +1274,19 @@
     "domains": [
       "architecture",
       "leadership-organization"
+    ],
+    "lang": "en"
+  },
+  "financial-software-genai-kardell": {
+    "title": "Build Financial Software with Generative AI",
+    "author": "Kardell, Brouwer",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "programming"
     ],
     "lang": "en"
   },
@@ -883,6 +1324,18 @@
     "edition": null,
     "domains": [
       "programming"
+    ],
+    "lang": "en"
+  },
+  "form-design-patterns-silver": {
+    "title": "Form Design Patterns",
+    "author": "Silver",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
     ],
     "lang": "en"
   },
@@ -936,6 +1389,42 @@
     ],
     "lang": "en"
   },
+  "generative-ai-in-action-bahree": {
+    "title": "Generative AI in Action",
+    "author": "Bahree",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "generative-ai-pytorch-liu": {
+    "title": "Learn Generative AI with PyTorch",
+    "author": "Liu",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "ghidra-reverse-engineering-2e-alvarez": {
+    "title": "Ghidra Software Reverse-Engineering for Beginners 2e",
+    "author": "Álvarez Pérez, Tiwari",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
   "gitops-kubernetes": {
     "title": "GitOps and Kubernetes",
     "author": "Yuen et al.",
@@ -946,6 +1435,31 @@
     "domains": [
       "devops-cicd",
       "cloud"
+    ],
+    "lang": "en"
+  },
+  "grokking-ai-algorithms-hurbans": {
+    "title": "Grokking Artificial Intelligence Algorithms",
+    "author": "Hurbans",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "grokking-ai-applications-de-mauro": {
+    "title": "Grokking AI Applications",
+    "author": "De Mauro",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -987,6 +1501,18 @@
     ],
     "lang": "en"
   },
+  "how-llms-work-raff": {
+    "title": "How Large Language Models Work",
+    "author": "Raff, Farris, Biderman",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "how-to-measure-anything-hubbard": {
     "title": "How to Measure Anything 2e",
     "author": "Hubbard",
@@ -1000,6 +1526,18 @@
     ],
     "lang": "en"
   },
+  "human-factors-cybersecurity-robinson": {
+    "title": "Human Factors in Cybersecurity",
+    "author": "Robinson, Nobles",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
   "identity-security-software-dev": {
     "title": "Identity Security for Software Development",
     "author": "Walsh, Ailon, Barker",
@@ -1009,6 +1547,19 @@
     "edition": null,
     "domains": [
       "security",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "image-optimization-osmani": {
+    "title": "Image Optimization",
+    "author": "Osmani",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
       "programming"
     ],
     "lang": "en"
@@ -1026,6 +1577,30 @@
     ],
     "lang": "en"
   },
+  "inclusive-components-pickering": {
+    "title": "Inclusive Components",
+    "author": "Pickering",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
+  "inclusive-design-patterns-pickering": {
+    "title": "Inclusive Design Patterns",
+    "author": "Pickering",
+    "format": "pdf",
+    "year": 2016,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
   "infrastructure-as-code-morris": {
     "title": "Infrastructure as Code 3e",
     "author": "Morris",
@@ -1036,6 +1611,18 @@
     "domains": [
       "devops-cicd",
       "cloud"
+    ],
+    "lang": "en"
+  },
+  "inside-ai-adjaoute": {
+    "title": "Inside AI",
+    "author": "Adjaoute",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -1062,6 +1649,42 @@
       "security",
       "devops-cicd",
       "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "interpretable-ai-thampi": {
+    "title": "Interpretable AI",
+    "author": "Thampi",
+    "format": "epub",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "intro-generative-ai-dhamani": {
+    "title": "Introduction to Generative AI",
+    "author": "Dhamani, Engler",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
+  "isc2-cc-exam-guide-doshi": {
+    "title": "(ISC)2 Certified in Cybersecurity (CC) Exam Guide",
+    "author": "Doshi",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
     ],
     "lang": "en"
   },
@@ -1168,6 +1791,31 @@
     ],
     "lang": "en"
   },
+  "linux-shell-scripting-hackers-nachi": {
+    "title": "Linux Shell Scripting for Hackers",
+    "author": "Nachi, Tevault",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "llm-customization-fine-tuning-bahree": {
+    "title": "LLM Customization and Fine-Tuning (MEAP v3)",
+    "author": "Bahree, Tok",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "llm-security-playbook-wilson": {
     "title": "The Developer's Playbook for LLM Security",
     "author": "Wilson",
@@ -1219,6 +1867,19 @@
     ],
     "lang": "en"
   },
+  "microsoft-security-copilot-xu": {
+    "title": "Microsoft Security Copilot",
+    "author": "Xu, Trent",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "monolith-to-microservices-newman": {
     "title": "Monolith to Microservices",
     "author": "Newman",
@@ -1267,6 +1928,18 @@
     ],
     "lang": "en"
   },
+  "obsolete-guide-genai-clinton": {
+    "title": "The Complete Obsolete Guide to Generative AI",
+    "author": "Clinton",
+    "format": "epub",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "open-cloud-native-microservices": {
     "title": "Developing Open Cloud Native Microservices",
     "author": "Charters et al.",
@@ -1277,6 +1950,19 @@
     "domains": [
       "architecture",
       "cloud"
+    ],
+    "lang": "en"
+  },
+  "pandas-brain-teasers-tebeka": {
+    "title": "Pandas Brain Teasers",
+    "author": "Tebeka",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "programming"
     ],
     "lang": "en"
   },
@@ -1419,6 +2105,18 @@
     ],
     "lang": "en"
   },
+  "prompt-engineering-practice-davies": {
+    "title": "Prompt Engineering in Practice",
+    "author": "Davies, Fischer",
+    "format": "epub",
+    "year": 2027,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "python-data-science-handbook-vanderplas": {
     "title": "Python Data Science Handbook 2e",
     "author": "VanderPlas",
@@ -1470,6 +2168,19 @@
     ],
     "lang": "en"
   },
+  "regex-puzzles-ai-mertz": {
+    "title": "Regular Expression Puzzles and AI Coding Assistants",
+    "author": "Mertz",
+    "format": "epub",
+    "year": 2023,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "restful-api-design-patterns": {
     "title": "Hands-On RESTful API Design Patterns and Best Practices",
     "author": "Subramanian & Raj",
@@ -1480,6 +2191,18 @@
     "domains": [
       "architecture",
       "programming"
+    ],
+    "lang": "en"
+  },
+  "rlhf-lambert": {
+    "title": "Reinforcement Learning from Human Feedback",
+    "author": "Lambert",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -1495,6 +2218,19 @@
     ],
     "lang": "en"
   },
+  "sc-200-exam-ref-2e-miles": {
+    "title": "Microsoft Security Operations Analyst Exam Ref SC-200 Guide 2e",
+    "author": "Miles, Mumtaz",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": "2a",
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
   "scalable-k8s-ai-platforms": {
     "title": "Scalable Kubernetes Infrastructure for AI Platforms",
     "author": "Corvin, Ibrahim et al.",
@@ -1505,6 +2241,19 @@
     "domains": [
       "ai-ml",
       "cloud"
+    ],
+    "lang": "en"
+  },
+  "securing-autonomous-supply-chain-schwenger": {
+    "title": "Securing the Autonomous Supply Chain",
+    "author": "Schwenger, Huang",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ai-ml"
     ],
     "lang": "en"
   },
@@ -1535,6 +2284,18 @@
     ],
     "lang": "en"
   },
+  "sell-to-cio-ciso-gee": {
+    "title": "How to Sell to the CIO and CISO",
+    "author": "Gee",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "leadership-organization"
+    ],
+    "lang": "en"
+  },
   "semantic-modeling-data-alexopoulos": {
     "title": "Semantic Modeling for Data",
     "author": "Alexopoulos",
@@ -1557,6 +2318,68 @@
     "edition": null,
     "domains": [
       "architecture"
+    ],
+    "lang": "en"
+  },
+  "sketch-handbook-krammer": {
+    "title": "The Sketch Handbook",
+    "author": "Krammer",
+    "format": "pdf",
+    "year": 2016,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
+  "smart-interface-checklists-friedman": {
+    "title": "Smart Interface Design Patterns Checklists",
+    "author": "Friedman",
+    "format": "pdf",
+    "year": 2023,
+    "year_source": "metadata",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
+  "smashing-book-6": {
+    "title": "Smashing Book 6: New Frontiers in Web Design",
+    "author": "Smashing Magazine",
+    "format": "pdf",
+    "year": 2018,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "smashing-print-ethics-privacy": {
+    "title": "Smashing Print 1: Ethics and Privacy",
+    "author": "Smashing Magazine",
+    "format": "pdf",
+    "year": 2019,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
+      "security"
+    ],
+    "lang": "en"
+  },
+  "soc-analyst-career-guide-kent": {
+    "title": "SOC Analyst Career Guide",
+    "author": "Kent",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
     ],
     "lang": "en"
   },
@@ -1671,6 +2494,19 @@
     ],
     "lang": "en"
   },
+  "software-testing-genai-winteringham": {
+    "title": "Software Testing with Generative AI",
+    "author": "Winteringham",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "testing",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "sql-performance-explained-winand": {
     "title": "SQL Performance Explained",
     "author": "Winand",
@@ -1692,6 +2528,32 @@
     "edition": null,
     "domains": [
       "sre-observability"
+    ],
+    "lang": "en"
+  },
+  "succeeding-with-ai-krunic": {
+    "title": "Succeeding with AI",
+    "author": "Krunic",
+    "format": "epub",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ai-ml",
+      "product"
+    ],
+    "lang": "en"
+  },
+  "success-at-scale-osmani": {
+    "title": "Success at Scale",
+    "author": "Osmani",
+    "format": "pdf",
+    "year": 2024,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
+      "programming"
     ],
     "lang": "en"
   },
@@ -1746,6 +2608,19 @@
     ],
     "lang": "en"
   },
+  "time-series-foundation-models-peixeiro": {
+    "title": "Time Series Forecasting Using Foundation Models",
+    "author": "Peixeiro",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "data",
+      "ai-ml"
+    ],
+    "lang": "en"
+  },
   "togaf-foundation-study-guide": {
     "title": "TOGAF Enterprise Architecture Foundation Study Guide",
     "author": "Van Haren",
@@ -1782,6 +2657,30 @@
     ],
     "lang": "en"
   },
+  "touch-design-mobile-hoober": {
+    "title": "Touch Design for Mobile Interfaces",
+    "author": "Hoober",
+    "format": "pdf",
+    "year": 2021,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui"
+    ],
+    "lang": "en"
+  },
+  "tprm-supply-chain-security-richardson": {
+    "title": "TPRM-Driven Supply Chain Cybersecurity",
+    "author": "Richardson, Pires",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
   "tsql-fundamentals-ben-gan-preview": {
     "title": "T-SQL Fundamentals 3e",
     "author": "Ben-Gan",
@@ -1791,6 +2690,43 @@
     "edition": "3a",
     "domains": [
       "data"
+    ],
+    "lang": "en"
+  },
+  "typescript-50-lessons-baumgartner": {
+    "title": "TypeScript in 50 Lessons",
+    "author": "Baumgartner",
+    "format": "pdf",
+    "year": 2020,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "programming"
+    ],
+    "lang": "en"
+  },
+  "ultimate-ethical-hackers-guide-singh": {
+    "title": "The Ultimate Ethical Hacker's Guide",
+    "author": "Singh",
+    "format": "epub",
+    "year": 2026,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security"
+    ],
+    "lang": "en"
+  },
+  "understanding-privacy-burns": {
+    "title": "Understanding Privacy",
+    "author": "Burns",
+    "format": "pdf",
+    "year": 2022,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "ux-ui"
     ],
     "lang": "en"
   },
@@ -1807,6 +2743,19 @@
     ],
     "lang": "en"
   },
+  "unified-secops-playbook-lazaro": {
+    "title": "Unified SecOps Playbook",
+    "author": "Lazaro, Burnap",
+    "format": "epub",
+    "year": 2025,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "security",
+      "cloud"
+    ],
+    "lang": "en"
+  },
   "unit-testing-khorikov": {
     "title": "Unit Testing Principles, Practices, and Patterns",
     "author": "Khorikov",
@@ -1816,6 +2765,19 @@
     "edition": null,
     "domains": [
       "testing"
+    ],
+    "lang": "en"
+  },
+  "ux-revolution-boag": {
+    "title": "The User Experience Revolution",
+    "author": "Boag",
+    "format": "pdf",
+    "year": 2017,
+    "year_source": "copyright",
+    "edition": null,
+    "domains": [
+      "ux-ui",
+      "leadership-organization"
     ],
     "lang": "en"
   },
