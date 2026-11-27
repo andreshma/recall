@@ -9,6 +9,7 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 ## Contents
 
 - [Unreleased](#unreleased)
+- [0.4.2 - 2026-11-27](#042---2026-11-27)
 - [0.4.1 - 2026-11-24](#041---2026-11-24)
 - [0.4.0 - 2026-11-20](#040---2026-11-20)
 - [0.3.1 - 2026-11-09](#031---2026-11-09)
@@ -18,6 +19,8 @@ version is 0.x, a minor release may contain breaking changes; they are marked
 - [0.1.0 - 2026-10-27](#010---2026-10-27)
 
 ## [Unreleased]
+
+## [0.4.2] - 2026-11-27
 
 ### Added
 
@@ -32,6 +35,7 @@ version is 0.x, a minor release may contain breaking changes; they are marked
   variant of the prior was measured and not adopted.
 - Labeled queries: four query pairs (STRIDE, RTO/RPO, SBOM formats, prompt
   injection) also accept the chapter of a new book that answers them.
+- CI: `astral-sh/setup-uv` 10.4.0 and `github/codeql-action` 4.39.3.
 
 ## [0.4.1] - 2026-11-24
 
@@ -385,7 +389,8 @@ translation of the code to English, and the fixes from the
   (`recall_books_search`).
 
 <!-- Versions before 0.3.0 predate the public repository and have no tags. -->
-[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/andreshma/recall/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/andreshma/recall/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/andreshma/recall/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/andreshma/recall/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/andreshma/recall/compare/v0.3.0...v0.3.1
